@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import { LifeOpsLogo } from '@/components/design-system'
 import { HeroSection } from '@/components/landing-page/HeroSection'
 import { FeatureOverview } from '@/components/landing-page/FeatureOverview'
 import { CronjobsApprovalsSnapshot } from '@/components/landing-page/CronjobsApprovalsSnapshot'
@@ -46,12 +47,7 @@ export default function LandingPage() {
         id="nav"
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <Link
-            to="/"
-            className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
-          >
-            LifeOps
-          </Link>
+          <LifeOpsLogo size="lg" variant="gradient" asLink />
           <div className="flex items-center gap-2 sm:gap-4">
             {showTourTrigger && (
               <OnboardingTourTrigger onClick={openTour} className="hidden sm:flex" />

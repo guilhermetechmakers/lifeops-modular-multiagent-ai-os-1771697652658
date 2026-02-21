@@ -1,5 +1,6 @@
 import { useSidebar } from '@/contexts/sidebar-context'
 import { NavLink } from 'react-router-dom'
+import { LifeOpsLogo } from '@/components/design-system'
 import {
   LayoutDashboard,
   Bot,
@@ -70,11 +71,13 @@ export function Sidebar() {
       )}
     >
       <div className="flex h-14 items-center justify-between border-b border-border px-4">
-        {!collapsed && (
-          <NavLink to="/" className="flex items-center gap-2">
-            <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">LifeOps</span>
-          </NavLink>
-        )}
+        <LifeOpsLogo
+          iconOnly={collapsed}
+          size={collapsed ? 'sm' : 'md'}
+          variant="gradient"
+          asLink
+          className={collapsed ? 'flex-1 justify-center min-w-0' : ''}
+        />
         <Button
           variant="ghost"
           size="icon"

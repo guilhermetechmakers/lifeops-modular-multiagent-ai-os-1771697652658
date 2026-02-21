@@ -6,6 +6,8 @@ import {
   updateRBACPolicies,
   updateBilling,
   updateEnterprise,
+  createBillingPortalSession,
+  createCheckoutSession,
 } from '@/api/organization-team-settings'
 
 export const ORGANIZATION_TEAM_SETTINGS_QUERY_KEY = ['organization-team-settings'] as const
@@ -70,6 +72,41 @@ export function useUpdateEnterprise() {
     },
     onError: (err: Error) => {
       toast.error(err.message || 'Failed to update enterprise settings')
+    },
+  })
+}
+
+export function useCreateBillingPortalSession() {
+  return useMutation({
+    mutationFn: ({ returnUrl, customerId }: { returnUrl?: string; customerId?: string }) =>
+      createBillingPortalSession(returnUrl, customerId),
+    onSuccess: (data) => {
+      if (data?.url) window.location.href = data.url
+      else toast.error('Could not open billing portal')
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to open billing portal')
+    },
+  })
+}
+
+export function useCreateCheckoutSession() {
+  return useMutation({
+    mutationFn: ({
+      priceId,
+      successUrl,
+      cancelUrl,
+    }: {
+      priceId?: string
+      successUrl?: string
+      cancelUrl?: string
+    }) => createCheckoutSession(priceId, successUrl, cancelUrl),
+    onSuccess: (data) => {
+      if (data?.url) window.location.href = data.url
+      else toast.error('Could not start checkout')
+    },
+    onError: (err: Error) => {
+      toast.error(err.message || 'Failed to start checkout')
     },
   })
 }

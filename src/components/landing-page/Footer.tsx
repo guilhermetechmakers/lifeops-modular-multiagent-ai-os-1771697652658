@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Github, Twitter, Linkedin } from 'lucide-react'
+import { LifeOpsLogo } from '@/components/design-system'
 
 const footerLinks = {
   product: [
@@ -31,9 +32,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-              LifeOps
-            </Link>
+            <LifeOpsLogo size="lg" variant="gradient" asLink />
             <p className="mt-4 text-sm text-muted-foreground">
               Your AI-Native Operating System for projects, content, finance, and health.
             </p>

@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* LifeOps Design System - Dark Theme */
+    /* LifeOps Design System - Dark Theme (default) */
     --background: 24 24 27; /* #18181B */
     --foreground: 255 255 255; /* #FFFFFF */
     --card: 35 35 38; /* #232326 */
@@ -25,6 +25,25 @@
     --destructive: 239 68 68;
     --success: 63 197 107; /* #3FC56B */
     --warning: 245 158 11;
+  }
+
+  .light {
+    /* LifeOps Design System - Light Theme */
+    --background: 255 255 255; /* #FFFFFF */
+    --foreground: 24 24 27; /* #18181B */
+    --card: 249 250 251; /* #F9FAFB */
+    --card-foreground: 24 24 27;
+    --primary: 234 88 12; /* #EA580C - Orange for light bg */
+    --primary-foreground: 255 255 255;
+    --secondary: 243 244 246; /* #F3F4F6 */
+    --secondary-foreground: 55 65 81; /* #374151 */
+    --accent: 124 58 237; /* #7C3AED - Purple for light bg */
+    --accent-foreground: 255 255 255;
+    --muted: 243 244 246; /* #F3F4F6 */
+    --muted-foreground: 107 114 128; /* #6B7280 */
+    --border: 229 231 235; /* #E5E7EB */
+    --input: 229 231 235;
+    --ring: 234 88 12;
   }
 
   * {
@@ -63,4 +82,12 @@
       rgb(var(--background)) 100%
     );
   }
+}
+
+/* Design System - Logo tokens */
+:root {
+  --logo-primary: 255 115 0; /* #FF7300 */
+  --logo-accent: 177 111 255; /* #B16FFF */
+  --logo-light: 255 255 255; /* For light variant on dark bg */
+  --logo-dark: 24 24 27; /* For dark variant on light bg */
 }

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { LifeOpsLogo } from '@/components/design-system'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -47,9 +48,9 @@ export function Signup() {
       </div>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link to="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent mb-2">
-            LifeOps
-          </Link>
+          <div className="flex justify-center mb-2">
+            <LifeOpsLogo size="lg" variant="gradient" asLink />
+          </div>
           <CardTitle>Create an account</CardTitle>
           <CardDescription>Get started with LifeOps</CardDescription>
         </CardHeader>

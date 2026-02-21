@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Users, UserPlus, Mail, MoreHorizontal } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { TeamRosterData, TeamMember } from '@/types/organization-team-settings'
+import { EmptyState } from '@/components/ui/empty-state'
 import { useUpdateTeamRoster } from '@/hooks/use-organization-team-settings'
 import {
   DropdownMenu,
@@ -14,6 +15,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 interface TeamRosterProps {
   data: TeamRosterData
@@ -141,16 +149,18 @@ export function TeamRoster({ data, isLoading }: TeamRosterProps) {
         )}
 
         {members.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-border p-12 text-center">
-            <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-1">No team members yet</h3>
-            <p className="text-sm text-muted-foreground mb-4 max-w-sm mx-auto">
-              Invite colleagues to collaborate. They will receive an email to join your organization.
-            </p>
-            <Button onClick={() => setShowInvite(true)}>
-              <UserPlus className="h-4 w-4 mr-2" />
-              Invite first member
-            </Button>
+          <div className="rounded-xl border border-dashed border-border p-8">
+            <EmptyState
+              icon={Users}
+              heading="No team members yet"
+              description="Invite colleagues to collaborate. They will receive an email to join your organization."
+              action={
+                <Button onClick={() => setShowInvite(true)} className="transition-all duration-200 hover:scale-[1.02]">
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Invite first member
+                </Button>
+              }
+            />
           </div>
         ) : (
           <div className="space-y-2">
@@ -175,21 +185,22 @@ export function TeamRoster({ data, isLoading }: TeamRosterProps) {
                   >
                     {member.status}
                   </Badge>
-                  <select
+                  <Select
                     value={member.role}
-                    onChange={(e) => handleRoleChange(member.id, e.target.value)}
+                    onValueChange={(v) => handleRoleChange(member.id, v)}
                     disabled={updateMutation.isPending}
-                    className={cn(
-                      'h-8 rounded-md border border-input bg-background px-2 text-sm',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                    )}
                   >
-                    {roles.map((r) => (
-                      <option key={r.id} value={r.id}>
-                        {r.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger className="h-8 w-[120px]">
+                      <SelectValue placeholder="Role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {roles.map((r) => (
+                        <SelectItem key={r.id} value={r.id}>
+                          {r.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

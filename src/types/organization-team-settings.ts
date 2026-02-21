@@ -48,6 +48,7 @@ export interface BillingData {
   planId: string
   status: 'active' | 'past_due' | 'canceled' | 'trialing'
   currentPeriodEnd?: string
+  stripeCustomerId?: string
   invoices: Invoice[]
   paymentMethods: PaymentMethod[]
   usageSummary: UsageSummary

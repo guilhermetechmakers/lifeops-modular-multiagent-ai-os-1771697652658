@@ -1,5 +1,8 @@
+import { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Users, Shield, CreditCard, Building2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { useOrganizationTeamSettings } from '@/hooks/use-organization-team-settings'
 import { TeamRoster } from '@/components/organization-team-settings/TeamRoster'
 import { RBACPolicies } from '@/components/organization-team-settings/RBACPolicies'
@@ -10,7 +13,20 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle } from 'lucide-react'
 
 export default function TeamSettings() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const { data, isLoading, isError, refetch } = useOrganizationTeamSettings()
+
+  useEffect(() => {
+    const success = searchParams.get('success')
+    const canceled = searchParams.get('canceled')
+    if (success === 'true') {
+      toast.success('Billing updated successfully')
+      setSearchParams({}, { replace: true })
+    } else if (canceled === 'true') {
+      toast.info('Checkout was canceled')
+      setSearchParams({}, { replace: true })
+    }
+  }, [searchParams, setSearchParams])
 
   if (isError) {
     return (

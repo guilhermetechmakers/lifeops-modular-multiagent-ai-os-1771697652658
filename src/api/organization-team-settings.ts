@@ -105,3 +105,45 @@ export async function updateEnterprise(
   }
   return { ...DEFAULT_SETTINGS, enterprise } as OrganizationTeamSettings
 }
+
+export interface BillingPortalResponse {
+  url: string
+}
+
+export interface CheckoutSessionResponse {
+  sessionId: string
+  url: string
+}
+
+export async function createBillingPortalSession(
+  returnUrl?: string,
+  customerId?: string
+): Promise<BillingPortalResponse> {
+  if (supabase) {
+    const { data, error } = await supabase.functions.invoke<BillingPortalResponse | { error: string }>(
+      'organization-team-settings',
+      { body: { action: 'create_billing_portal', return_url: returnUrl, customer_id: customerId } }
+    )
+    if (error) throw new Error(error.message)
+    if (data && 'error' in data) throw new Error(data.error)
+    if (data?.url) return { url: data.url }
+  }
+  throw new Error('Billing portal is not available')
+}
+
+export async function createCheckoutSession(
+  priceId?: string,
+  successUrl?: string,
+  cancelUrl?: string
+): Promise<CheckoutSessionResponse> {
+  if (supabase) {
+    const { data, error } = await supabase.functions.invoke<CheckoutSessionResponse | { error: string }>(
+      'organization-team-settings',
+      { body: { action: 'create_checkout_session', price_id: priceId, success_url: successUrl, cancel_url: cancelUrl } }
+    )
+    if (error) throw new Error(error.message)
+    if (data && 'error' in data) throw new Error(data.error)
+    if (data?.url) return { sessionId: data.sessionId, url: data.url }
+  }
+  throw new Error('Checkout is not available')
+}

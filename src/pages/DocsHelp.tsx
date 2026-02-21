@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { AlertCircle } from 'lucide-react'
+import { LifeOpsLogo } from '@/components/design-system'
 import { Button } from '@/components/ui/button'
 import { SearchableDocs } from '@/components/docs-help/SearchableDocs'
 import { TutorialsTemplates } from '@/components/docs-help/TutorialsTemplates'
@@ -33,12 +34,7 @@ export default function DocsHelp() {
       <div className="min-h-screen bg-background">
         <div className="border-b border-border bg-card">
           <div className="mx-auto max-w-6xl px-6 py-8">
-            <Link
-              to="/"
-              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
-            >
-              LifeOps
-            </Link>
+            <LifeOpsLogo size="lg" variant="gradient" asLink />
           </div>
         </div>
         <div className="mx-auto max-w-6xl px-6 py-16">
