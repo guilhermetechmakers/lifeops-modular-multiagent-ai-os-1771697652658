@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { FileCode, FileText, BookOpen } from 'lucide-react'
 import type { ActionDiff } from '@/types/run-details-artifacts'
 import { cn } from '@/lib/utils'
@@ -65,13 +66,11 @@ export function ActionDiffs({ diffs = [], isLoading }: ActionDiffsProps) {
           <CardDescription>Side-by-side diffs for modified resources</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-12">
-            <FileCode className="h-12 w-12 text-muted-foreground mb-4 opacity-50" aria-hidden />
-            <h3 className="font-semibold text-lg">No diffs</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              No code, docs, or ledger changes in this run.
-            </p>
-          </div>
+          <EmptyState
+            icon={FileCode}
+            heading="No diffs"
+            description="No code, docs, or ledger changes in this run."
+          />
         </CardContent>
       </Card>
     )
@@ -92,6 +91,8 @@ export function ActionDiffs({ diffs = [], isLoading }: ActionDiffsProps) {
                 key={d.id}
                 type="button"
                 onClick={() => setSelectedId(d.id)}
+                aria-label={`View diff for ${d.resourcePath} (${d.addedLines} added, ${d.removedLines} removed)`}
+                aria-pressed={selectedId === d.id}
                 className={cn(
                   'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200',
                   selectedId === d.id

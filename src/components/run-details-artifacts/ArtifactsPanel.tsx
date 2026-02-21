@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { Download, ExternalLink, FileText, GitPullRequest, FileBarChart } from 'lucide-react'
 import type { Artifact } from '@/types/run-details-artifacts'
 import { cn } from '@/lib/utils'
@@ -45,13 +46,11 @@ export function ArtifactsPanel({ artifacts = [], isLoading }: ArtifactsPanelProp
           <CardDescription>Downloadable files, PR links, content, reports</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-12">
-            <FileText className="h-12 w-12 text-muted-foreground mb-4 opacity-50" aria-hidden />
-            <h3 className="font-semibold text-lg">No artifacts</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              No files, PRs, or reports generated in this run.
-            </p>
-          </div>
+          <EmptyState
+            icon={FileText}
+            heading="No artifacts"
+            description="No files, PRs, or reports generated in this run."
+          />
         </CardContent>
       </Card>
     )
@@ -99,8 +98,13 @@ export function ArtifactsPanel({ artifacts = [], isLoading }: ArtifactsPanelProp
                           className="gap-1"
                           asChild
                         >
-                          <a href={a.url} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="h-4 w-4" />
+                          <a
+                            href={a.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Open ${a.name} in new tab`}
+                          >
+                            <ExternalLink className="h-4 w-4" aria-hidden />
                             Open
                           </a>
                         </Button>
@@ -112,8 +116,12 @@ export function ArtifactsPanel({ artifacts = [], isLoading }: ArtifactsPanelProp
                           className="gap-1"
                           asChild
                         >
-                          <a href={a.downloadUrl} download>
-                            <Download className="h-4 w-4" />
+                          <a
+                            href={a.downloadUrl}
+                            download
+                            aria-label={`Download ${a.name}`}
+                          >
+                            <Download className="h-4 w-4" aria-hidden />
                             Download
                           </a>
                         </Button>
