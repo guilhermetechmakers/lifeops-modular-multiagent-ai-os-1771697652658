@@ -36,6 +36,7 @@ export function ErrorState({
           variant="outline"
           className="mt-4 transition-all duration-200 hover:scale-[1.02]"
           onClick={onRetry}
+          aria-label="Retry loading"
         >
           Retry
         </Button>

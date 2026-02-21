@@ -1,7 +1,8 @@
-import { Clock, GitBranch, Bot, Plug, ArrowRight } from 'lucide-react'
+import { Clock, GitBranch, Bot, Plug, ArrowRight, BookOpen } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
+import { EmptyState } from '@/components/ui/empty-state'
 import type { Tutorial } from '@/types/docs-help'
 import { cn } from '@/lib/utils'
 
@@ -23,7 +24,7 @@ interface TutorialsTemplatesProps {
 export function TutorialsTemplates({ tutorials, isLoading }: TutorialsTemplatesProps) {
   if (isLoading) {
     return (
-      <Card className="overflow-hidden border-border/50">
+      <Card className="overflow-hidden border-border">
         <CardHeader>
           <Skeleton className="h-6 w-48" />
           <Skeleton className="h-4 w-64 mt-2" />
@@ -41,27 +42,25 @@ export function TutorialsTemplates({ tutorials, isLoading }: TutorialsTemplatesP
 
   if (!tutorials.length) {
     return (
-      <Card className="overflow-hidden border-border/50">
+      <Card className="overflow-hidden border-border shadow-card transition-all duration-300">
         <CardHeader>
           <CardTitle>Tutorials & Templates</CardTitle>
           <CardDescription>Quickstarts for common Cronjobs and workflows</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Clock className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No tutorials yet</h3>
-            <p className="text-sm text-muted-foreground max-w-sm">
-              Tutorials and templates will appear here. Check back soon.
-            </p>
-          </div>
+          <EmptyState
+            icon={BookOpen}
+            heading="No tutorials yet"
+            description="Tutorials and templates will appear here when available. Check back soon for quickstarts on Cronjobs, workflows, and agents."
+          />
         </CardContent>
       </Card>
     )
   }
 
   return (
-    <Card className="overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
-      <CardHeader className="border-b border-border/50 bg-gradient-to-r from-accent/5 to-primary/5">
+    <Card className="overflow-hidden border-border bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+      <CardHeader className="border-b border-border bg-gradient-to-r from-accent/5 to-primary/5">
         <CardTitle className="flex items-center gap-2 text-xl">
           <Clock className="h-5 w-5 text-accent" />
           Tutorials & Templates
@@ -79,10 +78,11 @@ export function TutorialsTemplates({ tutorials, isLoading }: TutorialsTemplatesP
               <a
                 key={tutorial.id}
                 href={tutorial.href}
+                aria-label={`Start tutorial: ${tutorial.title}`}
                 className={cn(
-                  'group relative flex flex-col rounded-xl border border-border/50 p-5',
+                  'group relative flex flex-col rounded-xl border border-border p-5',
                   'bg-gradient-to-br transition-all duration-300',
-                  'hover:border-primary/30 hover:shadow-lg hover:scale-[1.02]',
+                  'hover:border-primary/30 hover:shadow-card-hover hover:scale-[1.02]',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                   config.gradient
                 )}

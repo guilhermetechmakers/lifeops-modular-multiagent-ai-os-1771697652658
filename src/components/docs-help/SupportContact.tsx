@@ -35,8 +35,8 @@ export function SupportContact() {
   }
 
   return (
-    <Card className="overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
-      <CardHeader className="border-b border-border/50 bg-gradient-to-r from-success/5 to-primary/5">
+    <Card className="overflow-hidden border-border bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+      <CardHeader className="border-b border-border bg-gradient-to-r from-success/5 to-primary/5">
         <CardTitle className="flex items-center gap-2 text-xl">
           <Ticket className="h-5 w-5 text-success" />
           Support Contact
@@ -92,11 +92,12 @@ export function SupportContact() {
             type="submit"
             className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-200 hover:scale-[1.02]"
             disabled={submitMutation.isPending || !subject.trim() || !description.trim()}
+            aria-label={submitMutation.isPending ? 'Submitting ticket' : 'Submit support ticket'}
           >
             {submitMutation.isPending ? (
-              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              <Loader2 className="h-4 w-4 animate-spin mr-2" aria-hidden />
             ) : (
-              <Send className="h-4 w-4 mr-2" />
+              <Send className="h-4 w-4 mr-2" aria-hidden />
             )}
             Submit Ticket
           </Button>
@@ -109,9 +110,10 @@ export function SupportContact() {
               <a
                 key={link.label}
                 href={link.href}
+                aria-label={link.description}
                 className={cn(
-                  'flex items-center gap-3 rounded-xl border border-border/50 p-4',
-                  'transition-all duration-200 hover:border-primary/30 hover:bg-primary/5',
+                  'flex items-center gap-3 rounded-xl border border-border p-4',
+                  'transition-all duration-200 hover:border-primary/30 hover:bg-primary/5 hover:shadow-card',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
                 )}
               >

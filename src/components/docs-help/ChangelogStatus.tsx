@@ -2,6 +2,7 @@ import { CheckCircle, AlertTriangle, XCircle, GitBranch, Activity } from 'lucide
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
+import { EmptyState } from '@/components/ui/empty-state'
 import type { ChangelogEntry, SystemStatus } from '@/types/docs-help'
 import { cn } from '@/lib/utils'
 
@@ -23,40 +24,51 @@ interface ChangelogStatusProps {
 export function ChangelogStatus({ changelog, status, isLoading }: ChangelogStatusProps) {
   if (isLoading) {
     return (
-      <Card className="overflow-hidden border-border/50">
-        <CardHeader>
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-64 mt-2" />
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <Skeleton className="h-24 w-full rounded-xl" />
-          <Skeleton className="h-32 w-full rounded-xl" />
-        </CardContent>
-      </Card>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card className="overflow-hidden border-border">
+          <CardHeader>
+            <Skeleton className="h-6 w-48" />
+            <Skeleton className="h-4 w-64 mt-2" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-20 w-full rounded-xl" />
+            <Skeleton className="h-20 w-full rounded-xl" />
+            <Skeleton className="h-20 w-full rounded-xl" />
+          </CardContent>
+        </Card>
+        <Card className="overflow-hidden border-border">
+          <CardHeader>
+            <Skeleton className="h-6 w-48" />
+            <Skeleton className="h-4 w-64 mt-2" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-14 w-full rounded-xl" />
+            <Skeleton className="h-14 w-full rounded-xl" />
+          </CardContent>
+        </Card>
+      </div>
     )
   }
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <Card className="overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
-        <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
+      <Card className="overflow-hidden border-border bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+        <CardHeader className="border-b border-border bg-gradient-to-r from-primary/5 to-accent/5">
           <CardTitle className="flex items-center gap-2 text-xl">
-            <GitBranch className="h-5 w-5 text-primary" />
+            <GitBranch className="h-5 w-5 text-primary" aria-hidden />
             Changelog
           </CardTitle>
           <CardDescription>Release notes and updates</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           {changelog.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <GitBranch className="h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No releases yet</h3>
-              <p className="text-sm text-muted-foreground max-w-sm">
-                Release notes will appear here when available.
-              </p>
-            </div>
+            <EmptyState
+              icon={GitBranch}
+              heading="No releases yet"
+              description="Release notes will appear here when available. Check back soon for version updates and new features."
+            />
           ) : (
-            <div className="divide-y divide-border/50 max-h-[400px] overflow-y-auto">
+            <div className="divide-y divide-border max-h-[400px] overflow-y-auto">
               {changelog.map((entry) => (
                 <div
                   key={entry.id}
@@ -84,31 +96,31 @@ export function ChangelogStatus({ changelog, status, isLoading }: ChangelogStatu
         </CardContent>
       </Card>
 
-      <Card className="overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
-        <CardHeader className="border-b border-border/50 bg-gradient-to-r from-accent/5 to-primary/5">
+      <Card className="overflow-hidden border-border bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+        <CardHeader className="border-b border-border bg-gradient-to-r from-accent/5 to-primary/5">
           <CardTitle className="flex items-center gap-2 text-xl">
-            <Activity className="h-5 w-5 text-accent" />
+            <Activity className="h-5 w-5 text-accent" aria-hidden />
             System Status
           </CardTitle>
           <CardDescription>Current system health</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           {status.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Activity className="h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Status unavailable</h3>
-              <p className="text-sm text-muted-foreground max-w-sm">
-                System status will be displayed here when available.
-              </p>
-            </div>
+            <EmptyState
+              icon={Activity}
+              heading="Status unavailable"
+              description="System status will be displayed here when available. Check back soon for service health updates."
+            />
           ) : (
-            <div className="divide-y divide-border/50">
+            <div className="divide-y divide-border">
               {status.map((s) => {
                 const config = STATUS_CONFIG[s.status as SystemStatus['status']] ?? STATUS_CONFIG.operational
                 const Icon = config.icon
                 return (
                   <div
                     key={s.service}
+                    role="listitem"
+                    aria-label={`${s.service}: ${config.label}`}
                     className="flex items-center justify-between px-6 py-4 hover:bg-primary/5 transition-colors duration-200"
                   >
                     <div className="flex items-center gap-3">

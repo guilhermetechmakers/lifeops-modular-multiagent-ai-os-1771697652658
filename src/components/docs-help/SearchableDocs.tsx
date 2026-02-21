@@ -3,6 +3,8 @@ import { Search, BookOpen, Code, Wrench, HelpCircle, FileText } from 'lucide-rea
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
+import { ErrorState } from '@/components/ui/error-state'
 import { useSearchDocs } from '@/hooks/use-docs-help'
 import type { DocsSearchResult } from '@/types/docs-help'
 import { cn } from '@/lib/utils'
@@ -21,27 +23,28 @@ interface SearchableDocsProps {
 
 export function SearchableDocs({ docs: initialDocs, isLoading }: SearchableDocsProps) {
   const [query, setQuery] = useState('')
-  const { data, isLoading: isSearching } = useSearchDocs(query)
+  const { data, isLoading: isSearching, isError, refetch } = useSearchDocs(query)
   const results = useMemo(() => {
     if (query.length >= 2 && data?.results) return data.results
     return initialDocs
   }, [query, data, initialDocs])
 
-  const showEmpty = !isLoading && !isSearching && results.length === 0
+  const showEmpty = !isLoading && !isSearching && !isError && results.length === 0
   const showResults = !isLoading && results.length > 0
+  const showSearchError = query.length >= 2 && isError
 
   return (
-    <Card className="overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
-      <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
+    <Card className="overflow-hidden border-border bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover">
+      <CardHeader className="border-b border-border bg-gradient-to-r from-primary/5 to-accent/5">
         <CardTitle className="flex items-center gap-2 text-xl">
-          <FileText className="h-5 w-5 text-primary" />
+          <FileText className="h-5 w-5 text-primary" aria-hidden />
           Searchable Docs
         </CardTitle>
         <CardDescription>
           Guides, API reference, agent development SDK, and troubleshooting
         </CardDescription>
         <div className="relative mt-4">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
           <Input
             placeholder="Search docs..."
             value={query}
@@ -58,22 +61,29 @@ export function SearchableDocs({ docs: initialDocs, isLoading }: SearchableDocsP
               <Skeleton key={i} className="h-16 w-full rounded-lg" />
             ))}
           </div>
-        ) : showEmpty ? (
-          <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-            <HelpCircle className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No results found</h3>
-            <p className="text-sm text-muted-foreground mb-4 max-w-sm">
-              Try a different search term or browse the categories below.
-            </p>
+        ) : showSearchError ? (
+          <div className="p-6">
+            <ErrorState
+              heading="Search failed"
+              description="Unable to search documentation. Please try again."
+              onRetry={() => refetch()}
+            />
           </div>
+        ) : showEmpty ? (
+          <EmptyState
+            icon={HelpCircle}
+            heading="No results found"
+            description="Try a different search term or browse the categories below."
+          />
         ) : showResults ? (
-          <div className="divide-y divide-border/50">
+          <div className="divide-y divide-border">
             {results.map((doc, idx) => {
               const Icon = TYPE_ICONS[doc.type]
               return (
                 <a
                   key={doc.id}
                   href={doc.href}
+                  aria-label={`${doc.title} - ${doc.category}`}
                   className={cn(
                     'flex items-start gap-4 px-6 py-4 transition-all duration-200',
                     'hover:bg-primary/5 hover:border-l-2 hover:border-l-primary',

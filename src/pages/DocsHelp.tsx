@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { AlertCircle } from 'lucide-react'
 import { LifeOpsLogo } from '@/components/design-system'
-import { Button } from '@/components/ui/button'
+import { ErrorState } from '@/components/ui/error-state'
 import { SearchableDocs } from '@/components/docs-help/SearchableDocs'
 import { TutorialsTemplates } from '@/components/docs-help/TutorialsTemplates'
 import { SupportContact } from '@/components/docs-help/SupportContact'
@@ -38,14 +37,11 @@ export default function DocsHelp() {
           </div>
         </div>
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <div className="rounded-xl border border-destructive/50 bg-destructive/10 p-8 text-center animate-fade-in">
-            <AlertCircle className="h-12 w-12 mx-auto text-destructive mb-4" />
-            <h2 className="text-lg font-semibold mb-2">Failed to load documentation</h2>
-            <p className="text-sm text-muted-foreground mb-4">
-              There was a problem loading the docs. Please try again.
-            </p>
-            <Button onClick={() => refetch()}>Retry</Button>
-          </div>
+          <ErrorState
+            heading="Failed to load documentation"
+            description="There was a problem loading the docs. Please try again."
+            onRetry={() => refetch()}
+          />
         </div>
       </div>
     )
@@ -57,16 +53,18 @@ export default function DocsHelp() {
         <div className="mx-auto max-w-6xl px-6 py-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <LifeOpsLogo size="lg" variant="gradient" asLink />
-            <nav className="flex items-center gap-4">
+            <nav className="flex items-center gap-4" aria-label="Documentation navigation">
               <Link
                 to="/dashboard/overview"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Go to Dashboard"
               >
                 Dashboard
               </Link>
               <Link
                 to="/pricing"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="View Pricing"
               >
                 Pricing
               </Link>
@@ -83,7 +81,7 @@ export default function DocsHelp() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-12 space-y-12">
+      <main className="mx-auto max-w-6xl px-6 py-12 space-y-12" aria-busy={isLoading} aria-live="polite">
         <section className="animate-fade-in" style={{ animationDelay: '100ms' }}>
           <SearchableDocs
             docs={data?.docs ?? []}
