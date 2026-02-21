@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { PasswordStrengthMeter } from '@/components/login-signup/PasswordStrengthMeter'
-import { KeyRound } from 'lucide-react'
+import { KeyRound, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -59,41 +59,49 @@ export function ResetPassword() {
       }).then(() => {
         setHasValidSession(true)
         window.history.replaceState(null, '', window.location.pathname)
-      }).catch(() => setHasValidSession(false))
+      }).catch(() => {
+        toast.error('Invalid or expired reset link. Please request a new one.')
+        setHasValidSession(false)
+      })
     } else {
+      toast.error('Invalid or expired reset link. Please request a new one.')
       setHasValidSession(false)
     }
   }, [])
 
   const onSubmit = async (data: FormData) => {
-    if (!supabase) {
-      await new Promise((r) => setTimeout(r, 500))
+    try {
+      if (!supabase) {
+        await new Promise((r) => setTimeout(r, 500))
+        toast.success('Password updated successfully')
+        navigate('/login')
+        return
+      }
+
+      const { error } = await supabase.auth.updateUser({ password: data.password })
+
+      if (error) {
+        toast.error(error.message)
+        return
+      }
+
       toast.success('Password updated successfully')
       navigate('/login')
-      return
+    } catch {
+      toast.error('Failed to update password. Please try again.')
     }
-
-    const { error } = await supabase.auth.updateUser({ password: data.password })
-
-    if (error) {
-      toast.error(error.message)
-      return
-    }
-
-    toast.success('Password updated successfully')
-    navigate('/login')
   }
 
   if (hasValidSession === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-6">
-        <Card className="w-full max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
+        <Card className="w-full max-w-md shadow-card">
           <CardContent className="pt-6">
-            <div className="animate-pulse space-y-4">
-              <div className="h-4 bg-muted rounded w-3/4" />
-              <div className="h-10 bg-muted rounded" />
-              <div className="h-10 bg-muted rounded" />
-              <div className="h-10 bg-muted rounded" />
+            <div className="animate-pulse space-y-4" aria-label="Loading">
+              <div className="h-4 bg-muted rounded-lg w-3/4" />
+              <div className="h-10 bg-muted rounded-lg" />
+              <div className="h-10 bg-muted rounded-lg" />
+              <div className="h-10 bg-muted rounded-lg" />
             </div>
           </CardContent>
         </Card>
@@ -103,8 +111,8 @@ export function ResetPassword() {
 
   if (hasValidSession === false) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-6">
-        <Card className="w-full max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
+        <Card className="w-full max-w-md shadow-card">
           <CardHeader className="text-center">
             <CardTitle>Invalid or expired link</CardTitle>
             <CardDescription>
@@ -122,14 +130,17 @@ export function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6">
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-float" />
+        <div className="absolute top-1/2 -left-40 h-96 w-96 rounded-full bg-accent/10 blur-3xl animate-float" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl animate-glow-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
       </div>
-      <Card className="w-full max-w-md shadow-card">
+      <Card className="w-full max-w-md shadow-card transition-all duration-300">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <KeyRound className="h-6 w-6 text-primary" />
+            <KeyRound className="h-6 w-6 text-primary" aria-hidden />
           </div>
           <CardTitle>Set new password</CardTitle>
           <CardDescription>
@@ -144,12 +155,17 @@ export function ResetPassword() {
                 id="password"
                 type="password"
                 autoComplete="new-password"
+                aria-label="New password"
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? 'password-error' : undefined}
                 {...register('password')}
-                className={cn(errors.password && 'border-destructive')}
+                className={cn(errors.password && 'border-destructive focus-visible:ring-destructive')}
               />
               <PasswordStrengthMeter password={password} />
               {errors.password && (
-                <p className="text-sm text-destructive">{errors.password.message}</p>
+                <p id="password-error" role="alert" className="text-sm text-destructive">
+                  {errors.password.message}
+                </p>
               )}
             </div>
             <div className="space-y-2">
@@ -158,19 +174,34 @@ export function ResetPassword() {
                 id="confirmPassword"
                 type="password"
                 autoComplete="new-password"
+                aria-label="Confirm new password"
+                aria-invalid={!!errors.confirmPassword}
+                aria-describedby={errors.confirmPassword ? 'confirm-password-error' : undefined}
                 {...register('confirmPassword')}
-                className={cn(errors.confirmPassword && 'border-destructive')}
+                className={cn(errors.confirmPassword && 'border-destructive focus-visible:ring-destructive')}
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+                <p id="confirm-password-error" role="alert" className="text-sm text-destructive">
+                  {errors.confirmPassword.message}
+                </p>
               )}
             </div>
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? 'Updating...' : 'Update password'}
+            <Button type="submit" className="w-full" disabled={isSubmitting} aria-busy={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                  Updating...
+                </>
+              ) : (
+                'Update password'
+              )}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            <Link to="/login" className="text-primary hover:underline">
+            <Link
+              to="/login"
+              className="text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded"
+            >
               Back to sign in
             </Link>
           </p>
