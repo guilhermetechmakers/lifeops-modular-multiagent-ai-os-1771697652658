@@ -18,7 +18,7 @@ const typeGradients: Record<string, string> = {
   checking: 'from-primary/20 to-primary/5',
   savings: 'from-success/20 to-success/5',
   credit: 'from-accent/20 to-accent/5',
-  investment: 'from-amber-500/20 to-amber-500/5',
+  investment: 'from-warning/20 to-warning/5',
 }
 
 interface AccountsOverviewProps {

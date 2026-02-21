@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { EmptyStateIllustration } from '@/components/design-system/illustrations/EmptyStateIllustration'
 import type { FinanceSubscription } from '@/types/finance-dashboard'
 import { cn } from '@/lib/utils'
 
@@ -65,17 +66,15 @@ export function SubscriptionsManager({ subscriptions = [], isLoading }: Subscrip
           </p>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-16">
-            <div className="rounded-full bg-muted p-4 mb-4">
-              <Repeat className="h-10 w-10 text-muted-foreground" aria-hidden />
-            </div>
-            <h3 className="font-semibold text-lg">No subscriptions tracked</h3>
+          <div className="flex flex-col items-center justify-center py-12 md:py-16">
+            <EmptyStateIllustration variant="finance" size="lg" className="mb-4" />
+            <h3 className="font-semibold text-lg text-foreground">No subscriptions tracked</h3>
             <p className="text-sm text-muted-foreground mt-1 text-center max-w-sm">
               Subscriptions from connected accounts will appear here. Add manual entries to track all recurring payments.
             </p>
             <Button
               variant="outline"
-              className="mt-4 transition-all duration-200 hover:scale-[1.02]"
+              className="mt-6 transition-all duration-200 hover:scale-[1.02]"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Subscription

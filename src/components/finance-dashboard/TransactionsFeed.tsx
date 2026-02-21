@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { ArrowDownLeft, ArrowUpRight, AlertTriangle, Filter } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { ArrowDownLeft, ArrowUpRight, AlertTriangle, Filter, SearchX } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
@@ -11,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { EmptyStateIllustration } from '@/components/design-system/illustrations/EmptyStateIllustration'
 import type { FinanceTransaction } from '@/types/finance-dashboard'
 import { cn } from '@/lib/utils'
 
@@ -39,6 +41,7 @@ function formatDate(dateStr: string) {
 const CATEGORY_FILTER = ['All', 'Food & Drink', 'Software', 'Transfer', 'Income', 'Entertainment']
 
 export function TransactionsFeed({ transactions = [], isLoading }: TransactionsFeedProps) {
+  const navigate = useNavigate()
   const [categoryFilter, setCategoryFilter] = useState('All')
   const [showAnomaliesOnly, setShowAnomaliesOnly] = useState(false)
 
@@ -47,6 +50,8 @@ export function TransactionsFeed({ transactions = [], isLoading }: TransactionsF
     const matchAnomaly = !showAnomaliesOnly || t.isAnomaly
     return matchCategory && matchAnomaly
   })
+
+  const hasActiveFilters = categoryFilter !== 'All' || showAnomaliesOnly
 
   if (isLoading) {
     return (
@@ -85,14 +90,79 @@ export function TransactionsFeed({ transactions = [], isLoading }: TransactionsF
           </p>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-16">
-            <div className="rounded-full bg-muted p-4 mb-4">
-              <ArrowDownLeft className="h-10 w-10 text-muted-foreground" aria-hidden />
-            </div>
-            <h3 className="font-semibold text-lg">No transactions yet</h3>
+          <div className="flex flex-col items-center justify-center py-12 md:py-16">
+            <EmptyStateIllustration variant="finance" size="lg" className="mb-4" />
+            <h3 className="font-semibold text-lg text-foreground">No transactions yet</h3>
             <p className="text-sm text-muted-foreground mt-1 text-center max-w-sm">
               Connect your accounts to see and categorize transactions. Anomalies will be flagged automatically.
             </p>
+            <Button
+              variant="default"
+              className="mt-6 transition-all duration-200 hover:scale-[1.02]"
+              onClick={() => navigate('/dashboard/connectors')}
+            >
+              Connect Account
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (filtered.length === 0 && hasActiveFilters) {
+    return (
+      <Card className="overflow-hidden">
+        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <CardTitle>Transactions Feed</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              Categorized transactions with anomaly detection
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="w-[160px]">
+                <Filter className="h-4 w-4 mr-2" />
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORY_FILTER.map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {cat}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              variant={showAnomaliesOnly ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setShowAnomaliesOnly(!showAnomaliesOnly)}
+              className="gap-2"
+            >
+              <AlertTriangle className="h-4 w-4" />
+              Anomalies only
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col items-center justify-center py-12 md:py-16">
+            <div className="rounded-full bg-muted p-4 mb-4">
+              <SearchX className="h-10 w-10 text-muted-foreground" aria-hidden />
+            </div>
+            <h3 className="font-semibold text-lg text-foreground">No transactions match your filters</h3>
+            <p className="text-sm text-muted-foreground mt-1 text-center max-w-sm">
+              Try adjusting the category filter or turn off &quot;Anomalies only&quot; to see more results.
+            </p>
+            <Button
+              variant="outline"
+              className="mt-6 transition-all duration-200 hover:scale-[1.02]"
+              onClick={() => {
+                setCategoryFilter('All')
+                setShowAnomaliesOnly(false)
+              }}
+            >
+              Clear filters
+            </Button>
           </div>
         </CardContent>
       </Card>

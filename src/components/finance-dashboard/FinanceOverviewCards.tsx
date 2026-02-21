@@ -26,7 +26,7 @@ const cards: Array<{
 }> = [
   { key: 'totalAccounts', title: 'Accounts', description: 'Connected', icon: Wallet, gradient: 'from-primary/20 to-primary/5', href: '/dashboard/connectors' },
   { key: 'totalTransactions', title: 'Transactions', description: 'This period', icon: CreditCard, gradient: 'from-accent/20 to-accent/5', href: '/dashboard/finance' },
-  { key: 'activeSubscriptions', title: 'Subscriptions', description: 'Active', icon: Repeat, gradient: 'from-amber-500/20 to-amber-500/5', href: '/dashboard/finance' },
+  { key: 'activeSubscriptions', title: 'Subscriptions', description: 'Active', icon: Repeat, gradient: 'from-warning/20 to-warning/5', href: '/dashboard/finance' },
   { key: 'forecastTrend', title: 'Forecast', description: 'Trend vs plan', icon: TrendingUp, gradient: 'from-success/20 to-success/5', href: '/dashboard/finance' },
 ]
 
