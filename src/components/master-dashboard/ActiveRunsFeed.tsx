@@ -71,7 +71,7 @@ function RunCard({ run }: { run: ActiveRun }) {
           </div>
           {run.logsPeek && (
             <p className="text-sm text-muted-foreground mt-1 truncate flex items-center gap-1">
-              <FileText className="h-3 w-3 shrink-0" />
+              <FileText className="h-4 w-4 shrink-0" aria-hidden />
               {run.logsPeek}
             </p>
           )}
@@ -84,19 +84,19 @@ function RunCard({ run }: { run: ActiveRun }) {
         <div className="flex gap-2 shrink-0">
           {needsApproval && (
             <>
-              <Button size="sm" variant="outline" className="gap-1" onClick={handleDecline}>
-                <Square className="h-4 w-4" />
+              <Button size="sm" variant="outline" className="gap-1" onClick={handleDecline} aria-label={`Decline ${run.name}`}>
+                <Square className="h-4 w-4" aria-hidden />
                 Decline
               </Button>
-              <Button size="sm" className="gap-1" onClick={handleApprove}>
-                <Check className="h-4 w-4" />
+              <Button size="sm" className="gap-1" onClick={handleApprove} aria-label={`Approve ${run.name}`}>
+                <Check className="h-4 w-4" aria-hidden />
                 Approve
               </Button>
             </>
           )}
           {isRunning && (
-            <Button size="sm" variant="outline" className="gap-1 text-destructive hover:text-destructive" onClick={handleStop}>
-              <Square className="h-4 w-4" />
+            <Button size="sm" variant="outline" className="gap-1 text-destructive hover:text-destructive" onClick={handleStop} aria-label={`Stop ${run.name}`}>
+              <Square className="h-4 w-4" aria-hidden />
               Stop
             </Button>
           )}
@@ -107,19 +107,15 @@ function RunCard({ run }: { run: ActiveRun }) {
               className="gap-1"
               onClick={handleCicdRetry}
               disabled={retryMutation.isPending}
+              aria-label={`Retry ${run.name}`}
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-4 w-4" aria-hidden />
               Retry
             </Button>
           )}
-          <Button
-            size="sm"
-            variant="ghost"
-            className="gap-1"
-            asChild
-          >
+          <Button size="sm" variant="ghost" className="gap-1" asChild aria-label={`View details for ${run.name}`}>
             <Link to={`/dashboard/run-details-artifacts/${run.id}`} className="inline-flex items-center gap-1">
-              <Play className="h-4 w-4" />
+              <Play className="h-4 w-4" aria-hidden />
               Details
             </Link>
           </Button>
@@ -162,10 +158,10 @@ export function ActiveRunsFeed({ runs = [], isLoading }: ActiveRunsFeedProps) {
             description="Runs will appear here when Cronjobs or workflows are executing."
             action={
               <>
-                <Button variant="outline" size="sm" asChild>
+                <Button variant="outline" size="sm" asChild aria-label="View Cronjobs to schedule automated tasks">
                   <Link to="/dashboard/cronjobs">View Cronjobs</Link>
                 </Button>
-                <Button size="sm" asChild>
+                <Button size="sm" asChild aria-label="View Workflows to create and manage workflows">
                   <Link to="/dashboard/templates">View Workflows</Link>
                 </Button>
               </>

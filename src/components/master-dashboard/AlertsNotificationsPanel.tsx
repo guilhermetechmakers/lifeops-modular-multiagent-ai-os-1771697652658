@@ -14,7 +14,7 @@ interface AlertsNotificationsPanelProps {
 
 const severityConfig = {
   critical: { icon: XCircle, variant: 'destructive' as const, bg: 'bg-destructive/10 border-destructive/30' },
-  high: { icon: AlertTriangle, variant: 'destructive' as const, bg: 'bg-amber-500/10 border-amber-500/30' },
+  high: { icon: AlertTriangle, variant: 'destructive' as const, bg: 'bg-warning/10 border-warning/30' },
   medium: { icon: AlertCircle, variant: 'warning' as const, bg: 'bg-warning/10 border-warning/30' },
   low: { icon: AlertCircle, variant: 'secondary' as const, bg: 'bg-muted/50 border-border' },
 }
@@ -62,9 +62,9 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
             <CardTitle>Alerts & Notifications</CardTitle>
             <CardDescription>Critical alerts, agent conflicts, and failed runs</CardDescription>
           </div>
-          <Button variant="outline" size="sm" asChild className="gap-1">
+          <Button variant="outline" size="sm" asChild className="gap-1" aria-label="Configure notification settings">
             <Link to="/dashboard/settings?tab=notifications">
-              <Settings className="h-4 w-4" />
+              <Settings className="h-4 w-4" aria-hidden />
               Configure
             </Link>
           </Button>
@@ -76,7 +76,7 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
             description="No critical alerts. Your system is running smoothly."
             iconClassName="text-success opacity-70"
             action={
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild aria-label="Configure notification rules">
                 <Link to="/dashboard/settings?tab=notifications">Configure notification rules</Link>
               </Button>
             }
@@ -93,9 +93,9 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
           <CardTitle>Alerts & Notifications</CardTitle>
           <CardDescription>Critical alerts, agent conflicts, and failed runs</CardDescription>
         </div>
-        <Button variant="outline" size="sm" asChild className="gap-1">
+        <Button variant="outline" size="sm" asChild className="gap-1" aria-label="Configure notification settings">
           <Link to="/dashboard/settings?tab=notifications">
-            <Settings className="h-4 w-4" />
+            <Settings className="h-4 w-4" aria-hidden />
             Configure
           </Link>
         </Button>
@@ -114,12 +114,17 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
                   'hover:shadow-md'
                 )}
               >
-                <Icon className="h-5 w-5 shrink-0 mt-0.5 text-muted-foreground" />
+                <Icon className="h-4 w-4 shrink-0 mt-0.5 text-muted-foreground" aria-hidden />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium">{alert.message}</p>
                   <p className="text-xs text-muted-foreground mt-1">{typeLabels[alert.type]}</p>
                 </div>
-                <Button size="sm" variant="ghost" onClick={() => navigate(getAlertHref(alert))}>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => navigate(getAlertHref(alert))}
+                  aria-label={`View details for ${alert.message}`}
+                >
                   View
                 </Button>
               </div>

@@ -57,7 +57,7 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
             heading="No recent activity"
             description="Significant actions will appear here for quick reference."
             action={
-              <Button variant="outline" onClick={() => navigate('/dashboard/audit')}>
+              <Button variant="outline" onClick={() => navigate('/dashboard/audit')} aria-label="View full audit logs">
                 View full audit logs
               </Button>
             }
@@ -74,9 +74,9 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
           <CardTitle>Audit Snapshot</CardTitle>
           <CardDescription>Recent significant actions and quick links to full audit logs</CardDescription>
         </div>
-        <Button variant="outline" size="sm" onClick={() => navigate('/dashboard/audit')} className="gap-1">
+        <Button variant="outline" size="sm" onClick={() => navigate('/dashboard/audit')} className="gap-1" aria-label="View full audit logs">
           Full logs
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-4 w-4" aria-hidden />
         </Button>
       </CardHeader>
       <CardContent>
@@ -86,6 +86,7 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
               key={item.id}
               type="button"
               onClick={() => navigate(`/dashboard/audit?entity=${encodeURIComponent(item.entity)}`)}
+              aria-label={`View audit details for ${item.entity}`}
               className={cn(
                 'w-full flex items-center justify-between rounded-lg border border-border p-3 text-left',
                 'transition-all duration-300 hover:bg-muted/30 hover:border-primary/20 hover:shadow-md',

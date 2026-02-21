@@ -4,6 +4,7 @@ import { AreaChart, Area, ResponsiveContainer } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { SystemOverviewData, MetricTrend } from '@/types/master-dashboard'
+import { chartColors } from '@/lib/design-tokens'
 import { cn } from '@/lib/utils'
 
 interface SystemOverviewProps {
@@ -22,10 +23,10 @@ const cards: Array<{
   href: string
   sparklineColor: string
 }> = [
-  { key: 'activeAgents', title: 'Active Agents', description: 'Running now', icon: Bot, gradient: 'from-primary/20 to-primary/5', href: '/dashboard/agent-directory', sparklineColor: 'rgb(255, 115, 0)' },
-  { key: 'runningWorkflows', title: 'Running Workflows', description: 'In progress', icon: GitBranch, gradient: 'from-accent/20 to-accent/5', href: '/dashboard/templates', sparklineColor: 'rgb(177, 111, 255)' },
-  { key: 'pendingApprovals', title: 'Pending Approvals', description: 'Awaiting review', icon: FileCheck, gradient: 'from-amber-500/20 to-amber-500/5', href: '/dashboard/approvals', sparklineColor: 'rgb(245, 158, 11)' },
-  { key: 'nextScheduledRuns', title: 'Next Scheduled', description: 'Upcoming runs', icon: Clock, gradient: 'from-success/20 to-success/5', href: '/dashboard/cronjobs', sparklineColor: 'rgb(63, 197, 107)' },
+  { key: 'activeAgents', title: 'Active Agents', description: 'Running now', icon: Bot, gradient: 'from-primary/20 to-primary/5', href: '/dashboard/agent-directory', sparklineColor: chartColors.primary },
+  { key: 'runningWorkflows', title: 'Running Workflows', description: 'In progress', icon: GitBranch, gradient: 'from-accent/20 to-accent/5', href: '/dashboard/templates', sparklineColor: chartColors.accent },
+  { key: 'pendingApprovals', title: 'Pending Approvals', description: 'Awaiting review', icon: FileCheck, gradient: 'from-warning/20 to-warning/5', href: '/dashboard/approvals', sparklineColor: chartColors.warning },
+  { key: 'nextScheduledRuns', title: 'Next Scheduled', description: 'Upcoming runs', icon: Clock, gradient: 'from-success/20 to-success/5', href: '/dashboard/cronjobs', sparklineColor: chartColors.success },
 ]
 
 function TrendIndicator({ trend }: { trend: MetricTrend }) {
@@ -117,6 +118,7 @@ export function SystemOverview({ data, isLoading }: SystemOverviewProps) {
             tabIndex={0}
             onClick={() => navigate(href)}
             onKeyDown={(e) => e.key === 'Enter' && navigate(href)}
+            aria-label={`${title}: ${value} ${description}. Navigate to ${title}`}
             className={cn(
               'relative overflow-hidden border-border/50 transition-all duration-300 cursor-pointer',
               'hover:shadow-card-hover hover:scale-[1.02] hover:-translate-y-0.5 hover:border-primary/30',
@@ -129,8 +131,8 @@ export function SystemOverview({ data, isLoading }: SystemOverviewProps) {
             <CardHeader className="flex flex-row items-center justify-between pb-2 relative">
               <CardTitle className="text-sm font-medium">{title}</CardTitle>
               <div className="flex items-center gap-1">
-                <Icon className="h-5 w-5 text-muted-foreground" />
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                <Icon className="h-4 w-4 text-muted-foreground" aria-hidden />
+                <ChevronRight className="h-4 w-4 text-muted-foreground" aria-hidden />
               </div>
             </CardHeader>
             <CardContent className="relative">

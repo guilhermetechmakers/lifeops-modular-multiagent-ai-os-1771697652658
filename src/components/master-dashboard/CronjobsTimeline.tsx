@@ -33,9 +33,9 @@ function CronjobsList({ cronjobs, onToggle }: { cronjobs: CronjobItem[]; onToggl
       <EmptyState
         icon={Clock}
         heading="No scheduled Cronjobs"
-        description="Create your first Cronjob to automate recurring tasks."
+        description="Create your first Cronjob to automate recurring tasks. Cronjobs run on a schedule and appear here when configured."
         action={
-          <Button asChild>
+          <Button asChild aria-label="Create your first Cronjob">
             <Link to="/dashboard/cronjobs?create=true">Create Cronjob</Link>
           </Button>
         }
@@ -56,8 +56,8 @@ function CronjobsList({ cronjobs, onToggle }: { cronjobs: CronjobItem[]; onToggl
           style={{ animationDelay: `${i * 75}ms` }}
         >
           <div className="flex items-center gap-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <Clock className="h-5 w-5 text-primary" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10" aria-hidden>
+              <Clock className="h-4 w-4 text-primary" aria-hidden />
             </div>
             <div>
               <p className="font-medium">{job.name}</p>
@@ -72,9 +72,9 @@ function CronjobsList({ cronjobs, onToggle }: { cronjobs: CronjobItem[]; onToggl
               className="gap-1"
             >
               {job.lastOutcome === 'success' ? (
-                <CheckCircle className="h-3 w-3" />
+                <CheckCircle className="h-3 w-3" aria-hidden />
               ) : job.lastOutcome === 'failed' ? (
-                <XCircle className="h-3 w-3" />
+                <XCircle className="h-3 w-3" aria-hidden />
               ) : null}
               {job.lastOutcome}
             </Badge>
@@ -160,6 +160,7 @@ function CronjobsCalendar({ cronjobs }: { cronjobs: CronjobItem[] }) {
         <Link
           to="/dashboard/cronjobs"
           className="text-xs font-medium text-primary hover:underline transition-colors"
+          aria-label="View all Cronjobs"
         >
           View all
         </Link>
@@ -199,16 +200,16 @@ export function CronjobsTimeline({ cronjobs = [], isLoading }: CronjobsTimelineP
               <CardDescription>Scheduled Cronjobs with next run and last outcome</CardDescription>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="sm" asChild aria-label="Open Cronjobs Manager">
                 <Link to="/dashboard/cronjobs">View Cronjobs Manager</Link>
               </Button>
-              <TabsList className="grid w-full grid-cols-2 sm:w-auto">
-                <TabsTrigger value="list" className="gap-2">
-                  <List className="h-4 w-4" />
+              <TabsList className="grid w-full grid-cols-2 sm:w-auto" role="tablist" aria-label="Cronjobs view mode">
+                <TabsTrigger value="list" className="gap-2" aria-label="View Cronjobs as list">
+                  <List className="h-4 w-4" aria-hidden />
                   List
                 </TabsTrigger>
-                <TabsTrigger value="calendar" className="gap-2">
-                  <Calendar className="h-4 w-4" />
+                <TabsTrigger value="calendar" className="gap-2" aria-label="View Cronjobs as calendar">
+                  <Calendar className="h-4 w-4" aria-hidden />
                   Calendar
                 </TabsTrigger>
               </TabsList>
