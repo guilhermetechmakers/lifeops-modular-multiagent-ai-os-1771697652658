@@ -212,8 +212,9 @@ export function APIKeysTokens({ apiKeys = [], isLoading }: APIKeysTokensProps) {
                 size="icon"
                 onClick={() => copyPrefix(key.prefix)}
                 className="h-8 w-8"
+                aria-label={`Copy API key prefix for ${key.name}`}
               >
-                <Copy className="h-4 w-4" />
+                <Copy className="h-4 w-4" aria-hidden />
               </Button>
               <Button
                 variant="ghost"
@@ -221,8 +222,9 @@ export function APIKeysTokens({ apiKeys = [], isLoading }: APIKeysTokensProps) {
                 onClick={() => revokeMutation.mutate(key.id)}
                 disabled={revokeMutation.isPending}
                 className="h-8 w-8 text-destructive hover:text-destructive"
+                aria-label={`Revoke API key ${key.name}`}
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-4 w-4" aria-hidden />
               </Button>
             </div>
           </div>

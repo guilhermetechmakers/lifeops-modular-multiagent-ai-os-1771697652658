@@ -73,7 +73,10 @@ export function Connections({ connections = [], isLoading }: ConnectionsProps) {
             <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
               Connect GitHub, banks, CMS, or trackers to streamline your workflow
             </p>
-            <Button className="transition-all duration-200 hover:scale-[1.02]">
+            <Button
+              className="transition-all duration-200 hover:scale-[1.02]"
+              aria-label="Connect your first service"
+            >
               Connect first service
             </Button>
           </div>
@@ -136,7 +139,8 @@ export function Connections({ connections = [], isLoading }: ConnectionsProps) {
                   size="sm"
                   onClick={() => (isConnected ? revokeMutation.mutate(conn.id) : null)}
                   disabled={revokeMutation.isPending}
-                  className="transition-transform duration-200 hover:scale-105"
+                  className="transition-transform duration-200 hover:scale-[1.02]"
+                  aria-label={isConnected ? `Revoke ${conn.service} connection` : `Connect ${conn.service}`}
                 >
                   {isConnected ? (
                     <>

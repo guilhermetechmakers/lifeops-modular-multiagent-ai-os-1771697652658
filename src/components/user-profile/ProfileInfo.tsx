@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,6 +18,15 @@ import { User, Globe, Languages } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { ProfileInfo as ProfileInfoType } from '@/types/user-profile'
 import { useUpdateProfileInfo } from '@/hooks/use-user-profile'
+
+const profileSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(100, 'Name must be at most 100 characters'),
+  email: z.string().email('Invalid email address'),
+  timezone: z.string().min(1, 'Timezone is required'),
+  language: z.string().min(1, 'Language is required'),
+})
+
+type ProfileFormData = z.infer<typeof profileSchema>
 
 const TIMEZONES = [
   'UTC',
@@ -43,24 +55,33 @@ interface ProfileInfoProps {
 
 export function ProfileInfo({ profileInfo, isLoading }: ProfileInfoProps) {
   const updateMutation = useUpdateProfileInfo()
-  const [localInfo, setLocalInfo] = useState<ProfileInfoType>(
-    profileInfo ?? {
-      name: '',
-      email: '',
-      timezone: 'UTC',
-      language: 'en',
-    }
-  )
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      name: profileInfo?.name ?? '',
+      email: profileInfo?.email ?? '',
+      timezone: profileInfo?.timezone ?? 'UTC',
+      language: profileInfo?.language ?? 'en',
+    },
+  })
 
   useEffect(() => {
     if (profileInfo) {
-      setLocalInfo(profileInfo)
+      setValue('name', profileInfo.name)
+      setValue('email', profileInfo.email)
+      setValue('timezone', profileInfo.timezone)
+      setValue('language', profileInfo.language)
     }
-  }, [profileInfo])
+  }, [profileInfo, setValue])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    updateMutation.mutate(localInfo)
+  const onSubmit = (data: ProfileFormData) => {
+    updateMutation.mutate(data)
   }
 
   if (isLoading) {
@@ -84,7 +105,8 @@ export function ProfileInfo({ profileInfo, isLoading }: ProfileInfoProps) {
     )
   }
 
-  const initials = localInfo.name
+  const displayName = profileInfo?.name ?? ''
+  const initials = displayName
     .split(' ')
     .map((n) => n[0])
     .join('')
@@ -103,17 +125,23 @@ export function ProfileInfo({ profileInfo, isLoading }: ProfileInfoProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start gap-4">
-            <Avatar className="h-16 w-16 rounded-full border-2 border-border transition-transform duration-200 hover:scale-105">
-              <AvatarImage src={profileInfo?.avatar_url} alt={localInfo.name} />
+            <Avatar className="h-16 w-16 rounded-full border-2 border-border transition-transform duration-200 hover:scale-[1.02]">
+              <AvatarImage src={profileInfo?.avatar_url} alt={profileInfo?.name ?? 'User avatar'} />
               <AvatarFallback className="bg-primary/20 text-primary text-lg font-semibold">
                 {initials}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-2">
               <Label className="text-sm text-muted-foreground">Avatar</Label>
-              <Button type="button" variant="outline" size="sm" disabled>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled
+                aria-label="Change avatar (coming soon)"
+              >
                 Change avatar (coming soon)
               </Button>
             </div>
@@ -121,77 +149,120 @@ export function ProfileInfo({ profileInfo, isLoading }: ProfileInfoProps) {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="profile-name">Name</Label>
               <Input
-                id="name"
-                value={localInfo.name}
-                onChange={(e) => setLocalInfo((p) => ({ ...p, name: e.target.value }))}
+                id="profile-name"
                 placeholder="Your name"
-                className="transition-colors focus:border-primary"
+                aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? 'name-error' : undefined}
+                className={errors.name ? 'border-destructive focus-visible:ring-destructive' : ''}
+                {...register('name')}
               />
+              {errors.name && (
+                <p id="name-error" className="text-sm text-destructive" role="alert">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="profile-email">Email</Label>
               <Input
-                id="email"
+                id="profile-email"
                 type="email"
-                value={localInfo.email}
-                onChange={(e) => setLocalInfo((p) => ({ ...p, email: e.target.value }))}
                 placeholder="you@example.com"
-                className="transition-colors focus:border-primary"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
+                className={errors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
+                {...register('email')}
               />
+              {errors.email && (
+                <p id="email-error" className="text-sm text-destructive" role="alert">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label className="flex items-center gap-2">
-                <Globe className="h-4 w-4" />
+              <Label htmlFor="profile-timezone" className="flex items-center gap-2">
+                <Globe className="h-4 w-4" aria-hidden />
                 Timezone
               </Label>
-              <Select
-                value={localInfo.timezone}
-                onValueChange={(v) => setLocalInfo((p) => ({ ...p, timezone: v }))}
-              >
-                <SelectTrigger className="transition-colors focus:ring-primary">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {TIMEZONES.map((tz) => (
-                    <SelectItem key={tz} value={tz}>
-                      {tz}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="timezone"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger
+                      id="profile-timezone"
+                      className="transition-colors duration-200 focus:ring-ring"
+                      aria-invalid={!!errors.timezone}
+                    >
+                      <SelectValue placeholder="Select timezone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TIMEZONES.map((tz) => (
+                        <SelectItem key={tz} value={tz}>
+                          {tz}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.timezone && (
+                <p className="text-sm text-destructive" role="alert">
+                  {errors.timezone.message}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
-              <Label className="flex items-center gap-2">
-                <Languages className="h-4 w-4" />
+              <Label htmlFor="profile-language" className="flex items-center gap-2">
+                <Languages className="h-4 w-4" aria-hidden />
                 Language
               </Label>
-              <Select
-                value={localInfo.language}
-                onValueChange={(v) => setLocalInfo((p) => ({ ...p, language: v }))}
-              >
-                <SelectTrigger className="transition-colors focus:ring-primary">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {LANGUAGES.map((lang) => (
-                    <SelectItem key={lang.value} value={lang.value}>
-                      {lang.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="language"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger
+                      id="profile-language"
+                      className="transition-colors duration-200 focus:ring-ring"
+                      aria-invalid={!!errors.language}
+                    >
+                      <SelectValue placeholder="Select language" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LANGUAGES.map((lang) => (
+                        <SelectItem key={lang.value} value={lang.value}>
+                          {lang.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.language && (
+                <p className="text-sm text-destructive" role="alert">
+                  {errors.language.message}
+                </p>
+              )}
             </div>
           </div>
 
           <Button
             type="submit"
             disabled={updateMutation.isPending}
-            className="transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
+            className="transition-all duration-200 hover:scale-[1.02] hover:shadow-card"
+            aria-busy={updateMutation.isPending}
           >
             {updateMutation.isPending ? 'Saving...' : 'Save changes'}
           </Button>
