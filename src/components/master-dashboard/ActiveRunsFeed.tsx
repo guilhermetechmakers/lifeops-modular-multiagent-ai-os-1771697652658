@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Play, Square, Check, FileText } from 'lucide-react'
+import { toast } from 'sonner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -14,9 +15,20 @@ interface ActiveRunsFeedProps {
 }
 
 function RunCard({ run }: { run: ActiveRun }) {
-  const navigate = useNavigate()
   const isRunning = run.status === 'running'
   const needsApproval = run.status === 'pending_approval'
+
+  const handleStop = () => {
+    toast.success(`Stopping ${run.name}...`)
+  }
+
+  const handleApprove = () => {
+    toast.success(`${run.name} approved`)
+  }
+
+  const handleDecline = () => {
+    toast.info(`${run.name} declined`)
+  }
 
   return (
     <div
@@ -53,18 +65,18 @@ function RunCard({ run }: { run: ActiveRun }) {
         <div className="flex gap-2 shrink-0">
           {needsApproval && (
             <>
-              <Button size="sm" variant="outline" className="gap-1">
+              <Button size="sm" variant="outline" className="gap-1" onClick={handleDecline}>
                 <Square className="h-4 w-4" />
                 Decline
               </Button>
-              <Button size="sm" className="gap-1">
+              <Button size="sm" className="gap-1" onClick={handleApprove}>
                 <Check className="h-4 w-4" />
                 Approve
               </Button>
             </>
           )}
           {isRunning && (
-            <Button size="sm" variant="outline" className="gap-1 text-destructive hover:text-destructive">
+            <Button size="sm" variant="outline" className="gap-1 text-destructive hover:text-destructive" onClick={handleStop}>
               <Square className="h-4 w-4" />
               Stop
             </Button>
@@ -73,10 +85,12 @@ function RunCard({ run }: { run: ActiveRun }) {
             size="sm"
             variant="ghost"
             className="gap-1"
-            onClick={() => navigate(`/dashboard/runs/${run.id}`)}
+            asChild
           >
-            <Play className="h-4 w-4" />
-            Details
+            <Link to={`/dashboard/runs/${run.id}`} className="inline-flex items-center gap-1">
+              <Play className="h-4 w-4" />
+              Details
+            </Link>
           </Button>
         </div>
       </div>
@@ -119,10 +133,10 @@ export function ActiveRunsFeed({ runs = [], isLoading }: ActiveRunsFeedProps) {
             </p>
             <div className="flex gap-2 mt-4">
               <Button variant="outline" size="sm" asChild>
-                <a href="/dashboard/cronjobs">View Cronjobs</a>
+                <Link to="/dashboard/cronjobs">View Cronjobs</Link>
               </Button>
               <Button size="sm" asChild>
-                <a href="/dashboard/templates">View Workflows</a>
+                <Link to="/dashboard/templates">View Workflows</Link>
               </Button>
             </div>
           </div>
@@ -139,8 +153,10 @@ export function ActiveRunsFeed({ runs = [], isLoading }: ActiveRunsFeedProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {runs.map((run) => (
-            <RunCard key={run.id} run={run} />
+          {runs.map((run, i) => (
+            <div key={run.id} className="animate-fade-in" style={{ animationDelay: `${i * 75}ms` }}>
+              <RunCard run={run} />
+            </div>
           ))}
         </div>
       </CardContent>

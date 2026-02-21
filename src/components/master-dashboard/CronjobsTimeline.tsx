@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, CheckCircle, XCircle, Calendar, List } from 'lucide-react'
+import { toast } from 'sonner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -15,7 +16,17 @@ interface CronjobsTimelineProps {
   isLoading?: boolean
 }
 
-function CronjobsList({ cronjobs }: { cronjobs: CronjobItem[] }) {
+function CronjobsList({ cronjobs, onToggle }: { cronjobs: CronjobItem[]; onToggle?: (job: CronjobItem, enabled: boolean) => void }) {
+  const [overrides, setOverrides] = useState<Record<string, boolean>>({})
+
+  const handleToggle = (job: CronjobItem, enabled: boolean) => {
+    setOverrides((prev) => ({ ...prev, [job.id]: enabled }))
+    onToggle?.(job, enabled)
+    toast.success(enabled ? `${job.name} enabled` : `${job.name} disabled`)
+  }
+
+  const getEnabled = (job: CronjobItem) => (job.id in overrides ? overrides[job.id] : job.enabled)
+
   if (cronjobs.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -33,13 +44,15 @@ function CronjobsList({ cronjobs }: { cronjobs: CronjobItem[] }) {
 
   return (
     <div className="space-y-3">
-      {cronjobs.map((job) => (
+      {cronjobs.map((job, i) => (
         <div
           key={job.id}
           className={cn(
             'flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-xl border border-border p-4',
-            'transition-all duration-300 hover:bg-muted/30 hover:shadow-md hover:border-primary/20'
+            'transition-all duration-300 hover:bg-muted/30 hover:shadow-md hover:border-primary/20',
+            'animate-fade-in'
           )}
+          style={{ animationDelay: `${i * 75}ms` }}
         >
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
@@ -66,11 +79,11 @@ function CronjobsList({ cronjobs }: { cronjobs: CronjobItem[] }) {
             </Badge>
             <div className="flex items-center gap-2">
               <Switch
-                checked={job.enabled}
-                onCheckedChange={() => {}}
+                checked={getEnabled(job)}
+                onCheckedChange={(checked) => handleToggle(job, checked)}
                 aria-label={`Toggle ${job.name}`}
               />
-              <span className="text-xs text-muted-foreground">{job.enabled ? 'On' : 'Off'}</span>
+              <span className="text-xs text-muted-foreground">{getEnabled(job) ? 'On' : 'Off'}</span>
             </div>
           </div>
         </div>
@@ -158,7 +171,7 @@ export function CronjobsTimeline({ cronjobs = [], isLoading }: CronjobsTimelineP
         </CardHeader>
         <CardContent>
           <TabsContent value="list" className="mt-0">
-            <CronjobsList cronjobs={cronjobs} />
+            <CronjobsList cronjobs={cronjobs} onToggle={() => {}} />
           </TabsContent>
           <TabsContent value="calendar" className="mt-0">
             <CronjobsCalendar cronjobs={cronjobs} />

@@ -80,13 +80,18 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {items.map((item) => (
-            <div
+          {items.map((item, i) => (
+            <button
               key={item.id}
+              type="button"
+              onClick={() => navigate(`/dashboard/audit?entity=${encodeURIComponent(item.entity)}`)}
               className={cn(
-                'flex items-center justify-between rounded-lg border border-border p-3',
-                'transition-all duration-300 hover:bg-muted/30 hover:border-primary/20'
+                'w-full flex items-center justify-between rounded-lg border border-border p-3 text-left',
+                'transition-all duration-300 hover:bg-muted/30 hover:border-primary/20 hover:shadow-md',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                'animate-fade-in'
               )}
+              style={{ animationDelay: `${i * 50}ms` }}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Activity className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -96,7 +101,7 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
                 </div>
               </div>
               <span className="text-xs text-muted-foreground shrink-0 ml-2">{formatTimestamp(item.timestamp)}</span>
-            </div>
+            </button>
           ))}
         </div>
       </CardContent>

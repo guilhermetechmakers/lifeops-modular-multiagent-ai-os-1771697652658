@@ -56,14 +56,14 @@ export function SystemOverview({ data, isLoading }: SystemOverviewProps) {
           onClick={() => navigate(href)}
           onKeyDown={(e) => e.key === 'Enter' && navigate(href)}
           className={cn(
-            'overflow-hidden border-border/50 transition-all duration-300 cursor-pointer',
+            'relative overflow-hidden border-border/50 transition-all duration-300 cursor-pointer',
             'hover:shadow-card-hover hover:scale-[1.02] hover:-translate-y-0.5 hover:border-primary/30',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
             'animate-fade-in'
           )}
           style={{ animationDelay: `${i * 100}ms` }}
         >
-          <div className={cn('absolute inset-0 bg-gradient-to-br opacity-50', gradient)} aria-hidden />
+          <div className={cn('absolute inset-0 bg-gradient-to-br opacity-50 pointer-events-none', gradient)} aria-hidden />
           <CardHeader className="flex flex-row items-center justify-between pb-2 relative">
             <CardTitle className="text-sm font-medium">{title}</CardTitle>
             <div className="flex items-center gap-1">

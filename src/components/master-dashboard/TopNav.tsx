@@ -106,14 +106,14 @@ export function TopNav() {
               Cronjob
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => navigate('/dashboard/templates')}
+              onClick={() => navigate('/dashboard/templates?create=true')}
               className="gap-2 cursor-pointer"
             >
               <GitBranch className="h-4 w-4" />
               Workflow
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => navigate('/dashboard/agent-directory')}
+              onClick={() => navigate('/dashboard/agent-directory?create=true')}
               className="gap-2 cursor-pointer"
             >
               <Bot className="h-4 w-4" />

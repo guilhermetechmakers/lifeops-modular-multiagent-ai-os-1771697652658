@@ -13,7 +13,17 @@ function MasterDashboard() {
   const { data, isLoading, isError, refetch } = useMasterDashboard()
 
   useEffect(() => {
+    const prevTitle = document.title
+    const meta = document.querySelector('meta[name="description"]')
+    const prevDesc = meta?.getAttribute('content') ?? ''
     document.title = 'Master Dashboard | LifeOps'
+    if (meta) {
+      meta.setAttribute('content', 'Central command center: system health, active agents, upcoming Cronjobs, alerts, and quick controls')
+    }
+    return () => {
+      document.title = prevTitle
+      if (meta) meta.setAttribute('content', prevDesc)
+    }
   }, [])
 
   if (isError) {

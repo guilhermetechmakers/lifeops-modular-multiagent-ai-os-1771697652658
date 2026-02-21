@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { AlertCircle, AlertTriangle, XCircle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -24,7 +25,16 @@ const typeLabels: Record<AlertItem['type'], string> = {
   other: 'Other',
 }
 
+const getAlertHref = (alert: AlertItem): string => {
+  if (alert.type === 'cronjob_failed') return '/dashboard/cronjobs'
+  if (alert.type === 'agent_conflict') return '/dashboard/agent-directory'
+  if (alert.type === 'connector_expiring') return '/dashboard/connectors'
+  return '/dashboard/overview'
+}
+
 export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotificationsPanelProps) {
+  const navigate = useNavigate()
+
   if (isLoading) {
     return (
       <Card>
@@ -88,7 +98,7 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
                   <p className="text-sm font-medium">{alert.message}</p>
                   <p className="text-xs text-muted-foreground mt-1">{typeLabels[alert.type]}</p>
                 </div>
-                <Button size="sm" variant="ghost">
+                <Button size="sm" variant="ghost" onClick={() => navigate(getAlertHref(alert))}>
                   View
                 </Button>
               </div>
