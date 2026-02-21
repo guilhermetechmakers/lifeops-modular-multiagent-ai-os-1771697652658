@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Ticket, MessageCircle, Users, Send, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import {
@@ -58,23 +59,15 @@ export function SupportContact() {
               required
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <textarea
-              id="description"
-              placeholder="Provide details about your request..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={4}
-              className={cn(
-                'flex w-full rounded-lg border border-input bg-background px-3 py-2 text-sm',
-                'ring-offset-background placeholder:text-muted-foreground',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                'disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-200'
-              )}
-              required
-            />
-          </div>
+          <Textarea
+            id="description"
+            label="Description"
+            placeholder="Provide details about your request..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            required
+          />
           <div className="space-y-2">
             <Label htmlFor="priority">Priority</Label>
             <Select value={priority} onValueChange={(v) => setPriority(v as 'low' | 'medium' | 'high')}>

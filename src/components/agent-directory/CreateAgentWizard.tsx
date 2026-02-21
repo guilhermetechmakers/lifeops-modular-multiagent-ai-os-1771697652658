@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -244,15 +245,14 @@ export function CreateAgentWizard({
                   className="mt-2"
                 />
               </div>
-              <div>
-                <Label htmlFor="prompt">System prompt / behavior</Label>
-                <textarea
-                  id="prompt"
-                  {...register('prompt')}
-                  placeholder="Define the agent's behavior and instructions..."
-                  className="mt-2 w-full min-h-[120px] rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                />
-              </div>
+              <Textarea
+                id="prompt"
+                label="System prompt / behavior"
+                {...register('prompt')}
+                placeholder="Define the agent's behavior and instructions..."
+                className="min-h-[120px]"
+                error={errors.prompt?.message}
+              />
             </div>
           )}
 
