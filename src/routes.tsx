@@ -38,7 +38,7 @@ import Privacy from '@/pages/legal/privacy'
 import Terms from '@/pages/legal/terms'
 import { Pricing } from '@/pages/Pricing'
 import NotFound404 from '@/pages/404NotFound'
-import { ErrorPage } from '@/pages/error'
+import { ServerErrorPage } from '@/pages/errors'
 
 const aboutContent = 'LifeOps is your AI-Native Operating System for projects, content, finance, and health. We help teams automate workflows with traceable, permissioned, and reversible AI agents.'
 const supportContent = 'For support, email support@lifeops.io or visit our documentation at /docs.'
@@ -115,7 +115,7 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </SidebarProvider>
     ),
-    errorElement: <ErrorPage />,
+    errorElement: <ServerErrorPage />,
     children: [{ index: true, element: <MasterDashboard /> }],
   },
   {
@@ -149,7 +149,7 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </SidebarProvider>
     ),
-    errorElement: <ErrorPage />,
+    errorElement: <ServerErrorPage />,
     children: [
       { index: true, element: <Navigate to="/dashboard/overview" replace /> },
       { path: ':runId', element: <RunDetailsArtifacts /> },
@@ -170,7 +170,7 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </SidebarProvider>
     ),
-    errorElement: <ErrorPage />,
+    errorElement: <ServerErrorPage />,
     children: [{ index: true, element: <ModuleDashboardProjects /> }],
   },
   {
@@ -180,7 +180,7 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </SidebarProvider>
     ),
-    errorElement: <ErrorPage />,
+    errorElement: <ServerErrorPage />,
     children: [
       { index: true, element: <Navigate to="/dashboard/overview" replace /> },
       { path: 'overview', element: <MasterDashboard /> },
@@ -207,6 +207,10 @@ export const router = createBrowserRouter([
       { path: 'runs/:runId', element: <RunDetails /> },
       { path: 'run-details-artifacts/:runId', element: <RunDetailsArtifacts /> },
     ],
+  },
+  {
+    path: '/errors/server-error',
+    element: <ServerErrorPage />,
   },
   {
     path: '/404-not-found',
