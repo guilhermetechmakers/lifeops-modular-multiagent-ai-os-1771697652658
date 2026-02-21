@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Shield, Bot, Clock, Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Shield, Bot, Clock, Check, ShieldPlus } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { RBACPoliciesData } from '@/types/organization-team-settings'
+import type { RBACPoliciesData, RBACRole } from '@/types/organization-team-settings'
+import { EmptyState } from '@/components/ui/empty-state'
 import { useUpdateRBACPolicies } from '@/hooks/use-organization-team-settings'
 
 interface RBACPoliciesProps {
@@ -87,12 +89,33 @@ export function RBACPolicies({ data, isLoading }: RBACPoliciesProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         {roles.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-border p-12 text-center">
-            <Shield className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-1">No roles defined</h3>
-            <p className="text-sm text-muted-foreground mb-4 max-w-sm mx-auto">
-              Define roles and permissions to control access for agents and cronjobs.
-            </p>
+          <div className="rounded-xl border border-dashed border-border p-6 sm:p-8 md:p-12 min-h-[200px] flex flex-col justify-center animate-fade-in">
+            <EmptyState
+              icon={Shield}
+              heading="No RBAC roles defined"
+              description="Define roles and permissions to control access for agents and cronjobs. Add your first role to get started."
+              action={
+                <Button
+                  onClick={() => {
+                    const newRole: RBACRole = {
+                      id: crypto.randomUUID(),
+                      name: 'Custom',
+                      description: 'Custom role with configurable permissions',
+                      permissions: [],
+                    }
+                    updateMutation.mutate({
+                      ...data,
+                      roles: [newRole],
+                    })
+                  }}
+                  disabled={updateMutation.isPending}
+                  className="transition-all duration-200 hover:scale-[1.02]"
+                >
+                  <ShieldPlus className="h-4 w-4 mr-2" />
+                  Add first role
+                </Button>
+              }
+            />
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

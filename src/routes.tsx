@@ -24,6 +24,7 @@ import { TemplatesLibrary } from '@/pages/dashboard/templates'
 import { ApprovalsQueue } from '@/pages/dashboard/approvals'
 import SettingsPreferences from '@/pages/SettingsPreferences'
 import TeamSettings from '@/pages/Organization/TeamSettings'
+import Organization from '@/pages/dashboard/organization'
 import { Profile } from '@/pages/dashboard/profile'
 import UserProfile from '@/pages/UserProfile'
 import { Connectors } from '@/pages/dashboard/connectors'
@@ -193,6 +194,7 @@ export const router = createBrowserRouter([
       { path: 'approvals', element: <ApprovalsQueue /> },
       { path: 'settings', element: <SettingsPreferences /> },
       { path: 'settings-preferences', element: <SettingsPreferences /> },
+      { path: 'organization', element: <Organization /> },
       { path: 'organization-team-settings', element: <TeamSettings /> },
       { path: 'profile', element: <Profile /> },
       { path: 'user-profile', element: <UserProfile /> },

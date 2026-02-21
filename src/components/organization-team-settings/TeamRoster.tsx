@@ -148,7 +148,7 @@ export function TeamRoster({ data, isLoading }: TeamRosterProps) {
         )}
 
         {members.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-border p-8">
+          <div className="rounded-xl border border-dashed border-border p-6 sm:p-8 md:p-12 min-h-[200px] flex flex-col justify-center animate-fade-in">
             <EmptyState
               icon={Users}
               heading="No team members yet"
