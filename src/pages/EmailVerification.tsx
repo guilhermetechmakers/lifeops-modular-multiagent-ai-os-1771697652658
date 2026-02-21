@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AlertCircle } from 'lucide-react'
+import { AuthLayout } from '@/components/layout/auth-layout'
 import { LifeOpsLogo } from '@/components/design-system'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import {
   VerificationMessage,
   ResendButton,
@@ -16,44 +14,6 @@ import {
   useVerifyCode,
   useResendVerification,
 } from '@/hooks/use-email-verification'
-
-function EmailVerificationSkeleton() {
-  return (
-    <Card className="w-full max-w-md animate-fade-in">
-      <CardHeader className="text-center">
-        <Skeleton className="mx-auto h-12 w-12 rounded-full" />
-        <Skeleton className="h-6 w-48 mx-auto" />
-        <Skeleton className="h-4 w-64 mx-auto" />
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <Skeleton className="h-24 w-full rounded-xl" />
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-10 w-32 mx-auto" />
-      </CardContent>
-    </Card>
-  )
-}
-
-function EmailVerificationError({ onRetry }: { onRetry: () => void }) {
-  return (
-    <Card className="w-full max-w-md animate-fade-in">
-      <CardHeader className="text-center">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
-          <AlertCircle className="h-6 w-6 text-destructive" aria-hidden />
-        </div>
-        <CardTitle>Something went wrong</CardTitle>
-        <CardDescription>
-          We couldn&apos;t load your verification status. Please try again.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Button onClick={onRetry} className="w-full" variant="outline">
-          Try again
-        </Button>
-      </CardContent>
-    </Card>
-  )
-}
 
 export default function EmailVerification() {
   const navigate = useNavigate()
@@ -90,23 +50,24 @@ export default function EmailVerification() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-6">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
-        </div>
-        <EmailVerificationSkeleton />
-      </div>
+      <AuthLayout pageTitle="Verify your email" isLoading>
+        <div />
+      </AuthLayout>
     )
   }
 
   if (isError) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-6">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
-        </div>
-        <EmailVerificationError onRetry={() => refetch()} />
-      </div>
+      <AuthLayout
+        pageTitle="Verify your email"
+        error={{
+          heading: 'Something went wrong',
+          description: "We couldn't load your verification status. Please try again.",
+          onRetry: () => refetch(),
+        }}
+      >
+        <div />
+      </AuthLayout>
     )
   }
 
@@ -115,17 +76,13 @@ export default function EmailVerification() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6">
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-accent/10 blur-3xl" />
-      </div>
+    <AuthLayout pageTitle="Verify your email">
       <Card className="w-full max-w-md animate-slide-up">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-2">
             <LifeOpsLogo size="lg" variant="gradient" asLink />
           </div>
-          <CardTitle>Verify your email</CardTitle>
+          <h2 className="text-xl font-semibold leading-none tracking-tight">Verify your email</h2>
           <CardDescription>
             Complete your account setup by verifying your email address
           </CardDescription>
@@ -158,6 +115,6 @@ export default function EmailVerification() {
           <SupportLink />
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }

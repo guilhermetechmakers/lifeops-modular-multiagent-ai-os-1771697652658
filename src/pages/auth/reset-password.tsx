@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { AuthLayout } from '@/components/layout/auth-layout'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import { PasswordStrengthMeter } from '@/components/login-signup/PasswordStrengthMeter'
 import { KeyRound, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -93,28 +94,15 @@ export function ResetPassword() {
   }
 
   if (hasValidSession === null) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
-        <Card className="w-full max-w-md shadow-card">
-          <CardContent className="pt-6">
-            <div className="animate-pulse space-y-4" aria-label="Loading">
-              <div className="h-4 bg-muted rounded-lg w-3/4" />
-              <div className="h-10 bg-muted rounded-lg" />
-              <div className="h-10 bg-muted rounded-lg" />
-              <div className="h-10 bg-muted rounded-lg" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    )
+    return <AuthLayout pageTitle="Set new password" isLoading><div /></AuthLayout>
   }
 
   if (hasValidSession === false) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
+      <AuthLayout pageTitle="Invalid or expired link">
         <Card className="w-full max-w-md shadow-card">
           <CardHeader className="text-center">
-            <CardTitle>Invalid or expired link</CardTitle>
+            <h2 className="text-xl font-semibold leading-none tracking-tight">Invalid or expired link</h2>
             <CardDescription>
               This password reset link is invalid or has expired. Please request a new one.
             </CardDescription>
@@ -125,24 +113,18 @@ export function ResetPassword() {
             </Link>
           </CardContent>
         </Card>
-      </div>
+      </AuthLayout>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-float" />
-        <div className="absolute top-1/2 -left-40 h-96 w-96 rounded-full bg-accent/10 blur-3xl animate-float" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl animate-glow-pulse" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
+    <AuthLayout pageTitle="Set new password">
       <Card className="w-full max-w-md shadow-card transition-all duration-300">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
             <KeyRound className="h-6 w-6 text-primary" aria-hidden />
           </div>
-          <CardTitle>Set new password</CardTitle>
+          <h2 className="text-xl font-semibold leading-none tracking-tight">Set new password</h2>
           <CardDescription>
             Enter your new password below. Use at least 8 characters with uppercase, lowercase, and numbers.
           </CardDescription>
@@ -207,6 +189,6 @@ export function ResetPassword() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }

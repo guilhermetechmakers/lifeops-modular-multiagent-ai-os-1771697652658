@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LifeOpsLogo } from '@/components/design-system'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { AuthLayout } from '@/components/layout/auth-layout'
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import { LoginForm, type LoginFormData } from '@/components/login-signup/LoginForm'
 import { SignupForm, type SignupFormData } from '@/components/login-signup/SignupForm'
 import { SSOButtons } from '@/components/login-signup/SSOButtons'
@@ -48,20 +49,15 @@ export default function LoginSignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-float" />
-        <div className="absolute top-1/2 -left-40 h-96 w-96 rounded-full bg-accent/10 blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-      </div>
-
+    <AuthLayout pageTitle={mode === 'login' ? 'Sign in' : 'Create an account'}>
       <Card className="w-full max-w-md shadow-card hover:shadow-card-hover transition-shadow duration-300">
         <CardHeader className="text-center space-y-2">
           <div className="flex justify-center">
             <LifeOpsLogo size="lg" variant="gradient" asLink />
           </div>
-          <CardTitle className="text-xl">
+          <h2 className="text-xl font-semibold leading-none tracking-tight">
             {mode === 'login' ? 'Welcome back' : 'Create an account'}
-          </CardTitle>
+          </h2>
           <CardDescription>
             {mode === 'login'
               ? 'Sign in to your account to continue'
@@ -105,6 +101,6 @@ export default function LoginSignupPage() {
           <SwitchFormAction mode={mode} onSwitch={setMode} />
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }

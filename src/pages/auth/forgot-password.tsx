@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
+import { AuthLayout } from '@/components/layout/auth-layout'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card'
 import { toast } from 'sonner'
 import { invokePasswordReset } from '@/lib/supabase'
 
@@ -32,10 +33,10 @@ export function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-6">
+    <AuthLayout pageTitle="Reset password">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle>Reset password</CardTitle>
+          <h2 className="text-xl font-semibold leading-none tracking-tight">Reset password</h2>
           <CardDescription>
             Enter your email and we&apos;ll send you a reset link.
           </CardDescription>
@@ -66,6 +67,6 @@ export function ForgotPassword() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }

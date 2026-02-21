@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { LifeOpsLogo } from '@/components/design-system'
+import { AuthLayout } from '@/components/layout/auth-layout'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -41,15 +42,7 @@ export function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
-      {/* Animated gradient mesh background - design tokens only */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-float" />
-        <div className="absolute top-1/2 -left-40 h-96 w-96 rounded-full bg-accent/10 blur-3xl animate-float" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-primary/10 blur-3xl animate-glow-pulse" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
-
+    <AuthLayout pageTitle="Sign in">
       <Card
         className={cn(
           'w-full max-w-md shadow-card transition-all duration-300',
@@ -60,9 +53,9 @@ export function Login() {
           <div className="flex justify-center mb-2">
             <LifeOpsLogo size="lg" variant="gradient" asLink />
           </div>
-          <h1 className="text-xl font-semibold leading-none tracking-tight text-card-foreground">
+          <h2 className="text-xl font-semibold leading-none tracking-tight text-card-foreground">
             Welcome back
-          </h1>
+          </h2>
           <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
         <CardContent>
@@ -165,6 +158,6 @@ export function Login() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   )
 }
