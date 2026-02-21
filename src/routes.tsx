@@ -15,6 +15,7 @@ import { Agents } from '@/pages/dashboard/agents'
 import AgentDirectory from '@/pages/AgentDirectory'
 import { ProjectsDashboard } from '@/pages/dashboard/projects'
 import { ContentDashboard } from '@/pages/dashboard/content'
+import ModuleDashboardProjects from '@/pages/ModuleDashboardProjects'
 import { FinanceDashboard } from '@/pages/dashboard/finance'
 import { HealthDashboard } from '@/pages/dashboard/health'
 import { CronjobsManager } from '@/pages/dashboard/cronjobs'
@@ -110,6 +111,16 @@ export const router = createBrowserRouter([
     element: <Legal title="Support" content={supportContent} />,
   },
   {
+    path: '/module-dashboard-projects',
+    element: (
+      <SidebarProvider>
+        <DashboardLayout />
+      </SidebarProvider>
+    ),
+    errorElement: <ErrorPage />,
+    children: [{ index: true, element: <ModuleDashboardProjects /> }],
+  },
+  {
     path: '/dashboard',
     element: (
       <SidebarProvider>
@@ -123,6 +134,7 @@ export const router = createBrowserRouter([
       { path: 'agents', element: <Agents /> },
       { path: 'agent-directory', element: <AgentDirectory /> },
       { path: 'projects', element: <ProjectsDashboard /> },
+      { path: 'module-projects', element: <ModuleDashboardProjects /> },
       { path: 'content', element: <ContentDashboard /> },
       { path: 'finance', element: <FinanceDashboard /> },
       { path: 'health', element: <HealthDashboard /> },
