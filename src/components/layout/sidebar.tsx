@@ -25,7 +25,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 
 const mainNav = [
   { to: '/dashboard/overview', label: 'Master Dashboard', icon: LayoutDashboard },
-  { to: '/dashboard/agents', label: 'Agent Directory', icon: Bot },
+  { to: '/dashboard/agent-directory', label: 'Agent Directory', icon: Bot },
   { to: '/dashboard/projects', label: 'Projects', icon: FolderKanban },
   { to: '/dashboard/content', label: 'Content', icon: FileText },
   { to: '/dashboard/finance', label: 'Finance', icon: Wallet },

@@ -36,7 +36,7 @@ interface AgentListProps {
     owner?: string
     tags?: string[]
   }
-  onFiltersChange?: (filters: AgentListProps['filters']) => void
+  onFiltersChange?: (filters: NonNullable<AgentListProps['filters']>) => void
   viewMode?: ViewMode
   onViewModeChange?: (mode: ViewMode) => void
   renderActions?: (agent: AgentDirectoryItem) => React.ReactNode

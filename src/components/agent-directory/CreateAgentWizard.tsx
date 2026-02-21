@@ -99,7 +99,6 @@ export function CreateAgentWizard({
   })
 
   const title = watch('title')
-  const prompt = watch('prompt')
 
   const handleTemplateSelect = (id: string) => {
     setSelectedTemplate(id)
