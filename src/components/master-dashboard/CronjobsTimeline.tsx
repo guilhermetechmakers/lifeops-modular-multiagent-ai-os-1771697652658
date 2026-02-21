@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import type { CronjobItem } from '@/types/master-dashboard'
 import { cn } from '@/lib/utils'
 
@@ -29,16 +30,16 @@ function CronjobsList({ cronjobs, onToggle }: { cronjobs: CronjobItem[]; onToggl
 
   if (cronjobs.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <Clock className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
-        <h3 className="font-semibold text-lg">No scheduled Cronjobs</h3>
-        <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-          Create your first Cronjob to automate recurring tasks.
-        </p>
-        <Button className="mt-4" asChild>
-          <Link to="/dashboard/cronjobs?create=true">Create Cronjob</Link>
-        </Button>
-      </div>
+      <EmptyState
+        icon={Clock}
+        heading="No scheduled Cronjobs"
+        description="Create your first Cronjob to automate recurring tasks."
+        action={
+          <Button asChild>
+            <Link to="/dashboard/cronjobs?create=true">Create Cronjob</Link>
+          </Button>
+        }
+      />
     )
   }
 
@@ -172,7 +173,7 @@ export function CronjobsTimeline({ cronjobs = [], isLoading }: CronjobsTimelineP
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <Skeleton className="h-6 w-48" />
           <Skeleton className="h-4 w-64 mt-2" />
@@ -180,7 +181,7 @@ export function CronjobsTimeline({ cronjobs = [], isLoading }: CronjobsTimelineP
         <CardContent>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-20 w-full rounded-xl" />
+              <Skeleton key={i} className="h-20 w-full rounded-xl animate-fade-in" style={{ animationDelay: `${i * 100}ms` }} />
             ))}
           </div>
         </CardContent>

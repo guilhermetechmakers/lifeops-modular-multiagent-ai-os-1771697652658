@@ -88,7 +88,7 @@ export function SystemOverview({ data, isLoading }: SystemOverviewProps) {
     return (
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((_, i) => (
-          <Card key={i} className="overflow-hidden">
+          <Card key={i} className="overflow-hidden animate-fade-in" style={{ animationDelay: `${i * 75}ms` }}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-4 w-4 rounded" />

@@ -3,6 +3,7 @@ import { Activity, ChevronRight } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import type { AuditItem } from '@/types/master-dashboard'
 import { cn } from '@/lib/utils'
 
@@ -27,7 +28,7 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <Skeleton className="h-6 w-36" />
           <Skeleton className="h-4 w-56 mt-2" />
@@ -35,7 +36,7 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
         <CardContent>
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-12 w-full rounded-lg" />
+              <Skeleton key={i} className="h-12 w-full rounded-lg animate-fade-in" style={{ animationDelay: `${i * 75}ms` }} />
             ))}
           </div>
         </CardContent>
@@ -51,16 +52,16 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
           <CardDescription>Recent significant actions</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Activity className="h-12 w-12 text-muted-foreground mb-4 opacity-50" aria-hidden />
-            <h3 className="font-semibold text-lg">No recent activity</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Significant actions will appear here for quick reference.
-            </p>
-            <Button variant="outline" className="mt-4" onClick={() => navigate('/dashboard/audit')}>
-              View full audit logs
-            </Button>
-          </div>
+          <EmptyState
+            icon={Activity}
+            heading="No recent activity"
+            description="Significant actions will appear here for quick reference."
+            action={
+              <Button variant="outline" onClick={() => navigate('/dashboard/audit')}>
+                View full audit logs
+              </Button>
+            }
+          />
         </CardContent>
       </Card>
     )

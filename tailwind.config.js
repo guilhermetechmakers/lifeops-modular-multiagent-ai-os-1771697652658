@@ -82,6 +82,13 @@ export default {
         300: '300ms',
         500: '500ms',
       },
+      animationDelay: {
+        75: '75ms',
+        100: '100ms',
+        150: '150ms',
+        200: '200ms',
+        300: '300ms',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

@@ -1,8 +1,9 @@
 import { useNavigate, Link } from 'react-router-dom'
-import { AlertCircle, AlertTriangle, XCircle, Settings } from 'lucide-react'
+import { AlertCircle, AlertTriangle, XCircle, Settings, CheckCircle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import type { AlertItem } from '@/types/master-dashboard'
 import { cn } from '@/lib/utils'
 
@@ -37,7 +38,7 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <Skeleton className="h-6 w-48" />
           <Skeleton className="h-4 w-64 mt-2" />
@@ -45,7 +46,7 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
         <CardContent>
           <div className="space-y-3">
             {[1, 2].map((i) => (
-              <Skeleton key={i} className="h-16 w-full rounded-lg" />
+              <Skeleton key={i} className="h-16 w-full rounded-lg animate-fade-in" style={{ animationDelay: `${i * 100}ms` }} />
             ))}
           </div>
         </CardContent>
@@ -69,16 +70,17 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
           </Button>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <AlertCircle className="h-12 w-12 text-success mb-4 opacity-70" aria-hidden />
-            <h3 className="font-semibold text-lg">All clear</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              No critical alerts. Your system is running smoothly.
-            </p>
-            <Button variant="outline" className="mt-4" asChild>
-              <Link to="/dashboard/settings?tab=notifications">Configure notification rules</Link>
-            </Button>
-          </div>
+          <EmptyState
+            icon={CheckCircle}
+            heading="All clear"
+            description="No critical alerts. Your system is running smoothly."
+            iconClassName="text-success opacity-70"
+            action={
+              <Button variant="outline" asChild>
+                <Link to="/dashboard/settings?tab=notifications">Configure notification rules</Link>
+              </Button>
+            }
+          />
         </CardContent>
       </Card>
     )

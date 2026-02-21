@@ -3,6 +3,7 @@ import { GitBranch, ChevronRight, Plug, Circle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ErrorState } from '@/components/ui/error-state'
 import { useCicdCredentials } from '@/hooks/use-cicd-provider'
 import { cn } from '@/lib/utils'
 
@@ -13,13 +14,13 @@ const providerLabels: Record<string, string> = {
 }
 
 export function CicdStatusCard() {
-  const { data, isLoading, isError } = useCicdCredentials()
+  const { data, isLoading, isError, refetch } = useCicdCredentials()
   const credentials = data?.credentials ?? []
   const configuredCount = credentials.length
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <Skeleton className="h-5 w-32" />
           <Skeleton className="h-4 w-48 mt-2" />
@@ -32,7 +33,23 @@ export function CicdStatusCard() {
   }
 
   if (isError) {
-    return null
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <ErrorState
+            heading="Failed to load CI/CD status"
+            description="Could not fetch CI/CD credentials. You can still configure connectors."
+            onRetry={() => refetch()}
+          />
+          <Button variant="outline" size="sm" className="mt-4 w-full gap-2" asChild>
+            <Link to="/dashboard/connectors">
+              <Plug className="h-4 w-4" />
+              Configure CI/CD
+            </Link>
+          </Button>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (

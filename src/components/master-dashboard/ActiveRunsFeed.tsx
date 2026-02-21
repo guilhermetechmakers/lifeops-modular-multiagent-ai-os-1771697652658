@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { useCicdRetryRun } from '@/hooks/use-cicd-provider'
 import type { ActiveRun } from '@/types/master-dashboard'
 import type { CicdProvider } from '@/types/cicd-provider'
@@ -131,7 +132,7 @@ function RunCard({ run }: { run: ActiveRun }) {
 export function ActiveRunsFeed({ runs = [], isLoading }: ActiveRunsFeedProps) {
   if (isLoading) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <Skeleton className="h-6 w-40" />
           <Skeleton className="h-4 w-48 mt-2" />
@@ -139,7 +140,7 @@ export function ActiveRunsFeed({ runs = [], isLoading }: ActiveRunsFeedProps) {
         <CardContent>
           <div className="space-y-4">
             {[1, 2].map((i) => (
-              <Skeleton key={i} className="h-24 w-full rounded-xl" />
+              <Skeleton key={i} className="h-24 w-full rounded-xl animate-fade-in" style={{ animationDelay: `${i * 100}ms` }} />
             ))}
           </div>
         </CardContent>
@@ -155,21 +156,21 @@ export function ActiveRunsFeed({ runs = [], isLoading }: ActiveRunsFeedProps) {
           <CardDescription>Real-time stream of executing runs</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Play className="h-12 w-12 text-muted-foreground mb-4 opacity-50" aria-hidden />
-            <h3 className="font-semibold text-lg">No active runs</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Runs will appear here when Cronjobs or workflows are executing.
-            </p>
-            <div className="flex gap-2 mt-4">
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/dashboard/cronjobs">View Cronjobs</Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link to="/dashboard/templates">View Workflows</Link>
-              </Button>
-            </div>
-          </div>
+          <EmptyState
+            icon={Play}
+            heading="No active runs"
+            description="Runs will appear here when Cronjobs or workflows are executing."
+            action={
+              <>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/dashboard/cronjobs">View Cronjobs</Link>
+                </Button>
+                <Button size="sm" asChild>
+                  <Link to="/dashboard/templates">View Workflows</Link>
+                </Button>
+              </>
+            }
+          />
         </CardContent>
       </Card>
     )
