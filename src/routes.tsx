@@ -10,6 +10,7 @@ import { ForgotPassword } from '@/pages/auth/forgot-password'
 import { ResetPassword } from '@/pages/auth/reset-password'
 import LoginSignupPage from '@/pages/Login/Signup'
 import { MasterDashboard } from '@/pages/dashboard/master-dashboard'
+import { RunDetails } from '@/pages/dashboard/run-details'
 import { Agents } from '@/pages/dashboard/agents'
 import { ProjectsDashboard } from '@/pages/dashboard/projects'
 import { ContentDashboard } from '@/pages/dashboard/content'
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
     element: <Legal title="Cookie Policy" content={legalContent} />,
   },
   {
+    path: '/master-dashboard',
+    element: <Navigate to="/dashboard/overview" replace />,
+  },
+  {
     path: '/pricing',
     element: <Pricing />,
   },
@@ -114,6 +119,7 @@ export const router = createBrowserRouter([
       { path: 'settings', element: <Settings /> },
       { path: 'profile', element: <Profile /> },
       { path: 'connectors', element: <Connectors /> },
+      { path: 'runs/:runId', element: <RunDetails /> },
     ],
   },
   {
