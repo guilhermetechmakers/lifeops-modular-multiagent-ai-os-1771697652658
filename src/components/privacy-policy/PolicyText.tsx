@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { Shield } from 'lucide-react'
 import type { PrivacyPolicySection } from '@/types/privacy-policy'
 import { cn } from '@/lib/utils'
@@ -13,6 +14,7 @@ export interface PolicyTextProps {
 
 /**
  * Clear sections for data collection, storage, processing and user rights.
+ * Heading hierarchy: h2 (document) -> h3 (sections) for logical accessibility.
  */
 export function PolicyText({
   sections,
@@ -24,18 +26,18 @@ export function PolicyText({
     return (
       <Card
         className={cn(
-          'overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300',
+          'overflow-hidden border-border bg-card backdrop-blur-sm transition-all duration-300',
           className
         )}
       >
-        <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
+        <CardHeader className="border-b border-border bg-gradient-to-r from-primary/5 to-accent/5">
           <div className="flex items-center gap-2">
             <Skeleton className="h-5 w-5 rounded" />
             <Skeleton className="h-6 w-32" />
           </div>
-          <Skeleton className="h-4 w-24 mt-2" />
+          <Skeleton className="mt-2 h-4 w-24" />
         </CardHeader>
-        <CardContent className="p-6 space-y-6">
+        <CardContent className="space-y-6 p-6">
           {[1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="space-y-2">
               <Skeleton className="h-5 w-40" />
@@ -53,16 +55,16 @@ export function PolicyText({
     return (
       <Card
         className={cn(
-          'overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm',
+          'overflow-hidden border-border bg-card backdrop-blur-sm',
           className
         )}
       >
-        <CardContent className="py-12 text-center">
-          <Shield className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-50" />
-          <h3 className="font-semibold text-lg">No policy content available</h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            The privacy policy is being updated. Please check back later.
-          </p>
+        <CardContent className="py-12">
+          <EmptyState
+            icon={Shield}
+            heading="No policy content available"
+            description="The privacy policy is being updated. Please check back later."
+          />
         </CardContent>
       </Card>
     )
@@ -71,15 +73,15 @@ export function PolicyText({
   return (
     <Card
       className={cn(
-        'overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover',
+        'overflow-hidden border-border bg-card backdrop-blur-sm transition-all duration-300 hover:shadow-card-hover',
         className
       )}
     >
-      <CardHeader className="border-b border-border/50 bg-gradient-to-r from-primary/5 to-accent/5">
-        <CardTitle className="flex items-center gap-2 text-xl">
-          <Shield className="h-5 w-5 text-primary" />
+      <CardHeader className="border-b border-border bg-gradient-to-r from-primary/5 to-accent/5">
+        <h2 className="flex items-center gap-2 text-xl font-semibold leading-none tracking-tight text-foreground">
+          <Shield className="h-5 w-5 text-primary" aria-hidden />
           Privacy Policy
-        </CardTitle>
+        </h2>
         <p className="text-sm text-muted-foreground">Last updated: {lastUpdated}</p>
       </CardHeader>
       <CardContent className="p-6">
@@ -90,10 +92,10 @@ export function PolicyText({
               id={section.id}
               className="scroll-mt-24 animate-fade-in"
             >
-              <h2 className="text-lg font-semibold text-foreground mb-2">
+              <h3 className="mb-2 text-lg font-semibold text-foreground">
                 {section.title}
-              </h2>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              </h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
                 {section.content}
               </p>
             </section>

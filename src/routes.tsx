@@ -34,7 +34,7 @@ import { Admin } from '@/pages/dashboard/admin'
 import DocsHelp from '@/pages/DocsHelp'
 import { Legal } from '@/pages/legal'
 import CookiePolicy from '@/pages/legal/cookies'
-import PrivacyPolicy from '@/pages/PrivacyPolicy'
+import Privacy from '@/pages/legal/privacy'
 import Terms from '@/pages/legal/terms'
 import { Pricing } from '@/pages/Pricing'
 import NotFound404 from '@/pages/404NotFound'
@@ -98,7 +98,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/privacy-policy',
-    element: <PrivacyPolicy />,
+    element: <Privacy />,
   },
   {
     path: '/terms',
