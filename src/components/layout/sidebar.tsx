@@ -10,6 +10,7 @@ import {
   Wallet,
   Heart,
   Clock,
+  GitBranch,
   Layers,
   CheckSquare,
   Settings,
@@ -40,6 +41,7 @@ const mainNav = [
 
 const systemNav = [
   { to: '/dashboard/cronjobs', label: 'Cronjobs', icon: Clock },
+  { to: '/dashboard/workflows', label: 'Workflows', icon: GitBranch },
   { to: '/dashboard/templates', label: 'Templates', icon: Layers },
   { to: '/dashboard/approvals', label: 'Approvals', icon: CheckSquare },
   { to: '/dashboard/audit', label: 'Audit Logs', icon: Activity },

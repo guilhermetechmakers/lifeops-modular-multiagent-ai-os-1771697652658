@@ -20,6 +20,7 @@ import ModuleDashboardProjects from '@/pages/ModuleDashboardProjects'
 import { FinanceDashboard } from '@/pages/dashboard/finance'
 import ModuleDashboardHealth from '@/pages/ModuleDashboardHealth'
 import { CronjobsManager } from '@/pages/dashboard/cronjobs'
+import { Workflows } from '@/pages/dashboard/workflows'
 import { TemplatesLibrary } from '@/pages/dashboard/templates'
 import { ApprovalsQueue } from '@/pages/dashboard/approvals'
 import SettingsPreferences from '@/pages/SettingsPreferences'
@@ -191,6 +192,7 @@ export const router = createBrowserRouter([
       { path: 'finance', element: <FinanceDashboard /> },
       { path: 'health', element: <ModuleDashboardHealth /> },
       { path: 'cronjobs', element: <CronjobsManager /> },
+      { path: 'workflows', element: <Workflows /> },
       { path: 'templates', element: <TemplatesLibrary /> },
       { path: 'approvals', element: <ApprovalsQueue /> },
       { path: 'settings', element: <SettingsPreferences /> },
