@@ -1,0 +1,93 @@
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { SidebarProvider } from '@/contexts/sidebar-context'
+import { DashboardLayout } from '@/components/layout/dashboard-layout'
+import { Landing } from '@/pages/landing'
+import { Login } from '@/pages/auth/login'
+import { Signup } from '@/pages/auth/signup'
+import { VerifyEmail } from '@/pages/auth/verify-email'
+import { ForgotPassword } from '@/pages/auth/forgot-password'
+import { MasterDashboard } from '@/pages/dashboard/master-dashboard'
+import { Agents } from '@/pages/dashboard/agents'
+import { ProjectsDashboard } from '@/pages/dashboard/projects'
+import { ContentDashboard } from '@/pages/dashboard/content'
+import { FinanceDashboard } from '@/pages/dashboard/finance'
+import { HealthDashboard } from '@/pages/dashboard/health'
+import { CronjobsManager } from '@/pages/dashboard/cronjobs'
+import { TemplatesLibrary } from '@/pages/dashboard/templates'
+import { ApprovalsQueue } from '@/pages/dashboard/approvals'
+import { Settings } from '@/pages/dashboard/settings'
+import { Profile } from '@/pages/dashboard/profile'
+import { Connectors } from '@/pages/dashboard/connectors'
+import { Docs } from '@/pages/docs'
+import { Legal } from '@/pages/legal'
+import { NotFound } from '@/pages/not-found'
+import { ErrorPage } from '@/pages/error'
+
+const legalContent = 'This is placeholder legal content. Replace with actual terms, privacy policy, or cookie policy text.'
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Landing />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
+  {
+    path: '/verify-email',
+    element: <VerifyEmail />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />,
+  },
+  {
+    path: '/docs',
+    element: <Docs />,
+  },
+  {
+    path: '/privacy',
+    element: <Legal title="Privacy Policy" content={legalContent} />,
+  },
+  {
+    path: '/terms',
+    element: <Legal title="Terms of Service" content={legalContent} />,
+  },
+  {
+    path: '/cookies',
+    element: <Legal title="Cookie Policy" content={legalContent} />,
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <SidebarProvider>
+        <DashboardLayout />
+      </SidebarProvider>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Navigate to="/dashboard/overview" replace /> },
+      { path: 'overview', element: <MasterDashboard /> },
+      { path: 'agents', element: <Agents /> },
+      { path: 'projects', element: <ProjectsDashboard /> },
+      { path: 'content', element: <ContentDashboard /> },
+      { path: 'finance', element: <FinanceDashboard /> },
+      { path: 'health', element: <HealthDashboard /> },
+      { path: 'cronjobs', element: <CronjobsManager /> },
+      { path: 'templates', element: <TemplatesLibrary /> },
+      { path: 'approvals', element: <ApprovalsQueue /> },
+      { path: 'settings', element: <Settings /> },
+      { path: 'profile', element: <Profile /> },
+      { path: 'connectors', element: <Connectors /> },
+    ],
+  },
+  {
+    path: '*',
+    element: <NotFound />,
+  },
+])
