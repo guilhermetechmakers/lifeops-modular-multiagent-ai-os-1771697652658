@@ -29,6 +29,7 @@ import { Profile } from '@/pages/dashboard/profile'
 import UserProfile from '@/pages/UserProfile'
 import { Connectors } from '@/pages/dashboard/connectors'
 import { AuditLogs } from '@/pages/dashboard/audit'
+import { Admin } from '@/pages/dashboard/admin'
 import DocsHelp from '@/pages/DocsHelp'
 import { Legal } from '@/pages/legal'
 import CookiePolicy from '@/pages/legal/cookies'
@@ -200,6 +201,7 @@ export const router = createBrowserRouter([
       { path: 'user-profile', element: <UserProfile /> },
       { path: 'connectors', element: <Connectors /> },
       { path: 'audit', element: <AuditLogs /> },
+      { path: 'admin', element: <Admin /> },
       { path: 'runs/:runId', element: <RunDetails /> },
       { path: 'run-details-artifacts/:runId', element: <RunDetailsArtifacts /> },
     ],
