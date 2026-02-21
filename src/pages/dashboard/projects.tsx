@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/ui/empty-state'
 import { ErrorState } from '@/components/ui/error-state'
+import { MetricCard } from '@/components/shared/metric-card'
 import { useProjectsDashboard } from '@/hooks/use-projects-dashboard'
 import { cn } from '@/lib/utils'
 import type { Ticket } from '@/types/module-dashboard-projects'
@@ -27,20 +28,6 @@ function TicketColumnEmptyState({ columnLabel }: { columnLabel: string }) {
       <ListTodo className="h-8 w-8 text-muted-foreground mb-2" aria-hidden />
       <p className="text-sm text-muted-foreground">No tickets</p>
     </div>
-  )
-}
-
-function MetricCardSkeleton() {
-  return (
-    <Card className="border-border/50">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <Skeleton className="h-4 w-24" />
-        <Skeleton className="h-4 w-4 rounded" />
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="h-8 w-12" />
-      </CardContent>
-    </Card>
   )
 }
 
@@ -87,44 +74,28 @@ export function ProjectsDashboard() {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        {isLoading ? (
-          <>
-            <MetricCardSkeleton />
-            <MetricCardSkeleton />
-            <MetricCardSkeleton />
-          </>
-        ) : (
-          <>
-            <Card className="border-border/50 transition-all duration-300 hover:shadow-card hover:border-primary/20">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
-                <FolderKanban className="h-4 w-4 text-muted-foreground" aria-hidden />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{data?.activeProjects ?? 0}</div>
-              </CardContent>
-            </Card>
-            <Card className="border-border/50 transition-all duration-300 hover:shadow-card hover:border-primary/20">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Open PRs</CardTitle>
-                <GitBranch className="h-4 w-4 text-muted-foreground" aria-hidden />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{data?.openPRs ?? 0}</div>
-              </CardContent>
-            </Card>
-            <Card className="border-border/50 transition-all duration-300 hover:shadow-card hover:border-primary/20">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Sprint Progress</CardTitle>
-                <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{data?.sprintProgress ?? 0}%</div>
-              </CardContent>
-            </Card>
-          </>
-        )}
+      <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <MetricCard
+          title="Active Projects"
+          value={data?.activeProjects ?? 0}
+          icon={FolderKanban}
+          variant="primary"
+          isLoading={isLoading}
+        />
+        <MetricCard
+          title="Open PRs"
+          value={data?.openPRs ?? 0}
+          icon={GitBranch}
+          variant="accent"
+          isLoading={isLoading}
+        />
+        <MetricCard
+          title="Sprint Progress"
+          value={`${data?.sprintProgress ?? 0}%`}
+          icon={Calendar}
+          variant="success"
+          isLoading={isLoading}
+        />
       </div>
 
       <Card className="border-border/50 overflow-hidden">
