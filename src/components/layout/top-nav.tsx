@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search, Bell, ChevronDown, Plus, Clock, GitBranch, Bot } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -18,6 +19,7 @@ const ORGS = [
 
 export function TopNav() {
   const navigate = useNavigate()
+  const [selectedOrg, setSelectedOrg] = useState(ORGS[0])
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -37,7 +39,7 @@ export function TopNav() {
               size="sm"
               className="gap-2 min-w-[140px] justify-between hover:bg-muted/50 transition-all duration-200 hover:scale-[1.02]"
             >
-              <span className="truncate">{ORGS[0].name}</span>
+              <span className="truncate">{selectedOrg.name}</span>
               <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </DropdownMenuTrigger>
@@ -45,7 +47,11 @@ export function TopNav() {
             <DropdownMenuLabel>Switch organization</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {ORGS.map((org) => (
-              <DropdownMenuItem key={org.id}>
+              <DropdownMenuItem
+                key={org.id}
+                onClick={() => setSelectedOrg(org)}
+                className="cursor-pointer"
+              >
                 {org.name}
               </DropdownMenuItem>
             ))}
@@ -66,7 +72,7 @@ export function TopNav() {
               <Clock className="h-4 w-4" />
               Cronjob
             </DropdownMenuItem>
-            <DropdownMenuItem className="gap-2 cursor-pointer">
+            <DropdownMenuItem onClick={() => navigate('/dashboard/templates')} className="gap-2 cursor-pointer">
               <GitBranch className="h-4 w-4" />
               Workflow
             </DropdownMenuItem>

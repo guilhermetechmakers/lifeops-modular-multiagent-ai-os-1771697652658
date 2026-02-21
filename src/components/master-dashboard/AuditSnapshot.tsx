@@ -70,7 +70,7 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
           <CardTitle>Audit Snapshot</CardTitle>
           <CardDescription>Recent significant actions and quick links to full audit logs</CardDescription>
         </div>
-        <Button variant="outline" size="sm" onClick={() => navigate('/dashboard/settings')} className="gap-1">
+        <Button variant="outline" size="sm" onClick={() => navigate('/dashboard/audit')} className="gap-1">
           Full logs
           <ChevronRight className="h-4 w-4" />
         </Button>

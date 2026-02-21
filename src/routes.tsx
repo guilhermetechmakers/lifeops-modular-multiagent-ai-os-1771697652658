@@ -9,7 +9,7 @@ import { VerifyEmail } from '@/pages/auth/verify-email'
 import { ForgotPassword } from '@/pages/auth/forgot-password'
 import { ResetPassword } from '@/pages/auth/reset-password'
 import LoginSignupPage from '@/pages/Login/Signup'
-import { MasterDashboard } from '@/pages/dashboard/master-dashboard'
+import MasterDashboard from '@/pages/dashboard/master-dashboard'
 import { RunDetails } from '@/pages/dashboard/run-details'
 import { Agents } from '@/pages/dashboard/agents'
 import { ProjectsDashboard } from '@/pages/dashboard/projects'
@@ -22,6 +22,7 @@ import { ApprovalsQueue } from '@/pages/dashboard/approvals'
 import { Settings } from '@/pages/dashboard/settings'
 import { Profile } from '@/pages/dashboard/profile'
 import { Connectors } from '@/pages/dashboard/connectors'
+import { AuditLogs } from '@/pages/dashboard/audit'
 import { Docs } from '@/pages/docs'
 import { Legal } from '@/pages/legal'
 import { Pricing } from '@/pages/Pricing'
@@ -119,6 +120,7 @@ export const router = createBrowserRouter([
       { path: 'settings', element: <Settings /> },
       { path: 'profile', element: <Profile /> },
       { path: 'connectors', element: <Connectors /> },
+      { path: 'audit', element: <AuditLogs /> },
       { path: 'runs/:runId', element: <RunDetails /> },
     ],
   },

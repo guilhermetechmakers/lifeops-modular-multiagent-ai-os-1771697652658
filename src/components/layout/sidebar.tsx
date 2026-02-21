@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Home,
+  Activity,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -35,6 +36,7 @@ const systemNav = [
   { to: '/dashboard/cronjobs', label: 'Cronjobs', icon: Clock },
   { to: '/dashboard/templates', label: 'Templates', icon: Layers },
   { to: '/dashboard/approvals', label: 'Approvals', icon: CheckSquare },
+  { to: '/dashboard/audit', label: 'Audit Logs', icon: Activity },
 ]
 
 const configNav = [

@@ -7,7 +7,7 @@ import { AuditSnapshot } from '@/components/master-dashboard/AuditSnapshot'
 import { Button } from '@/components/ui/button'
 import { AlertCircle } from 'lucide-react'
 
-export function MasterDashboard() {
+function MasterDashboard() {
   const { data, isLoading, isError, refetch } = useMasterDashboard()
 
   if (isError) {
@@ -52,3 +52,6 @@ export function MasterDashboard() {
     </div>
   )
 }
+
+export { MasterDashboard }
+export default MasterDashboard
