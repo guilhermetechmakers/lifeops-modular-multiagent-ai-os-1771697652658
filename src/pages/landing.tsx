@@ -45,10 +45,10 @@ export function Landing() {
             LifeOps
           </span>
           <div className="flex items-center gap-4">
-            <Link to="/login">
+            <Link to="/login-/-signup">
               <Button variant="ghost">Log in</Button>
             </Link>
-            <Link to="/signup">
+            <Link to="/login-/-signup">
               <Button>Try Free</Button>
             </Link>
           </div>

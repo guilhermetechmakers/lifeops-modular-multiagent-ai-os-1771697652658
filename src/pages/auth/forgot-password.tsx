@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { toast } from 'sonner'
+import { invokePasswordReset } from '@/lib/supabase'
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -21,8 +22,12 @@ export function ForgotPassword() {
     formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(schema) })
 
-  const onSubmit = async () => {
-    await new Promise((r) => setTimeout(r, 500))
+  const onSubmit = async (data: FormData) => {
+    const result = await invokePasswordReset(data.email)
+    if (result.error) {
+      toast.error(result.error)
+      return
+    }
     toast.success('Reset link sent to your email')
   }
 

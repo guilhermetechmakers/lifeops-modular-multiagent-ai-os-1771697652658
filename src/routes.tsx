@@ -7,6 +7,8 @@ import { Login } from '@/pages/auth/login'
 import { Signup } from '@/pages/auth/signup'
 import { VerifyEmail } from '@/pages/auth/verify-email'
 import { ForgotPassword } from '@/pages/auth/forgot-password'
+import { ResetPassword } from '@/pages/auth/reset-password'
+import LoginSignupPage from '@/pages/Login/Signup'
 import { MasterDashboard } from '@/pages/dashboard/master-dashboard'
 import { Agents } from '@/pages/dashboard/agents'
 import { ProjectsDashboard } from '@/pages/dashboard/projects'
@@ -53,6 +55,14 @@ export const router = createBrowserRouter([
   {
     path: '/forgot-password',
     element: <ForgotPassword />,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />,
+  },
+  {
+    path: '/login-/-signup',
+    element: <LoginSignupPage />,
   },
   {
     path: '/docs',
