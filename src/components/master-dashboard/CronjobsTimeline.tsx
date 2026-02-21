@@ -94,37 +94,75 @@ function CronjobsList({ cronjobs, onToggle }: { cronjobs: CronjobItem[]; onToggl
 
 function CronjobsCalendar({ cronjobs }: { cronjobs: CronjobItem[] }) {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const today = new Date().getDay()
-  const adjustedToday = today === 0 ? 6 : today - 1
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = now.getMonth()
+  const firstDay = new Date(year, month, 1).getDay()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const startOffset = firstDay === 0 ? 6 : firstDay - 1
+  const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7
+
+  const getRunsForDay = (day: number) => {
+    if (day < 1 || day > daysInMonth) return []
+    return cronjobs.filter((c) => {
+      const dayOfWeek = (startOffset + day - 1) % 7
+      if (c.nextRun.includes('Mon') && dayOfWeek === 0) return true
+      if (c.nextRun.includes('2:00') && day === now.getDate()) return true
+      if (c.nextRun.includes('9:00') && day <= 7) return true
+      if (c.nextRun.includes('1st') && day === 1) return true
+      return false
+    })
+  }
 
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium">
+          {now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+        </p>
+      </div>
       <div className="grid grid-cols-7 gap-1 text-center text-xs font-medium text-muted-foreground">
         {days.map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-1">
-        {Array.from({ length: 35 }, (_, i) => {
-          const dayNum = i - adjustedToday + 1
-          const hasRuns = cronjobs.some((c) => c.nextRun.includes('Mon') || c.nextRun.includes('2:00'))
+        {Array.from({ length: totalCells }, (_, i) => {
+          const dayNum = i - startOffset + 1
+          const isCurrentMonth = dayNum > 0 && dayNum <= daysInMonth
+          const isToday = isCurrentMonth && dayNum === now.getDate()
+          const runs = isCurrentMonth ? getRunsForDay(dayNum) : []
+
           return (
             <div
               key={i}
               className={cn(
-                'aspect-square rounded-lg flex items-center justify-center text-sm transition-colors',
-                i === adjustedToday ? 'bg-primary/20 text-primary font-semibold' : 'bg-muted/30 hover:bg-muted/50',
-                hasRuns && i === 1 && 'ring-2 ring-primary/50'
+                'aspect-square rounded-lg flex flex-col items-center justify-center text-sm transition-all duration-200',
+                'hover:bg-muted/50 min-h-[36px]',
+                isCurrentMonth ? 'text-foreground' : 'text-muted-foreground/50',
+                isToday && 'bg-primary/20 text-primary font-semibold ring-2 ring-primary/40',
+                runs.length > 0 && isCurrentMonth && !isToday && 'bg-accent/10'
               )}
             >
-              {dayNum > 0 && dayNum <= 31 ? dayNum : ''}
+              <span>{isCurrentMonth ? dayNum : ''}</span>
+              {runs.length > 0 && (
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-0.5" aria-hidden />
+              )}
             </div>
           )
         })}
       </div>
-      <p className="text-xs text-muted-foreground">
-        Upcoming: {cronjobs.filter((c) => c.enabled).length} Cronjobs scheduled
-      </p>
+      <div className="flex items-center justify-between pt-2 border-t border-border">
+        <p className="text-xs text-muted-foreground">
+          {cronjobs.filter((c) => c.enabled).length} Cronjobs scheduled this month
+        </p>
+        <Link
+          to="/dashboard/cronjobs"
+          className="text-xs font-medium text-primary hover:underline transition-colors"
+        >
+          View all
+        </Link>
+      </div>
     </div>
   )
 }
@@ -153,21 +191,28 @@ export function CronjobsTimeline({ cronjobs = [], isLoading }: CronjobsTimelineP
   return (
     <Card className="animate-fade-in">
       <Tabs value={view} onValueChange={(v) => setView(v as 'list' | 'calendar')}>
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <CardTitle>Cronjobs Timeline</CardTitle>
-            <CardDescription>Scheduled Cronjobs with next run and last outcome</CardDescription>
+        <CardHeader className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <CardTitle>Cronjobs Timeline</CardTitle>
+              <CardDescription>Scheduled Cronjobs with next run and last outcome</CardDescription>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/dashboard/cronjobs">View Cronjobs Manager</Link>
+              </Button>
+              <TabsList className="grid w-full grid-cols-2 sm:w-auto">
+                <TabsTrigger value="list" className="gap-2">
+                  <List className="h-4 w-4" />
+                  List
+                </TabsTrigger>
+                <TabsTrigger value="calendar" className="gap-2">
+                  <Calendar className="h-4 w-4" />
+                  Calendar
+                </TabsTrigger>
+              </TabsList>
+            </div>
           </div>
-          <TabsList className="grid w-full grid-cols-2 sm:w-auto">
-            <TabsTrigger value="list" className="gap-2">
-              <List className="h-4 w-4" />
-              List
-            </TabsTrigger>
-            <TabsTrigger value="calendar" className="gap-2">
-              <Calendar className="h-4 w-4" />
-              Calendar
-            </TabsTrigger>
-          </TabsList>
         </CardHeader>
         <CardContent>
           <TabsContent value="list" className="mt-0">

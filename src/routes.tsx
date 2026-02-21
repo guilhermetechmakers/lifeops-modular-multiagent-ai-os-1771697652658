@@ -24,6 +24,7 @@ import { ApprovalsQueue } from '@/pages/dashboard/approvals'
 import SettingsPreferences from '@/pages/SettingsPreferences'
 import TeamSettings from '@/pages/Organization/TeamSettings'
 import { Profile } from '@/pages/dashboard/profile'
+import UserProfile from '@/pages/UserProfile'
 import { Connectors } from '@/pages/dashboard/connectors'
 import { AuditLogs } from '@/pages/dashboard/audit'
 import { Docs } from '@/pages/docs'
@@ -104,6 +105,10 @@ export const router = createBrowserRouter([
     element: <Navigate to="/dashboard/settings" replace />,
   },
   {
+    path: '/user-profile',
+    element: <Navigate to="/dashboard/user-profile" replace />,
+  },
+  {
     path: '/organization-/-team-settings',
     element: <Navigate to="/dashboard/organization-team-settings" replace />,
   },
@@ -150,6 +155,7 @@ export const router = createBrowserRouter([
       { path: 'settings-preferences', element: <SettingsPreferences /> },
       { path: 'organization-team-settings', element: <TeamSettings /> },
       { path: 'profile', element: <Profile /> },
+      { path: 'user-profile', element: <UserProfile /> },
       { path: 'connectors', element: <Connectors /> },
       { path: 'audit', element: <AuditLogs /> },
       { path: 'runs/:runId', element: <RunDetails /> },

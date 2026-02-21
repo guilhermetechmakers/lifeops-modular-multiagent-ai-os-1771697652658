@@ -27,6 +27,18 @@ Deno.serve(async (req) => {
         runningWorkflows: 2,
         pendingApprovals: 5,
         nextScheduledRuns: 3,
+        trends: {
+          activeAgents: { value: 4, change: 1, changePercent: 33, previousPeriod: 'vs last week' },
+          runningWorkflows: { value: 2, change: 0, changePercent: 0, previousPeriod: 'vs last week' },
+          pendingApprovals: { value: 5, change: -2, changePercent: -29, previousPeriod: 'vs last week' },
+          nextScheduledRuns: { value: 3, change: 1, changePercent: 50, previousPeriod: 'vs last week' },
+        },
+        sparklines: {
+          activeAgents: [2, 3, 3, 4, 3, 4, 4],
+          runningWorkflows: [1, 2, 1, 2, 2, 1, 2],
+          pendingApprovals: [7, 6, 5, 6, 5, 5, 5],
+          nextScheduledRuns: [2, 2, 3, 2, 3, 3, 3],
+        },
       }
 
       const cronjobs = [

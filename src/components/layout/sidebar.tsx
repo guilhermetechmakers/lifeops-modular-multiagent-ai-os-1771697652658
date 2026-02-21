@@ -19,6 +19,7 @@ import {
   Home,
   Activity,
   Users,
+  UserCircle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -43,6 +44,7 @@ const systemNav = [
 ]
 
 const configNav = [
+  { to: '/dashboard/user-profile', label: 'User Profile', icon: UserCircle },
   { to: '/dashboard/connectors', label: 'Connectors', icon: Plug },
   { to: '/dashboard/settings', label: 'Settings', icon: Settings },
   { to: '/dashboard/organization-team-settings', label: 'Team Settings', icon: Users },

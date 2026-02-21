@@ -8,11 +8,30 @@ export interface MasterDashboard {
   updated_at: string
 }
 
+export interface MetricTrend {
+  value: number
+  change: number
+  changePercent: number
+  previousPeriod: string
+}
+
 export interface SystemOverviewData {
   activeAgents: number
   runningWorkflows: number
   pendingApprovals: number
   nextScheduledRuns: number
+  trends?: {
+    activeAgents?: MetricTrend
+    runningWorkflows?: MetricTrend
+    pendingApprovals?: MetricTrend
+    nextScheduledRuns?: MetricTrend
+  }
+  sparklines?: {
+    activeAgents?: number[]
+    runningWorkflows?: number[]
+    pendingApprovals?: number[]
+    nextScheduledRuns?: number[]
+  }
 }
 
 export interface CronjobItem {

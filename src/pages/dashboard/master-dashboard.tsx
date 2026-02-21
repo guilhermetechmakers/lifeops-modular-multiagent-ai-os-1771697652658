@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useMasterDashboard } from '@/hooks/use-master-dashboard'
 import { SystemOverview } from '@/components/master-dashboard/SystemOverview'
 import { CronjobsTimeline } from '@/components/master-dashboard/CronjobsTimeline'
@@ -6,7 +7,7 @@ import { ActiveRunsFeed } from '@/components/master-dashboard/ActiveRunsFeed'
 import { AlertsNotificationsPanel } from '@/components/master-dashboard/AlertsNotificationsPanel'
 import { AuditSnapshot } from '@/components/master-dashboard/AuditSnapshot'
 import { Button } from '@/components/ui/button'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, BookOpen } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function MasterDashboard() {
@@ -56,15 +57,23 @@ function MasterDashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="animate-fade-in">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/90 to-accent">
-            Master Dashboard
-          </span>
-        </h1>
-        <p className="text-muted-foreground mt-1 text-base">
-          Central command center: system health, active agents, upcoming Cronjobs, and quick controls
-        </p>
+      <div className="animate-fade-in flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/90 to-accent">
+              Master Dashboard
+            </span>
+          </h1>
+          <p className="text-muted-foreground mt-1 text-base">
+            Central command center: system health, active agents, upcoming Cronjobs, and quick controls
+          </p>
+        </div>
+        <Button variant="outline" size="sm" asChild className="shrink-0 gap-2">
+          <Link to="/docs">
+            <BookOpen className="h-4 w-4" />
+            Docs & Help
+          </Link>
+        </Button>
       </div>
 
       <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
