@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { cn } from '@/lib/utils'
-import type { LogoBaseProps, LogoSize } from './types'
+import type { LogoBaseProps } from './types'
 import { LOGO_SIZE_MAP } from './types'
 
 export interface LifeOpsIconProps extends LogoBaseProps {

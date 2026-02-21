@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import type { LogoBaseProps, LogoSize } from './types'
-import { LOGO_SIZE_MAP } from './types'
 
 export interface LifeOpsWordmarkProps extends LogoBaseProps {
   /** Render as link to home */

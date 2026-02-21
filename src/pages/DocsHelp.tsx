@@ -56,12 +56,7 @@ export default function DocsHelp() {
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-20">
         <div className="mx-auto max-w-6xl px-6 py-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-            <Link
-              to="/"
-              className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
-            >
-              LifeOps
-            </Link>
+            <LifeOpsLogo size="lg" variant="gradient" asLink />
             <nav className="flex items-center gap-4">
               <Link
                 to="/dashboard/overview"

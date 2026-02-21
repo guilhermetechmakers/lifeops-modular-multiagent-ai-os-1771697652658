@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { LifeOpsLogo } from '@/components/design-system'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoginForm, type LoginFormData } from '@/components/login-signup/LoginForm'
 import { SignupForm, type SignupFormData } from '@/components/login-signup/SignupForm'
@@ -55,12 +56,9 @@ export default function LoginSignupPage() {
 
       <Card className="w-full max-w-md shadow-card hover:shadow-card-hover transition-shadow duration-300">
         <CardHeader className="text-center space-y-2">
-          <Link
-            to="/"
-            className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent inline-block hover:opacity-90 transition-opacity"
-          >
-            LifeOps
-          </Link>
+          <div className="flex justify-center">
+            <LifeOpsLogo size="lg" variant="gradient" asLink />
+          </div>
           <CardTitle className="text-xl">
             {mode === 'login' ? 'Welcome back' : 'Create an account'}
           </CardTitle>

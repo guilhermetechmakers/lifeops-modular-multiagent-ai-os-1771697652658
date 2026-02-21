@@ -3,7 +3,6 @@ import { cn } from '@/lib/utils'
 import { LifeOpsIcon } from './LifeOpsIcon'
 import { LifeOpsWordmark } from './LifeOpsWordmark'
 import type { LogoBaseProps, LogoSize } from './types'
-import { LOGO_SIZE_MAP } from './types'
 
 export interface LifeOpsLogoProps extends LogoBaseProps {
   /** Show icon only (collapsed state) */

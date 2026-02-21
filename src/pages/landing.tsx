@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Bot, Clock, CheckSquare, FolderKanban, FileText, Wallet, Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { LifeOpsLogo } from '@/components/design-system'
 import { cn } from '@/lib/utils'
 
 const features = [
@@ -41,9 +42,7 @@ export function Landing() {
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-            LifeOps
-          </span>
+          <LifeOpsLogo size="lg" variant="gradient" asLink />
           <div className="flex items-center gap-4">
             <Link to="/login-/-signup">
               <Button variant="ghost">Log in</Button>

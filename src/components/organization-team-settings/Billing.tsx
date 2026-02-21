@@ -15,7 +15,6 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { AreaChart, Area, ResponsiveContainer } from 'recharts'
-import { cn } from '@/lib/utils'
 import type { BillingData } from '@/types/organization-team-settings'
 import {
   useUpdateBilling,

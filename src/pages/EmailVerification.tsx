@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AlertCircle } from 'lucide-react'
+import { LifeOpsLogo } from '@/components/design-system'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -121,12 +122,9 @@ export default function EmailVerification() {
       </div>
       <Card className="w-full max-w-md animate-slide-up">
         <CardHeader className="text-center">
-          <Link
-            to="/"
-            className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent mb-2 inline-block"
-          >
-            LifeOps
-          </Link>
+          <div className="flex justify-center mb-2">
+            <LifeOpsLogo size="lg" variant="gradient" asLink />
+          </div>
           <CardTitle>Verify your email</CardTitle>
           <CardDescription>
             Complete your account setup by verifying your email address
