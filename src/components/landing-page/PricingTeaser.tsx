@@ -37,11 +37,11 @@ const tiers = [
 
 export function PricingTeaser() {
   return (
-    <section className="py-24 px-6 bg-card/30">
+    <section className="py-24 px-6 bg-card/30" aria-labelledby="pricing-heading">
       <div className="mx-auto max-w-7xl">
         <ScrollReveal animation="slide-up">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            <h2 id="pricing-heading" className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
               Simple, Transparent Pricing
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -87,9 +87,14 @@ export function PricingTeaser() {
                       tier.highlighted && 'shadow-lg shadow-primary/20'
                     )}
                     variant={tier.highlighted ? 'default' : 'outline'}
+                    aria-label={
+                      tier.name === 'Enterprise'
+                        ? `Contact sales for ${tier.name} plan`
+                        : `${tier.cta} - ${tier.name} plan`
+                    }
                   >
                     {tier.cta}
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4" aria-hidden />
                   </Button>
                 </Link>
               </CardContent>
@@ -101,9 +106,13 @@ export function PricingTeaser() {
         <ScrollReveal animation="slide-up" delay={1}>
         <div className="mt-12 text-center">
           <Link to="/pricing">
-            <Button variant="link" className="text-primary gap-2">
+            <Button
+              variant="link"
+              className="text-primary gap-2"
+              aria-label="View full pricing details and plans"
+            >
               View full pricing details
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" aria-hidden />
             </Button>
           </Link>
         </div>

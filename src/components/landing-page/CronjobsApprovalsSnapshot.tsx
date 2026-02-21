@@ -18,11 +18,11 @@ const approvalItems = [
 
 export function CronjobsApprovalsSnapshot() {
   return (
-    <section className="py-24 px-6 bg-card/30" id="cronjobs-snapshot">
+    <section className="py-24 px-6 bg-card/30" id="cronjobs-snapshot" aria-labelledby="cronjobs-heading">
       <div className="mx-auto max-w-7xl">
         <ScrollReveal animation="slide-up">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            <h2 id="cronjobs-heading" className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
               Cronjobs & Approvals
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">

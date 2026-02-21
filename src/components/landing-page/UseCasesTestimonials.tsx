@@ -48,11 +48,11 @@ const testimonials = [
 
 export function UseCasesTestimonials() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-24 px-6" aria-labelledby="use-cases-heading">
       <div className="mx-auto max-w-7xl">
         <ScrollReveal animation="slide-up">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            <h2 id="use-cases-heading" className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
               Use Cases & Testimonials
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -108,7 +108,8 @@ export function UseCasesTestimonials() {
                       'h-12 w-12 rounded-xl flex items-center justify-center font-bold text-sm text-foreground shrink-0',
                       t.logoBg
                     )}
-                    aria-hidden
+                    role="img"
+                    aria-label={`${t.company} logo`}
                   >
                     {t.logo}
                   </div>

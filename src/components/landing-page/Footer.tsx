@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Github, Twitter, Linkedin } from 'lucide-react'
 import { LifeOpsLogo } from '@/components/design-system'
+import { NewsletterSignup } from '@/components/landing-page/NewsletterSignup'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 const footerLinks = {
@@ -32,23 +33,24 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <ScrollReveal animation="slide-up">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
+          {/* Brand + Newsletter */}
+          <div className="col-span-2 md:col-span-1 space-y-6">
             <LifeOpsLogo size="lg" variant="gradient" asLink />
-            <p className="mt-4 text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Your AI-Native Operating System for projects, content, finance, and health.
             </p>
-            <div className="mt-6 flex gap-4">
+            <NewsletterSignup />
+            <div className="flex gap-4">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label={s.label}
+                  className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background rounded-lg p-1"
+                  aria-label={`Follow us on ${s.label}`}
                 >
-                  <s.icon className="h-5 w-5" />
+                  <s.icon className="h-5 w-5" aria-hidden />
                 </a>
               ))}
             </div>
@@ -59,12 +61,12 @@ export function Footer() {
             <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-4">
               Product
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-3" role="list">
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
                   >
                     {link.label}
                   </Link>
@@ -78,12 +80,12 @@ export function Footer() {
             <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-4">
               Company
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-3" role="list">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
                   >
                     {link.label}
                   </Link>
@@ -97,12 +99,12 @@ export function Footer() {
             <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-4">
               Legal
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-3" role="list">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
                   >
                     {link.label}
                   </Link>
@@ -117,7 +119,11 @@ export function Footer() {
           <span className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} LifeOps. All rights reserved.
           </span>
-          <Link to="/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            to="/cookies"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
+            aria-label="View cookie policy"
+          >
             Cookie Policy
           </Link>
         </div>

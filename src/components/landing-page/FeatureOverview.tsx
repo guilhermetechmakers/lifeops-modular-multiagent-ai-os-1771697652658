@@ -52,11 +52,11 @@ const modules = [
 
 export function FeatureOverview() {
   return (
-    <section className="py-24 px-6">
+    <section className="py-24 px-6" aria-labelledby="feature-overview-heading">
       <div className="mx-auto max-w-7xl">
         <ScrollReveal animation="slide-up">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            <h2 id="feature-overview-heading" className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
               Module Dashboards
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -86,9 +86,10 @@ export function FeatureOverview() {
                     variant="ghost"
                     size="sm"
                     className="gap-2 p-0 h-auto font-medium text-primary hover:bg-transparent group-hover:translate-x-1 transition-transform"
+                    aria-label={`Explore ${module.name} module - ${module.title}`}
                   >
                     Explore {module.name}
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4" aria-hidden />
                   </Button>
                 </Link>
               </CardContent>

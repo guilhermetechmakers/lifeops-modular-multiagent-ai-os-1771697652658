@@ -26,6 +26,7 @@ export function HeroSection({ id, onTakeTour, videoSrc, videoPoster }: HeroSecti
               playsInline
               poster={videoPoster}
               className="absolute inset-0 w-full h-full object-cover opacity-30"
+              aria-label="Hero background video"
             >
               <source src={videoSrc} type="video/mp4" />
             </video>
@@ -62,9 +63,10 @@ export function HeroSection({ id, onTakeTour, videoSrc, videoPoster }: HeroSecti
                 <Button
                   size="lg"
                   className="gap-2 text-base px-8 py-6 h-auto font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.03] transition-all duration-300 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary"
+                  aria-label="Try LifeOps free - no credit card required"
                 >
                   Try Free
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="h-5 w-5" aria-hidden />
                 </Button>
               </Link>
               <Link to="/signup?demo=1">
@@ -72,9 +74,10 @@ export function HeroSection({ id, onTakeTour, videoSrc, videoPoster }: HeroSecti
                   size="lg"
                   variant="outline"
                   className="text-base px-8 py-6 h-auto gap-2 hover:scale-[1.03] transition-all duration-300 border-2 hover:border-primary/50 hover:bg-primary/5"
+                  aria-label="Request a demo of LifeOps"
                 >
                   Request Demo
-                  <Play className="h-5 w-5" />
+                  <Play className="h-5 w-5" aria-hidden />
                 </Button>
               </Link>
               {onTakeTour && (
@@ -83,8 +86,9 @@ export function HeroSection({ id, onTakeTour, videoSrc, videoPoster }: HeroSecti
                   variant="ghost"
                   onClick={onTakeTour}
                   className="gap-2 text-base px-8 py-6 h-auto hover:scale-[1.03] transition-all duration-300"
+                  aria-label="Take a guided tour of LifeOps features"
                 >
-                  <Sparkles className="h-5 w-5" />
+                  <Sparkles className="h-5 w-5" aria-hidden />
                   Take a tour
                 </Button>
               )}

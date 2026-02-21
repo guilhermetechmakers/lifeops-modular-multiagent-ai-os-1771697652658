@@ -10,14 +10,18 @@ import { PricingTeaser } from '@/components/landing-page/PricingTeaser'
 import { Footer } from '@/components/landing-page/Footer'
 import { CookieConsentBanner } from '@/components/landing-page/CookieConsentBanner'
 import { OnboardingTour, OnboardingTourTrigger } from '@/components/landing-page/OnboardingTour'
+import { LandingPageSkeleton } from '@/components/landing-page/LandingPageSkeleton'
 import { ONBOARDING_STORAGE_KEY } from '@/lib/onboarding-copy'
 
 const PAGE_TITLE = 'LifeOps — Your AI-Native Operating System'
 const PAGE_DESCRIPTION = 'Automate projects, content, finances, and health through coordinated multi-agent AI. Every action is explainable, permissioned, and reversible.'
 
+const INITIAL_LOAD_MS = 150
+
 export default function LandingPage() {
   const [tourOpen, setTourOpen] = useState(false)
   const [showTourTrigger, setShowTourTrigger] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const openTour = useCallback(() => setTourOpen(true), [])
   const closeTour = useCallback(() => setTourOpen(false), [])
@@ -40,12 +44,22 @@ export default function LandingPage() {
     }
   }, [])
 
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), INITIAL_LOAD_MS)
+    return () => clearTimeout(t)
+  }, [])
+
+  if (isLoading) {
+    return <LandingPageSkeleton />
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Fixed nav */}
       <nav
         className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md"
         id="nav"
+        aria-label="Main navigation"
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <LifeOpsLogo size="lg" variant="gradient" asLink />
@@ -54,15 +68,24 @@ export default function LandingPage() {
               <OnboardingTourTrigger onClick={openTour} className="hidden sm:flex" />
             )}
             <Link to="/login">
-              <Button variant="ghost">Log in</Button>
+              <Button variant="ghost" aria-label="Log in to your account">
+                Log in
+              </Button>
             </Link>
             <Link to="/signup">
-              <Button className="hover:scale-[1.02] transition-transform">
+              <Button
+                className="hover:scale-[1.02] transition-transform"
+                aria-label="Try LifeOps free - no credit card required"
+              >
                 Try Free
               </Button>
             </Link>
             <Link to="/signup?demo=1">
-              <Button variant="outline" className="hidden sm:inline-flex">
+              <Button
+                variant="outline"
+                className="hidden sm:inline-flex"
+                aria-label="Request a demo of LifeOps"
+              >
                 Request Demo
               </Button>
             </Link>

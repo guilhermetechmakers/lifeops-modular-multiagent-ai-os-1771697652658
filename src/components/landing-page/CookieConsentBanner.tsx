@@ -136,6 +136,7 @@ export function CookieConsentBanner() {
                 variant="ghost"
                 size="sm"
                 className="hover:bg-muted"
+                aria-label="Reject non-essential cookies"
               >
                 Reject Non-Essential
               </Button>
@@ -144,6 +145,7 @@ export function CookieConsentBanner() {
                 variant="outline"
                 size="sm"
                 className="border-2"
+                aria-label="Customize cookie preferences"
               >
                 Customize
               </Button>
@@ -151,6 +153,7 @@ export function CookieConsentBanner() {
                 onClick={handleAcceptAll}
                 size="sm"
                 className="shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] transition-all duration-300"
+                aria-label="Accept all cookies"
               >
                 Accept All
               </Button>
