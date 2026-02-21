@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Github, Twitter, Linkedin } from 'lucide-react'
 import { LifeOpsLogo } from '@/components/design-system'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 const footerLinks = {
   product: [
@@ -14,7 +15,7 @@ const footerLinks = {
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy-policy' },
-    { label: 'Terms', href: '/terms' },
+    { label: 'Terms of Service', href: '/terms' },
     { label: 'Cookies', href: '/cookies' },
   ],
 }
@@ -29,6 +30,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-card/30">
       <div className="mx-auto max-w-7xl px-6 py-16">
+        <ScrollReveal animation="slide-up">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
@@ -109,6 +111,7 @@ export function Footer() {
             </ul>
           </div>
         </div>
+        </ScrollReveal>
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-sm text-muted-foreground">

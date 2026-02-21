@@ -1,5 +1,6 @@
 import { Clock, CheckSquare, ArrowRight, Play, Pause } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { cn } from '@/lib/utils'
 
 const lifecycleSteps = [
@@ -17,18 +18,21 @@ const approvalItems = [
 
 export function CronjobsApprovalsSnapshot() {
   return (
-    <section className="py-24 px-6 bg-card/30">
+    <section className="py-24 px-6 bg-card/30" id="cronjobs-snapshot">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Cronjobs & Approvals
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Safe scheduled autonomy with human-in-the-loop. Every action is traceable and reversible.
-          </p>
-        </div>
+        <ScrollReveal animation="slide-up">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+              Cronjobs & Approvals
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Safe scheduled autonomy with human-in-the-loop. Every action is traceable and reversible.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <ScrollReveal animation="slide-up" delay={1}>
           {/* Cronjob lifecycle illustration */}
           <Card className="overflow-hidden border-2 border-border/50">
             <div className="h-1 bg-gradient-to-r from-primary to-accent" />
@@ -68,7 +72,9 @@ export function CronjobsApprovalsSnapshot() {
               </div>
             </CardContent>
           </Card>
+          </ScrollReveal>
 
+          <ScrollReveal animation="slide-up" delay={2}>
           {/* Approval queue snapshot */}
           <Card className="overflow-hidden border-2 border-border/50">
             <div className="h-1 bg-gradient-to-r from-accent to-primary" />
@@ -102,6 +108,7 @@ export function CronjobsApprovalsSnapshot() {
               </p>
             </CardContent>
           </Card>
+          </ScrollReveal>
         </div>
       </div>
     </section>

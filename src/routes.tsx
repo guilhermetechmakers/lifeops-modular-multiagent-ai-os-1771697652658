@@ -32,11 +32,11 @@ import DocsHelp from '@/pages/DocsHelp'
 import { Legal } from '@/pages/legal'
 import CookiePolicy from '@/pages/CookiePolicy'
 import PrivacyPolicy from '@/pages/PrivacyPolicy'
+import TermsOfService from '@/pages/TermsOfService'
 import { Pricing } from '@/pages/Pricing'
-import { NotFound } from '@/pages/not-found'
+import NotFound404 from '@/pages/404NotFound'
 import { ErrorPage } from '@/pages/error'
 
-const legalContent = 'This is placeholder legal content. Replace with actual terms, privacy policy, or cookie policy text.'
 const aboutContent = 'LifeOps is your AI-Native Operating System for projects, content, finance, and health. We help teams automate workflows with traceable, permissioned, and reversible AI agents.'
 const supportContent = 'For support, email support@lifeops.io or visit our documentation at /docs.'
 
@@ -99,7 +99,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/terms',
-    element: <Legal title="Terms of Service" content={legalContent} />,
+    element: <TermsOfService />,
   },
   {
     path: '/cookies',
@@ -157,6 +157,10 @@ export const router = createBrowserRouter([
     element: <Navigate to="/dashboard/health" replace />,
   },
   {
+    path: '/module-dashboard-—-health',
+    element: <Navigate to="/dashboard/health" replace />,
+  },
+  {
     path: '/module-dashboard-projects',
     element: (
       <SidebarProvider>
@@ -199,7 +203,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: '/404-not-found',
+    element: <NotFound404 />,
+  },
+  {
     path: '*',
-    element: <NotFound />,
+    element: <NotFound404 />,
   },
 ])

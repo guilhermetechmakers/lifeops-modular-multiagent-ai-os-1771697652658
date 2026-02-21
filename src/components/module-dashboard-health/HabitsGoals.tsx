@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { cn } from '@/lib/utils'
 import type { Habit } from '@/types/module-dashboard-health'
 
@@ -47,17 +48,18 @@ export function HabitsGoals({ habits, isLoading }: HabitsGoalsProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-16 text-center">
-            <Target className="h-12 w-12 text-muted-foreground mb-4" aria-hidden />
-            <h3 className="font-semibold text-lg">No habits yet</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Add habits to track streaks, adherence, and get reminders.
-            </p>
-            <Button className="mt-4 transition-all duration-200 hover:scale-[1.02]" size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Add habit
-            </Button>
-          </div>
+          <EmptyState
+            icon={Target}
+            heading="No habits yet"
+            description="Add habits to track streaks, adherence, and get reminders."
+            action={
+              <Button className="transition-all duration-200 hover:scale-[1.02]" size="sm">
+                <Plus className="h-4 w-4 mr-2" />
+                Add habit
+              </Button>
+            }
+            className="rounded-lg border border-dashed border-border py-16"
+          />
         </CardContent>
       </Card>
     )
@@ -81,14 +83,15 @@ export function HabitsGoals({ habits, isLoading }: HabitsGoalsProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
-          {habits.map((habit) => (
+          {habits.map((habit, idx) => (
             <div
               key={habit.id}
               className={cn(
-                'rounded-lg border p-4 transition-all duration-200',
+                'animate-fade-in rounded-lg border p-4 transition-all duration-200',
                 'bg-gradient-to-br from-card to-muted/20 border-border/80',
                 'hover:shadow-md hover:scale-[1.01] hover:border-primary/30'
               )}
+              style={{ animationDelay: `${idx * 75}ms`, animationFillMode: 'both' }}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">

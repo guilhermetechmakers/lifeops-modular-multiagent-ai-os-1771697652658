@@ -1,5 +1,6 @@
 import { Quote, Package, FileText, TrendingUp } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { cn } from '@/lib/utils'
 
 const useCases = [
@@ -49,18 +50,21 @@ export function UseCasesTestimonials() {
   return (
     <section className="py-24 px-6">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Use Cases & Testimonials
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Verticalized examples and real stories from teams using LifeOps.
-          </p>
-        </div>
+        <ScrollReveal animation="slide-up">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+              Use Cases & Testimonials
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Verticalized examples and real stories from teams using LifeOps.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Use cases - verticalized */}
         <div className="grid md:grid-cols-3 gap-8 mb-20">
-          {useCases.map((uc) => (
+          {useCases.map((uc, i) => (
+            <ScrollReveal key={uc.vertical} animation="slide-up" delay={i + 1}>
             <Card
               key={uc.vertical}
               className="overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-card-hover hover:border-primary/30"
@@ -81,12 +85,14 @@ export function UseCasesTestimonials() {
                 <p className="text-sm text-muted-foreground">{uc.description}</p>
               </CardContent>
             </Card>
+            </ScrollReveal>
           ))}
         </div>
 
         {/* Testimonials with logos */}
         <div className="grid md:grid-cols-2 gap-8">
-          {testimonials.map((t) => (
+          {testimonials.map((t, i) => (
+            <ScrollReveal key={t.author} animation="slide-up" delay={i + 1}>
             <Card
               key={t.author}
               className="overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-card-hover hover:border-primary/30"
@@ -115,6 +121,7 @@ export function UseCasesTestimonials() {
                 </div>
               </CardContent>
             </Card>
+            </ScrollReveal>
           ))}
         </div>
       </div>

@@ -89,6 +89,9 @@ export default {
         200: '200ms',
         300: '300ms',
       },
+      animationFillMode: {
+        forwards: 'forwards',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

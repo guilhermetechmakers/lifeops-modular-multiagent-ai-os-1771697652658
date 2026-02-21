@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Check, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { cn } from '@/lib/utils'
 
 const tiers = [
@@ -38,17 +39,20 @@ export function PricingTeaser() {
   return (
     <section className="py-24 px-6 bg-card/30">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Start free, scale as you grow. No hidden fees.
-          </p>
-        </div>
+        <ScrollReveal animation="slide-up">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Start free, scale as you grow. No hidden fees.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {tiers.map((tier) => (
+          {tiers.map((tier, i) => (
+            <ScrollReveal key={tier.name} animation="slide-up" delay={i + 1}>
             <Card
               key={tier.name}
               className={cn(
@@ -90,9 +94,11 @@ export function PricingTeaser() {
                 </Link>
               </CardContent>
             </Card>
+            </ScrollReveal>
           ))}
         </div>
 
+        <ScrollReveal animation="slide-up" delay={1}>
         <div className="mt-12 text-center">
           <Link to="/pricing">
             <Button variant="link" className="text-primary gap-2">
@@ -101,6 +107,7 @@ export function PricingTeaser() {
             </Button>
           </Link>
         </div>
+        </ScrollReveal>
       </div>
     </section>
   )

@@ -23,6 +23,18 @@ Deno.serve(async (req) => {
       userId = user?.id
     }
 
+    let userHealthRecords: { id: string; title: string; description?: string; status: string }[] = []
+    if (userId) {
+      const { data: records } = await supabase
+        .from('module_dashboard_health')
+        .select('id, title, description, status')
+        .eq('user_id', userId)
+        .eq('status', 'active')
+      if (records?.length) {
+        userHealthRecords = records
+      }
+    }
+
     if (req.method === 'GET' || req.method === 'POST') {
       const habits = [
         { id: '1', name: 'Morning routine', targetDaysPerWeek: 7, completedDays: 6, currentStreak: 4, longestStreak: 12, reminderTime: '07:00', adherencePercent: 86 },
@@ -61,8 +73,9 @@ Deno.serve(async (req) => {
         macroTargets,
         recoveryMetrics,
         deviceIntegrations,
+        userHealthRecords,
         metrics: {
-          activeHabits: 5,
+          activeHabits: habits.length,
           trainingWeek: 3,
           nutritionAdherence: 78,
           recoveryStatus: 'Good',

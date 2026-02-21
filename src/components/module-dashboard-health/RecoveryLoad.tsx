@@ -1,6 +1,8 @@
-import { Moon, Activity, Scale, Lightbulb } from 'lucide-react'
+import { Moon, Activity, Scale, Lightbulb, Plug } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { cn } from '@/lib/utils'
 import type { RecoveryMetric } from '@/types/module-dashboard-health'
 
@@ -53,13 +55,18 @@ export function RecoveryLoad({ metrics, isLoading }: RecoveryLoadProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-16 text-center">
-            <Moon className="h-12 w-12 text-muted-foreground mb-4" aria-hidden />
-            <h3 className="font-semibold text-lg">No recovery data</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Connect a fitness tracker to see sleep, HRV, and workload insights.
-            </p>
-          </div>
+          <EmptyState
+            icon={Moon}
+            heading="No recovery data"
+            description="Connect a fitness tracker to see sleep, HRV, and workload insights."
+            action={
+              <Button className="transition-all duration-200 hover:scale-[1.02]" size="sm">
+                <Plug className="h-4 w-4 mr-2" />
+                Connect device
+              </Button>
+            }
+            className="rounded-lg border border-dashed border-border py-16"
+          />
         </CardContent>
       </Card>
     )
@@ -83,17 +90,18 @@ export function RecoveryLoad({ metrics, isLoading }: RecoveryLoadProps) {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-3">
-          {metrics.map((metric) => {
+          {metrics.map((metric, idx) => {
             const Icon = METRIC_ICONS[metric.type] ?? Activity
             return (
               <div
                 key={metric.id}
                 className={cn(
-                  'rounded-lg border p-4 transition-all duration-200',
+                  'animate-fade-in rounded-lg border p-4 transition-all duration-200',
                   'bg-gradient-to-br from-card to-muted/20',
                   'hover:shadow-md hover:scale-[1.02] hover:border-primary/30',
                   STATUS_COLORS[metric.status] ?? 'border-border/80'
                 )}
+                style={{ animationDelay: `${idx * 75}ms`, animationFillMode: 'both' }}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <Icon className="h-5 w-5" />

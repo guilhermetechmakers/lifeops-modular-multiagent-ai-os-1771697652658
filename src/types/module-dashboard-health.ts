@@ -74,6 +74,7 @@ export interface ModuleDashboardHealthPayload {
   macroTargets: MacroTargets
   recoveryMetrics: RecoveryMetric[]
   deviceIntegrations: DeviceIntegration[]
+  userHealthRecords?: { id: string; title: string; description?: string; status: string }[]
   metrics: {
     activeHabits: number
     trainingWeek: number

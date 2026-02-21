@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { cn } from '@/lib/utils'
 import type { MealTemplate, MacroTargets } from '@/types/module-dashboard-health'
 
@@ -50,17 +51,18 @@ export function NutritionPlanner({ mealTemplates, macroTargets, isLoading }: Nut
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-16 text-center">
-            <Apple className="h-12 w-12 text-muted-foreground mb-4" aria-hidden />
-            <h3 className="font-semibold text-lg">No meal templates</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Add meal templates and set macro targets for better nutrition tracking.
-            </p>
-            <Button className="mt-4 transition-all duration-200 hover:scale-[1.02]" size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Add template
-            </Button>
-          </div>
+          <EmptyState
+            icon={Apple}
+            heading="No meal templates"
+            description="Add meal templates and set macro targets for better nutrition tracking."
+            action={
+              <Button className="transition-all duration-200 hover:scale-[1.02]" size="sm">
+                <Plus className="h-4 w-4 mr-2" />
+                Add template
+              </Button>
+            }
+            className="rounded-lg border border-dashed border-border py-16"
+          />
         </CardContent>
       </Card>
     )
@@ -113,14 +115,16 @@ export function NutritionPlanner({ mealTemplates, macroTargets, isLoading }: Nut
         </div>
 
         <div className="space-y-3">
-          {mealTemplates.map((meal) => (
+          {mealTemplates.map((meal, idx) => (
             <div
               key={meal.id}
               className={cn(
+                'animate-fade-in',
                 'rounded-lg border p-4 transition-all duration-200',
                 'bg-gradient-to-br from-card to-muted/20 border-border/80',
                 'hover:shadow-md hover:scale-[1.01] hover:border-primary/30'
               )}
+              style={{ animationDelay: `${idx * 75}ms`, animationFillMode: 'both' }}
             >
               <div className="flex items-center justify-between">
                 <div>

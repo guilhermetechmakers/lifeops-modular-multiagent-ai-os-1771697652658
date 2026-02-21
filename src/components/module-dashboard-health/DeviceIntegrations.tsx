@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { cn } from '@/lib/utils'
 import type { DeviceIntegration } from '@/types/module-dashboard-health'
 
@@ -63,17 +64,18 @@ export function DeviceIntegrations({ integrations, isLoading }: DeviceIntegratio
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-16 text-center">
-            <Plug className="h-12 w-12 text-muted-foreground mb-4" aria-hidden />
-            <h3 className="font-semibold text-lg">No devices connected</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Connect Fitbit, Garmin, Apple Health, or Google Calendar for richer health data.
-            </p>
-            <Button className="mt-4 transition-all duration-200 hover:scale-[1.02]" size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Connect device
-            </Button>
-          </div>
+          <EmptyState
+            icon={Plug}
+            heading="No devices connected"
+            description="Connect Fitbit, Garmin, Apple Health, or Google Calendar for richer health data."
+            action={
+              <Button className="transition-all duration-200 hover:scale-[1.02]" size="sm">
+                <Plus className="h-4 w-4 mr-2" />
+                Connect device
+              </Button>
+            }
+            className="rounded-lg border border-dashed border-border py-16"
+          />
         </CardContent>
       </Card>
     )
@@ -97,16 +99,17 @@ export function DeviceIntegrations({ integrations, isLoading }: DeviceIntegratio
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {integrations.map((integration) => {
+          {integrations.map((integration, idx) => {
             const Icon = PROVIDER_ICONS[integration.provider] ?? Watch
             return (
               <div
                 key={integration.id}
                 className={cn(
-                  'rounded-lg border p-4 transition-all duration-200',
+                  'animate-fade-in rounded-lg border p-4 transition-all duration-200',
                   'bg-gradient-to-br from-card to-muted/20 border-border/80',
                   'hover:shadow-md hover:scale-[1.01] hover:border-primary/30'
                 )}
+                style={{ animationDelay: `${idx * 75}ms`, animationFillMode: 'both' }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">

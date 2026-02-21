@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useModuleDashboardHealth } from '@/hooks/use-module-dashboard-health'
 import { HabitsGoals } from '@/components/module-dashboard-health/HabitsGoals'
 import { TrainingPlans } from '@/components/module-dashboard-health/TrainingPlans'
 import { NutritionPlanner } from '@/components/module-dashboard-health/NutritionPlanner'
 import { RecoveryLoad } from '@/components/module-dashboard-health/RecoveryLoad'
 import { DeviceIntegrations } from '@/components/module-dashboard-health/DeviceIntegrations'
-import { Button } from '@/components/ui/button'
-import { AlertCircle, Target, Dumbbell, Apple, Heart } from 'lucide-react'
+import { ErrorState } from '@/components/ui/error-state'
+import { Target, Dumbbell, Apple, Heart, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function ModuleDashboardHealth() {
@@ -19,31 +20,22 @@ function ModuleDashboardHealth() {
   if (isError) {
     return (
       <div className="space-y-8 animate-fade-in">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Link to="/dashboard/overview" className="hover:text-foreground transition-colors">Dashboard</Link>
+          <ChevronRight className="h-4 w-4" aria-hidden />
+          <span className="text-foreground font-medium">Health</span>
+        </nav>
         <div>
           <h1 className="text-3xl font-bold">Module Dashboard — Health</h1>
           <p className="text-muted-foreground mt-1">
             Manage habits, training/meal plans, recovery and workload balancing with agent coaching
           </p>
         </div>
-        <div
-          className={cn(
-            'flex flex-col items-center justify-center py-16 rounded-2xl border border-destructive/30',
-            'bg-destructive/5 transition-all duration-300 hover:border-destructive/40'
-          )}
-        >
-          <AlertCircle className="h-12 w-12 text-destructive mb-4" aria-hidden />
-          <h3 className="font-semibold text-lg">Something went wrong</h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            Failed to load health module data.
-          </p>
-          <Button
-            variant="outline"
-            className="mt-4 transition-all duration-200 hover:scale-[1.02]"
-            onClick={() => refetch()}
-          >
-            Retry
-          </Button>
-        </div>
+        <ErrorState
+          heading="Something went wrong"
+          description="Failed to load health module data."
+          onRetry={() => refetch()}
+        />
       </div>
     )
   }
@@ -57,7 +49,12 @@ function ModuleDashboardHealth() {
 
   return (
     <div className="space-y-8">
-      <div className="animate-fade-in">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-foreground animate-fade-in">
+        <Link to="/dashboard/overview" className="hover:text-foreground transition-colors">Dashboard</Link>
+        <ChevronRight className="h-4 w-4" aria-hidden />
+        <span className="text-foreground font-medium">Health</span>
+      </nav>
+      <div className="animate-fade-in" style={{ animationDelay: '50ms', animationFillMode: 'both' }}>
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/90 to-accent">
             Module Dashboard — Health

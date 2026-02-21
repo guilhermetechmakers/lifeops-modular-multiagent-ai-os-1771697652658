@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
 import { cn } from '@/lib/utils'
 import type { TrainingPlan } from '@/types/module-dashboard-health'
 
@@ -43,17 +44,18 @@ export function TrainingPlans({ plans, isLoading }: TrainingPlansProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-16 text-center">
-            <Dumbbell className="h-12 w-12 text-muted-foreground mb-4" aria-hidden />
-            <h3 className="font-semibold text-lg">No training plans</h3>
-            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-              Create a periodized plan from your goals with calendar sync.
-            </p>
-            <Button className="mt-4 transition-all duration-200 hover:scale-[1.02]" size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Create plan
-            </Button>
-          </div>
+          <EmptyState
+            icon={Dumbbell}
+            heading="No training plans"
+            description="Create a periodized plan from your goals with calendar sync."
+            action={
+              <Button className="transition-all duration-200 hover:scale-[1.02]" size="sm">
+                <Plus className="h-4 w-4 mr-2" />
+                Create plan
+              </Button>
+            }
+            className="rounded-lg border border-dashed border-border py-16"
+          />
         </CardContent>
       </Card>
     )
@@ -77,14 +79,16 @@ export function TrainingPlans({ plans, isLoading }: TrainingPlansProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {plans.map((plan) => (
+          {plans.map((plan, idx) => (
             <div
               key={plan.id}
               className={cn(
+                'animate-fade-in',
                 'rounded-lg border p-4 transition-all duration-200',
                 'bg-gradient-to-br from-card to-muted/20 border-border/80',
                 'hover:shadow-md hover:scale-[1.01] hover:border-primary/30'
               )}
+              style={{ animationDelay: `${idx * 75}ms`, animationFillMode: 'both' }}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
