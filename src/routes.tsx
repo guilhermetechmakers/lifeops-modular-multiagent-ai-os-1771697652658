@@ -35,7 +35,7 @@ import DocsHelp from '@/pages/DocsHelp'
 import { Legal } from '@/pages/legal'
 import CookiePolicy from '@/pages/legal/cookies'
 import PrivacyPolicy from '@/pages/PrivacyPolicy'
-import TermsOfService from '@/pages/TermsOfService'
+import Terms from '@/pages/legal/terms'
 import { Pricing } from '@/pages/Pricing'
 import NotFound404 from '@/pages/404NotFound'
 import { ErrorPage } from '@/pages/error'
@@ -102,7 +102,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/terms',
-    element: <TermsOfService />,
+    element: <Terms />,
   },
   {
     path: '/cookies',

@@ -1,5 +1,9 @@
+import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/ui/empty-state'
+import { EmptyStateIllustration } from '@/components/design-system/illustrations/EmptyStateIllustration'
 import { FileText } from 'lucide-react'
 import type { TermsOfServiceSection, TermsVersion } from '@/types/terms-of-service'
 import { cn } from '@/lib/utils'
@@ -30,9 +34,9 @@ export function TermsText({
             <Skeleton className="h-5 w-5 rounded" />
             <Skeleton className="h-6 w-40" />
           </div>
-          <Skeleton className="h-4 w-32 mt-2" />
+          <Skeleton className="mt-2 h-4 w-32" />
         </CardHeader>
-        <CardContent className="p-6 space-y-6">
+        <CardContent className="space-y-6 p-6">
           {[1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="space-y-2">
               <Skeleton className="h-5 w-40" />
@@ -50,16 +54,33 @@ export function TermsText({
     return (
       <Card
         className={cn(
-          'overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm',
+          'overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 animate-fade-in',
           className
         )}
       >
-        <CardContent className="py-12 text-center">
-          <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-50" />
-          <h3 className="font-semibold text-lg">No terms content available</h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            The Terms of Service are being updated. Please check back later.
-          </p>
+        <CardContent className="py-12 sm:py-16">
+          <EmptyState
+            icon={FileText}
+            illustration={
+              <EmptyStateIllustration variant="content" size="lg" className="opacity-80" />
+            }
+            heading="No terms content available"
+            description="The Terms of Service are being updated. Please check back later or return to the homepage for other resources."
+            action={
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button asChild variant="default" className="transition-all duration-200 hover:scale-[1.02]">
+                  <Link to="/">Return to Home</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="transition-all duration-200 hover:scale-[1.02]"
+                >
+                  <Link to="/privacy-policy">View Privacy Policy</Link>
+                </Button>
+              </div>
+            }
+          />
         </CardContent>
       </Card>
     )
