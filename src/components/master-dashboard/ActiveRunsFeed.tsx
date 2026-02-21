@@ -1,12 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Play, Square, Check, FileText } from 'lucide-react'
+import { Play, Square, Check, FileText, RotateCcw } from 'lucide-react'
 import { toast } from 'sonner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useCicdRetryRun } from '@/hooks/use-cicd-provider'
 import type { ActiveRun } from '@/types/master-dashboard'
+import type { CicdProvider } from '@/types/cicd-provider'
 import { cn } from '@/lib/utils'
 
 interface ActiveRunsFeedProps {
@@ -16,8 +18,11 @@ interface ActiveRunsFeedProps {
 
 function RunCard({ run }: { run: ActiveRun }) {
   const navigate = useNavigate()
+  const retryMutation = useCicdRetryRun()
   const isRunning = run.status === 'running'
   const needsApproval = run.status === 'pending_approval'
+  const isFailed = run.status === 'failed'
+  const hasCicd = run.cicdProvider && run.cicdRunId
 
   const handleStop = () => {
     toast.success(`Stopping ${run.name}...`)
@@ -30,6 +35,17 @@ function RunCard({ run }: { run: ActiveRun }) {
 
   const handleDecline = () => {
     toast.info(`${run.name} declined`)
+  }
+
+  const handleCicdRetry = () => {
+    if (hasCicd) {
+      retryMutation.mutate({
+        provider: run.cicdProvider as CicdProvider,
+        runId: run.cicdRunId!,
+      })
+    } else {
+      toast.info('Retry via Cronjobs Manager')
+    }
   }
 
   return (
@@ -83,13 +99,25 @@ function RunCard({ run }: { run: ActiveRun }) {
               Stop
             </Button>
           )}
+          {isFailed && hasCicd && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="gap-1"
+              onClick={handleCicdRetry}
+              disabled={retryMutation.isPending}
+            >
+              <RotateCcw className="h-4 w-4" />
+              Retry
+            </Button>
+          )}
           <Button
             size="sm"
             variant="ghost"
             className="gap-1"
             asChild
           >
-            <Link to={`/dashboard/runs/${run.id}`} className="inline-flex items-center gap-1">
+            <Link to={`/dashboard/run-details-artifacts/${run.id}`} className="inline-flex items-center gap-1">
               <Play className="h-4 w-4" />
               Details
             </Link>

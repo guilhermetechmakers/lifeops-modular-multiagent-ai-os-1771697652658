@@ -34,7 +34,7 @@ export function Signup() {
     try {
       await new Promise((r) => setTimeout(r, 500))
       toast.success('Account created. Check your email to verify.')
-      window.location.href = '/verify-email'
+      window.location.href = '/email-verification'
     } catch {
       toast.error('Signup failed')
     }

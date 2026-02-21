@@ -21,6 +21,18 @@ Deno.serve(async (req) => {
       userId = user?.id
     }
 
+    // Optional: fetch user's saved dashboard config from master_dashboard table
+    let userDashboards: Array<{ id: string; title: string; description?: string; status: string }> = []
+    if (userId) {
+      const { data: dashboards } = await supabase
+        .from('master_dashboard')
+        .select('id, title, description, status')
+        .eq('user_id', userId)
+        .eq('status', 'active')
+        .limit(5)
+      userDashboards = dashboards ?? []
+    }
+
     if (req.method === 'GET' || req.method === 'POST') {
       const overview = {
         activeAgents: 4,
@@ -69,6 +81,7 @@ Deno.serve(async (req) => {
         activeRuns,
         alerts,
         auditSnapshot,
+        userDashboards,
       }
 
       return new Response(JSON.stringify(payload), {

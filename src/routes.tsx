@@ -5,19 +5,20 @@ import { Landing } from '@/pages/landing'
 import LandingPage from '@/pages/LandingPage'
 import { Login } from '@/pages/auth/login'
 import { Signup } from '@/pages/auth/signup'
-import { VerifyEmail } from '@/pages/auth/verify-email'
+import EmailVerification from '@/pages/EmailVerification'
 import { ForgotPassword } from '@/pages/auth/forgot-password'
 import { ResetPassword } from '@/pages/auth/reset-password'
 import LoginSignupPage from '@/pages/Login/Signup'
-import MasterDashboard from '@/pages/dashboard/master-dashboard'
+import MasterDashboard from '@/pages/MasterDashboard'
 import { RunDetails } from '@/pages/dashboard/run-details'
+import RunDetailsArtifacts from '@/pages/RunDetailsArtifacts'
 import { Agents } from '@/pages/dashboard/agents'
 import AgentDirectory from '@/pages/AgentDirectory'
 import { ProjectsDashboard } from '@/pages/dashboard/projects'
 import ModuleDashboardContent from '@/pages/ModuleDashboardContent'
 import ModuleDashboardProjects from '@/pages/ModuleDashboardProjects'
 import { FinanceDashboard } from '@/pages/dashboard/finance'
-import { HealthDashboard } from '@/pages/dashboard/health'
+import ModuleDashboardHealth from '@/pages/ModuleDashboardHealth'
 import { CronjobsManager } from '@/pages/dashboard/cronjobs'
 import { TemplatesLibrary } from '@/pages/dashboard/templates'
 import { ApprovalsQueue } from '@/pages/dashboard/approvals'
@@ -60,7 +61,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/verify-email',
-    element: <VerifyEmail />,
+    element: <Navigate to="/email-verification" replace />,
+  },
+  {
+    path: '/email-verification',
+    element: <EmailVerification />,
   },
   {
     path: '/forgot-password',
@@ -129,6 +134,23 @@ export const router = createBrowserRouter([
     element: <Legal title="Support" content={supportContent} />,
   },
   {
+    path: '/run-details-artifacts',
+    element: (
+      <SidebarProvider>
+        <DashboardLayout />
+      </SidebarProvider>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Navigate to="/dashboard/overview" replace /> },
+      { path: ':runId', element: <RunDetailsArtifacts /> },
+    ],
+  },
+  {
+    path: '/module-dashboard-health',
+    element: <Navigate to="/dashboard/health" replace />,
+  },
+  {
     path: '/module-dashboard-projects',
     element: (
       <SidebarProvider>
@@ -155,7 +177,7 @@ export const router = createBrowserRouter([
       { path: 'module-projects', element: <ModuleDashboardProjects /> },
       { path: 'content', element: <ModuleDashboardContent /> },
       { path: 'finance', element: <FinanceDashboard /> },
-      { path: 'health', element: <HealthDashboard /> },
+      { path: 'health', element: <ModuleDashboardHealth /> },
       { path: 'cronjobs', element: <CronjobsManager /> },
       { path: 'templates', element: <TemplatesLibrary /> },
       { path: 'approvals', element: <ApprovalsQueue /> },
@@ -167,6 +189,7 @@ export const router = createBrowserRouter([
       { path: 'connectors', element: <Connectors /> },
       { path: 'audit', element: <AuditLogs /> },
       { path: 'runs/:runId', element: <RunDetails /> },
+      { path: 'run-details-artifacts/:runId', element: <RunDetailsArtifacts /> },
     ],
   },
   {

@@ -1,1 +1,4 @@
-export { default } from '@/pages/dashboard/master-dashboard'
+export {
+  MasterDashboard,
+  MasterDashboard as default,
+} from '@/pages/dashboard/master-dashboard'

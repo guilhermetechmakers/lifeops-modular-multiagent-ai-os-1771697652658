@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useMasterDashboard } from '@/hooks/use-master-dashboard'
 import { SystemOverview } from '@/components/master-dashboard/SystemOverview'
+import { CicdStatusCard } from '@/components/master-dashboard/CicdStatusCard'
 import { CronjobsTimeline } from '@/components/master-dashboard/CronjobsTimeline'
 import { ActiveRunsFeed } from '@/components/master-dashboard/ActiveRunsFeed'
 import { AlertsNotificationsPanel } from '@/components/master-dashboard/AlertsNotificationsPanel'
@@ -69,7 +70,7 @@ function MasterDashboard() {
           </p>
         </div>
         <Button variant="outline" size="sm" asChild className="shrink-0 gap-2">
-          <Link to="/docs">
+          <Link to="/docs-help">
             <BookOpen className="h-4 w-4" />
             Docs & Help
           </Link>
@@ -78,6 +79,10 @@ function MasterDashboard() {
 
       <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
         <SystemOverview data={data?.overview} isLoading={isLoading} />
+      </div>
+
+      <div className="animate-fade-in" style={{ animationDelay: '150ms' }}>
+        <CicdStatusCard />
       </div>
 
       <div

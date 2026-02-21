@@ -50,6 +50,10 @@ export interface ActiveRun {
   progress?: number
   logsPeek?: string
   startedAt: string
+  /** CI/CD provider when run is linked to external pipeline */
+  cicdProvider?: 'circleci' | 'jenkins' | 'github_actions'
+  /** External CI run ID for status/retry/artifacts */
+  cicdRunId?: string
 }
 
 export interface AlertItem {
@@ -68,10 +72,18 @@ export interface AuditItem {
   userId?: string
 }
 
+export interface UserDashboardConfig {
+  id: string
+  title: string
+  description?: string
+  status: string
+}
+
 export interface MasterDashboardPayload {
   overview: SystemOverviewData
   cronjobs: CronjobItem[]
   activeRuns: ActiveRun[]
   alerts: AlertItem[]
   auditSnapshot: AuditItem[]
+  userDashboards?: UserDashboardConfig[]
 }
