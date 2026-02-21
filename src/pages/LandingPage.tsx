@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { HeroSection } from '@/components/landing-page/HeroSection'
@@ -7,11 +7,19 @@ import { CronjobsApprovalsSnapshot } from '@/components/landing-page/CronjobsApp
 import { UseCasesTestimonials } from '@/components/landing-page/UseCasesTestimonials'
 import { PricingTeaser } from '@/components/landing-page/PricingTeaser'
 import { Footer } from '@/components/landing-page/Footer'
+import { OnboardingTour, OnboardingTourTrigger } from '@/components/landing-page/OnboardingTour'
+import { ONBOARDING_STORAGE_KEY } from '@/lib/onboarding-copy'
 
 const PAGE_TITLE = 'LifeOps — Your AI-Native Operating System'
 const PAGE_DESCRIPTION = 'Automate projects, content, finances, and health through coordinated multi-agent AI. Every action is explainable, permissioned, and reversible.'
 
 export default function LandingPage() {
+  const [tourOpen, setTourOpen] = useState(false)
+  const [showTourTrigger, setShowTourTrigger] = useState(false)
+
+  const openTour = useCallback(() => setTourOpen(true), [])
+  const closeTour = useCallback(() => setTourOpen(false), [])
+
   useEffect(() => {
     document.title = PAGE_TITLE
     const metaDesc = document.querySelector('meta[name="description"]')
@@ -20,6 +28,16 @@ export default function LandingPage() {
       document.title = 'LifeOps — Modular Multi-Agent AI OS'
     }
   }, [])
+
+  useEffect(() => {
+    try {
+      const completed = localStorage.getItem(ONBOARDING_STORAGE_KEY)
+      setShowTourTrigger(!completed)
+    } catch {
+      setShowTourTrigger(true)
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-background">
       {/* Fixed nav */}
@@ -34,7 +52,10 @@ export default function LandingPage() {
           >
             LifeOps
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            {showTourTrigger && (
+              <OnboardingTourTrigger onClick={openTour} className="hidden sm:flex" />
+            )}
             <Link to="/login">
               <Button variant="ghost">Log in</Button>
             </Link>
@@ -43,20 +64,29 @@ export default function LandingPage() {
                 Try Free
               </Button>
             </Link>
+            <Link to="/signup?demo=1">
+              <Button variant="outline" className="hidden sm:inline-flex">
+                Request Demo
+              </Button>
+            </Link>
           </div>
         </div>
       </nav>
 
       <main>
-        <HeroSection />
+        <HeroSection id="hero-cta" onTakeTour={showTourTrigger ? openTour : undefined} />
         <div id="features">
           <FeatureOverview />
         </div>
-        <CronjobsApprovalsSnapshot />
+        <div id="cronjobs-snapshot">
+          <CronjobsApprovalsSnapshot />
+        </div>
         <UseCasesTestimonials />
         <PricingTeaser />
         <Footer />
       </main>
+
+      <OnboardingTour isOpen={tourOpen} onClose={closeTour} />
     </div>
   )
 }

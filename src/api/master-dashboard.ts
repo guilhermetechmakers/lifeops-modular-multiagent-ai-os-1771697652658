@@ -28,6 +28,7 @@ const MOCK_PAYLOAD: MasterDashboardPayload = {
   activeRuns: [
     { id: '1', name: 'PR Triage', status: 'running', progress: 65, logsPeek: 'Processing PR #234...', startedAt: new Date().toISOString() },
     { id: '2', name: 'Weekly Digest', status: 'running', progress: 30, logsPeek: 'Aggregating metrics...', startedAt: new Date().toISOString() },
+    { id: '3', name: 'Deploy to Production', status: 'pending_approval', logsPeek: 'Awaiting approval for production deploy', startedAt: new Date().toISOString() },
   ],
   alerts: [
     { id: '1', message: 'Cronjob "Monthly Close" failed', severity: 'high', type: 'cronjob_failed', createdAt: new Date().toISOString() },

@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Search, Bell, ChevronDown, Plus, Clock, GitBranch, Bot } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { GlobalSearchModal } from '@/components/master-dashboard/GlobalSearchModal'
 import { cn } from '@/lib/utils'
 
 const ORGS = [
@@ -19,49 +19,49 @@ const ORGS = [
   { id: '2', name: 'Personal' },
 ]
 
-function getSearchTarget(query: string): string {
-  const q = query.toLowerCase().trim()
-  if (q.includes('agent') || q.includes('bot')) return '/dashboard/agent-directory'
-  if (q.includes('cronjob') || q.includes('schedule') || q.includes('job')) return '/dashboard/cronjobs'
-  if (q.includes('workflow') || q.includes('template')) return '/dashboard/templates'
-  if (q.includes('run') || q.includes('execution')) return '/dashboard/cronjobs'
-  if (q.includes('approval')) return '/dashboard/approvals'
-  if (q.includes('audit')) return '/dashboard/audit'
-  return '/dashboard/overview'
-}
-
 export function TopNav() {
   const navigate = useNavigate()
   const [selectedOrg, setSelectedOrg] = useState(ORGS[0])
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    const target = getSearchTarget(searchQuery)
-    navigate(searchQuery ? `${target}?q=${encodeURIComponent(searchQuery)}` : target)
-  }
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
 
   return (
-    <header
-      className={cn(
-        'sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border bg-background/95 px-6',
-        'backdrop-blur supports-[backdrop-filter]:bg-background/60'
-      )}
-    >
-      <form onSubmit={handleSearch} className="flex flex-1 items-center gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden
-          />
-          <Input
-            placeholder="Search agents, cronjobs, runs..."
-            className="pl-9 bg-muted/50 border-border transition-all duration-200 focus:border-primary/50"
-            aria-label="Global search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+    <>
+      <GlobalSearchModal open={searchOpen} onOpenChange={setSearchOpen} />
+      <header
+        className={cn(
+          'sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border bg-background/95 px-6',
+          'backdrop-blur supports-[backdrop-filter]:bg-background/60'
+        )}
+      >
+        <div className="flex flex-1 items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className={cn(
+              'relative flex flex-1 max-w-md items-center gap-3 rounded-lg border border-border px-3 py-2',
+              'bg-muted/50 text-muted-foreground transition-all duration-200',
+              'hover:bg-muted/70 hover:border-primary/30 hover:text-foreground',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+            )}
+            aria-label="Open global search (Cmd+K)"
+          >
+            <Search className="h-4 w-4 shrink-0" />
+            <span className="text-sm">Search agents, cronjobs, runs...</span>
+            <kbd className="ml-auto hidden sm:inline-flex h-5 items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium">
+              ⌘K
+            </kbd>
+          </button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -121,8 +121,8 @@ export function TopNav() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </form>
-      <div className="flex items-center gap-2">
+        </div>
+        <div className="flex items-center gap-2">
         <Button
           variant="ghost"
           size="icon"
@@ -162,7 +162,8 @@ export function TopNav() {
             <DropdownMenuItem className="text-destructive">Sign out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-    </header>
+        </div>
+      </header>
+    </>
   )
 }

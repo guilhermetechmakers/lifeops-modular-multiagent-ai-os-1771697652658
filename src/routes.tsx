@@ -14,7 +14,7 @@ import { RunDetails } from '@/pages/dashboard/run-details'
 import { Agents } from '@/pages/dashboard/agents'
 import AgentDirectory from '@/pages/AgentDirectory'
 import { ProjectsDashboard } from '@/pages/dashboard/projects'
-import { ContentDashboard } from '@/pages/dashboard/content'
+import ModuleDashboardContent from '@/pages/ModuleDashboardContent'
 import ModuleDashboardProjects from '@/pages/ModuleDashboardProjects'
 import { FinanceDashboard } from '@/pages/dashboard/finance'
 import { HealthDashboard } from '@/pages/dashboard/health'
@@ -27,7 +27,7 @@ import { Profile } from '@/pages/dashboard/profile'
 import UserProfile from '@/pages/UserProfile'
 import { Connectors } from '@/pages/dashboard/connectors'
 import { AuditLogs } from '@/pages/dashboard/audit'
-import { Docs } from '@/pages/docs'
+import DocsHelp from '@/pages/DocsHelp'
 import { Legal } from '@/pages/legal'
 import { Pricing } from '@/pages/Pricing'
 import { NotFound } from '@/pages/not-found'
@@ -40,11 +40,15 @@ const supportContent = 'For support, email support@lifeops.io or visit our docum
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Landing />,
+    element: <LandingPage />,
   },
   {
     path: '/landing-page',
     element: <LandingPage />,
+  },
+  {
+    path: '/landing-simple',
+    element: <Landing />,
   },
   {
     path: '/login',
@@ -72,7 +76,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/docs',
-    element: <Docs />,
+    element: <DocsHelp />,
+  },
+  {
+    path: '/docs-help',
+    element: <DocsHelp />,
   },
   {
     path: '/privacy',
@@ -145,7 +153,7 @@ export const router = createBrowserRouter([
       { path: 'agent-directory', element: <AgentDirectory /> },
       { path: 'projects', element: <ProjectsDashboard /> },
       { path: 'module-projects', element: <ModuleDashboardProjects /> },
-      { path: 'content', element: <ContentDashboard /> },
+      { path: 'content', element: <ModuleDashboardContent /> },
       { path: 'finance', element: <FinanceDashboard /> },
       { path: 'health', element: <HealthDashboard /> },
       { path: 'cronjobs', element: <CronjobsManager /> },

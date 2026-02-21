@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Play } from 'lucide-react'
+import { ArrowRight, Play, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-export function HeroSection() {
+interface HeroSectionProps {
+  id?: string
+  onTakeTour?: () => void
+}
+
+export function HeroSection({ id, onTakeTour }: HeroSectionProps) {
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+    <section id={id} className="relative min-h-[90vh] flex items-center overflow-hidden">
       {/* Animated gradient background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-primary/20 blur-3xl animate-float" />
@@ -51,6 +56,17 @@ export function HeroSection() {
                   <Play className="h-5 w-5" />
                 </Button>
               </Link>
+              {onTakeTour && (
+                <Button
+                  size="lg"
+                  variant="ghost"
+                  onClick={onTakeTour}
+                  className="gap-2 text-base px-8 py-6 h-auto hover:scale-[1.03] transition-all duration-300"
+                >
+                  <Sparkles className="h-5 w-5" />
+                  Take a tour
+                </Button>
+              )}
             </div>
           </div>
 

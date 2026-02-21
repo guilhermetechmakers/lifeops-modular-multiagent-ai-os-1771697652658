@@ -50,6 +50,7 @@ Deno.serve(async (req) => {
       const activeRuns = [
         { id: '1', name: 'PR Triage', status: 'running' as const, progress: 65, logsPeek: 'Processing PR #234...', startedAt: new Date().toISOString() },
         { id: '2', name: 'Weekly Digest', status: 'running' as const, progress: 30, logsPeek: 'Aggregating metrics...', startedAt: new Date().toISOString() },
+        { id: '3', name: 'Deploy to Production', status: 'pending_approval' as const, logsPeek: 'Awaiting approval for production deploy', startedAt: new Date().toISOString() },
       ]
 
       const alerts = [

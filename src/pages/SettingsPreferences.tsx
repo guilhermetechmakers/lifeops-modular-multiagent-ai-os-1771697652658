@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Bell, Zap, Database, FlaskConical } from 'lucide-react'
 import { useSettingsPreferences } from '@/hooks/use-settings-preferences'
@@ -27,8 +28,18 @@ const DEFAULT_DEV_SETTINGS = {
   sandboxMode: false,
 }
 
+const VALID_TABS = ['notifications', 'automation', 'retention', 'developer'] as const
+
 export default function SettingsPreferences() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tabParam = searchParams.get('tab')
+  const activeTab = (VALID_TABS.includes(tabParam as (typeof VALID_TABS)[number]) ? tabParam : 'notifications') ?? 'notifications'
+
   const { data, isLoading, isError, refetch } = useSettingsPreferences()
+
+  const handleTabChange = (value: string) => {
+    setSearchParams({ tab: value })
+  }
 
   if (isError) {
     return (
@@ -66,7 +77,7 @@ export default function SettingsPreferences() {
           <Skeleton className="h-64 w-full rounded-xl" />
         </div>
       ) : (
-        <Tabs defaultValue="notifications" className="space-y-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-2 p-1 h-auto">
             <TabsTrigger value="notifications" className="flex items-center gap-2 py-2">
               <Bell className="h-4 w-4" />

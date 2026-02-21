@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom'
-import { AlertCircle, AlertTriangle, XCircle } from 'lucide-react'
+import { useNavigate, Link } from 'react-router-dom'
+import { AlertCircle, AlertTriangle, XCircle, Settings } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -56,9 +56,17 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
   if (alerts.length === 0) {
     return (
       <Card className="animate-fade-in">
-        <CardHeader>
-          <CardTitle>Alerts & Notifications</CardTitle>
-          <CardDescription>Critical alerts, agent conflicts, and failed runs</CardDescription>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Alerts & Notifications</CardTitle>
+            <CardDescription>Critical alerts, agent conflicts, and failed runs</CardDescription>
+          </div>
+          <Button variant="outline" size="sm" asChild className="gap-1">
+            <Link to="/dashboard/settings?tab=notifications">
+              <Settings className="h-4 w-4" />
+              Configure
+            </Link>
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -67,6 +75,9 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
             <p className="text-sm text-muted-foreground mt-1 max-w-sm">
               No critical alerts. Your system is running smoothly.
             </p>
+            <Button variant="outline" className="mt-4" asChild>
+              <Link to="/dashboard/settings?tab=notifications">Configure notification rules</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -75,9 +86,17 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
 
   return (
     <Card className="animate-fade-in">
-      <CardHeader>
-        <CardTitle>Alerts & Notifications</CardTitle>
-        <CardDescription>Critical alerts, agent conflicts, and failed runs</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div>
+          <CardTitle>Alerts & Notifications</CardTitle>
+          <CardDescription>Critical alerts, agent conflicts, and failed runs</CardDescription>
+        </div>
+        <Button variant="outline" size="sm" asChild className="gap-1">
+          <Link to="/dashboard/settings?tab=notifications">
+            <Settings className="h-4 w-4" />
+            Configure
+          </Link>
+        </Button>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">

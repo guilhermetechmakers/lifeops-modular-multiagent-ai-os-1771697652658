@@ -3,7 +3,7 @@ import { Github, Twitter, Linkedin } from 'lucide-react'
 
 const footerLinks = {
   product: [
-    { label: 'Features', href: '/landing-page#features' },
+    { label: 'Features', href: '/#features' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Docs', href: '/docs' },
   ],
@@ -14,6 +14,7 @@ const footerLinks = {
   legal: [
     { label: 'Privacy', href: '/privacy' },
     { label: 'Terms', href: '/terms' },
+    { label: 'Cookies', href: '/cookies' },
   ],
 }
 

@@ -1,24 +1,28 @@
-import { Quote } from 'lucide-react'
+import { Quote, Package, FileText, TrendingUp } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 
 const useCases = [
   {
     vertical: 'Product Teams',
     title: 'Roadmap automation',
     description: 'AI agents sync Jira, create tickets, and update project timelines automatically.',
-    logo: '📦',
+    icon: Package,
+    iconColor: 'text-primary',
   },
   {
     vertical: 'Content Teams',
     title: 'Pipeline automation',
     description: 'Draft, review, approve, and publish content — all with traceable workflows.',
-    logo: '✍️',
+    icon: FileText,
+    iconColor: 'text-accent',
   },
   {
     vertical: 'Finance Teams',
     title: 'Bookkeeping & forecasting',
     description: 'Expense categorization, reconciliation, and forecasting with human oversight.',
-    logo: '📊',
+    icon: TrendingUp,
+    iconColor: 'text-success',
   },
 ]
 
@@ -28,12 +32,16 @@ const testimonials = [
     author: 'Sarah Chen',
     role: 'Product Lead',
     company: 'Tech Corp',
+    logo: 'TC',
+    logoBg: 'bg-primary/20',
   },
   {
     quote: 'The multi-agent orchestration is a game-changer. Our team can automate workflows safely.',
     author: 'Marcus Johnson',
     role: 'Engineering Director',
     company: 'ScaleUp Inc',
+    logo: 'SI',
+    logoBg: 'bg-accent/20',
   },
 ]
 
@@ -58,7 +66,14 @@ export function UseCasesTestimonials() {
               className="overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-card-hover hover:border-primary/30"
             >
               <CardContent className="p-8">
-                <div className="text-3xl mb-4">{uc.logo}</div>
+                <div
+                  className={cn(
+                    'mb-4 h-12 w-12 rounded-xl flex items-center justify-center',
+                    uc.iconColor
+                  )}
+                >
+                  <uc.icon className="h-6 w-6" />
+                </div>
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary">
                   {uc.vertical}
                 </span>
@@ -69,21 +84,27 @@ export function UseCasesTestimonials() {
           ))}
         </div>
 
-        {/* Testimonials */}
+        {/* Testimonials with logos */}
         <div className="grid md:grid-cols-2 gap-8">
           {testimonials.map((t) => (
             <Card
               key={t.author}
-              className="overflow-hidden transition-all duration-300 hover:shadow-card-hover"
+              className="overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-card-hover hover:border-primary/30"
             >
               <CardContent className="p-8">
-                <Quote className="h-10 w-10 text-primary/30 mb-4" />
+                <Quote className="h-10 w-10 text-primary/30 mb-4" aria-hidden />
                 <blockquote className="text-lg text-foreground mb-6 italic">
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-4">
-                  <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center font-semibold text-primary">
-                    {t.author.charAt(0)}
+                  <div
+                    className={cn(
+                      'h-12 w-12 rounded-xl flex items-center justify-center font-bold text-sm text-foreground shrink-0',
+                      t.logoBg
+                    )}
+                    aria-hidden
+                  >
+                    {t.logo}
                   </div>
                   <div>
                     <p className="font-semibold">{t.author}</p>

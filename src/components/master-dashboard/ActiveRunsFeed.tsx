@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Play, Square, Check, FileText } from 'lucide-react'
 import { toast } from 'sonner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -15,6 +15,7 @@ interface ActiveRunsFeedProps {
 }
 
 function RunCard({ run }: { run: ActiveRun }) {
+  const navigate = useNavigate()
   const isRunning = run.status === 'running'
   const needsApproval = run.status === 'pending_approval'
 
@@ -24,6 +25,7 @@ function RunCard({ run }: { run: ActiveRun }) {
 
   const handleApprove = () => {
     toast.success(`${run.name} approved`)
+    navigate('/dashboard/approvals')
   }
 
   const handleDecline = () => {

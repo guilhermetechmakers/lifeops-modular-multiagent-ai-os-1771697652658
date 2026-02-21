@@ -48,7 +48,7 @@ const configNav = [
   { to: '/dashboard/connectors', label: 'Connectors', icon: Plug },
   { to: '/dashboard/settings', label: 'Settings', icon: Settings },
   { to: '/dashboard/organization-team-settings', label: 'Team Settings', icon: Users },
-  { to: '/docs', label: 'Docs & Help', icon: BookOpen },
+  { to: '/docs-help', label: 'Docs & Help', icon: BookOpen },
 ]
 
 export function Sidebar() {
