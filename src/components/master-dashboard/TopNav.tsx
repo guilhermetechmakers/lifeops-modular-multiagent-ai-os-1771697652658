@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Search, Bell, ChevronDown, Plus, Clock, GitBranch, Bot } from 'lucide-react'
+import { Search, Bell, ChevronDown, Plus, Clock, GitBranch, Bot, Menu } from 'lucide-react'
+import { useSidebar } from '@/contexts/sidebar-context'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -21,6 +22,7 @@ const ORGS = [
 
 export function TopNav() {
   const navigate = useNavigate()
+  const { setMobileOpen } = useSidebar()
   const [selectedOrg, setSelectedOrg] = useState(ORGS[0])
   const [searchOpen, setSearchOpen] = useState(false)
 
@@ -45,6 +47,15 @@ export function TopNav() {
         )}
       >
         <div className="flex flex-1 items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden h-10 w-10 shrink-0"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open navigation menu"
+          >
+            <Menu className="h-5 w-5" aria-hidden />
+          </Button>
           <button
             type="button"
             onClick={() => setSearchOpen(true)}

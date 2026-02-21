@@ -77,24 +77,60 @@ const configNav: NavSection = {
 
 const navSections = [mainNav, systemNav, configNav]
 
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  cn(
+    'flex min-h-[44px] items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium',
+    'transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card',
+    isActive
+      ? 'bg-primary/10 text-primary border-l-2 border-primary'
+      : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+  )
+
+/** Shared nav content for desktop sidebar and mobile drawer */
+export function SidebarNavContent({ collapsed = false }: { collapsed?: boolean }) {
+  return (
+    <ScrollArea className="flex-1 px-3 py-4">
+      <nav aria-label="Main navigation" className="space-y-1">
+        {navSections.map((section, sectionIndex) => (
+          <section key={section.id} aria-labelledby={`sidebar-heading-${section.id}`}>
+            <h2
+              id={`sidebar-heading-${section.id}`}
+              className={cn(
+                'text-xs font-semibold uppercase tracking-wider text-muted-foreground',
+                collapsed ? 'sr-only' : 'mb-2 px-3'
+              )}
+            >
+              {section.heading}
+            </h2>
+            <ul className="space-y-1" role="list">
+              {section.items.map((item) => (
+                <li key={item.to}>
+                  <NavLink to={item.to} className={navLinkClass}>
+                    <item.icon className="h-5 w-5 shrink-0" aria-hidden />
+                    {!collapsed && <span>{item.label}</span>}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+            {sectionIndex < navSections.length - 1 && (
+              <Separator className="my-4" aria-hidden />
+            )}
+          </section>
+        ))}
+      </nav>
+    </ScrollArea>
+  )
+}
+
 export function Sidebar() {
   const { collapsed, setCollapsed } = useSidebar()
-
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    cn(
-      'flex min-h-[44px] items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium',
-      'transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card',
-      isActive
-        ? 'bg-primary/10 text-primary border-l-2 border-primary'
-        : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
-    )
 
   return (
     <aside
       role="navigation"
       aria-label="Dashboard navigation"
       className={cn(
-        'fixed left-0 top-0 z-40 flex h-screen flex-col',
+        'fixed left-0 top-0 z-40 hidden h-screen flex-col lg:flex',
         'border-r border-border bg-card shadow-card',
         'transition-all duration-300 ease-out',
         collapsed ? 'w-[72px]' : 'w-64'
@@ -122,36 +158,7 @@ export function Sidebar() {
           )}
         </Button>
       </header>
-      <ScrollArea className="flex-1 px-3 py-4">
-        <nav aria-label="Main navigation" className="space-y-1">
-          {navSections.map((section, sectionIndex) => (
-            <section key={section.id} aria-labelledby={`sidebar-heading-${section.id}`}>
-              <h2
-                id={`sidebar-heading-${section.id}`}
-                className={cn(
-                  'text-xs font-semibold uppercase tracking-wider text-muted-foreground',
-                  collapsed ? 'sr-only' : 'mb-2 px-3'
-                )}
-              >
-                {section.heading}
-              </h2>
-              <ul className="space-y-1" role="list">
-                {section.items.map((item) => (
-                  <li key={item.to}>
-                    <NavLink to={item.to} className={navLinkClass}>
-                      <item.icon className="h-5 w-5 shrink-0" aria-hidden />
-                      {!collapsed && <span>{item.label}</span>}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-              {sectionIndex < navSections.length - 1 && (
-                <Separator className="my-4" aria-hidden />
-              )}
-            </section>
-          ))}
-        </nav>
-      </ScrollArea>
+      <SidebarNavContent collapsed={collapsed} />
       {!collapsed && (
         <footer className="shrink-0 border-t border-border p-4">
           <NavLink to="/">

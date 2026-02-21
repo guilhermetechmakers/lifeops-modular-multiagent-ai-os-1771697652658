@@ -52,6 +52,10 @@ export default {
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out forwards',
         'slide-up': 'slideUp 0.5s ease-out forwards',
+        'slide-in-from-left': 'slideInFromLeft 0.3s ease-out forwards',
+        'slide-in-from-right': 'slideInFromRight 0.3s ease-out forwards',
+        'slide-in-from-top': 'slideInFromTop 0.3s ease-out forwards',
+        'slide-in-from-bottom': 'slideInFromBottom 0.3s ease-out forwards',
         'shimmer': 'shimmer 2s infinite',
         'float': 'float 6s ease-in-out infinite',
         'glow-pulse': 'glowPulse 3s ease-in-out infinite',
@@ -65,6 +69,22 @@ export default {
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideInFromLeft: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        slideInFromRight: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        slideInFromTop: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        slideInFromBottom: {
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(0)' },
         },
         shimmer: {
           '0%, 100%': { backgroundPosition: '-200% 0' },
