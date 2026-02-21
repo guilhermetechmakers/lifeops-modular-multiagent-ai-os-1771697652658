@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" aria-hidden="true" role="img">
+  <defs>
+    <linearGradient id="lifeops-favicon-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF7300"/>
+      <stop offset="1" stop-color="#B16FFF"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#lifeops-favicon-grad)" fill-rule="evenodd" clip-rule="evenodd" d="M8 4h4v20h8v4H8V4Z"/>
+  <circle cx="22" cy="10" r="4" fill="url(#lifeops-favicon-grad)"/>
+</svg>

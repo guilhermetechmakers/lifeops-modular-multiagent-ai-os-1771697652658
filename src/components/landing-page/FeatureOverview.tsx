@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom'
-import { FolderKanban, FileText, Wallet, Heart, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
+import {
+  ModuleProjectsIcon,
+  ModuleContentIcon,
+  ModuleFinanceIcon,
+  ModuleHealthIcon,
+} from '@/components/design-system'
 import { cn } from '@/lib/utils'
 
 const modules = [
   {
-    icon: FolderKanban,
+    Icon: ModuleProjectsIcon,
     name: 'Projects',
     title: 'Roadmaps & Tickets',
     description: 'Automate project planning, ticket tracking, and CI integration with AI agents.',
@@ -16,7 +22,7 @@ const modules = [
     iconColor: 'text-primary',
   },
   {
-    icon: FileText,
+    Icon: ModuleContentIcon,
     name: 'Content',
     title: 'Pipeline Automation',
     description: 'Streamline content creation, approvals, and distribution workflows.',
@@ -25,7 +31,7 @@ const modules = [
     iconColor: 'text-accent',
   },
   {
-    icon: Wallet,
+    Icon: ModuleFinanceIcon,
     name: 'Finance',
     title: 'Bookkeeping & Forecasting',
     description: 'AI-powered bookkeeping, expense tracking, and financial forecasting.',
@@ -34,7 +40,7 @@ const modules = [
     iconColor: 'text-success',
   },
   {
-    icon: Heart,
+    Icon: ModuleHealthIcon,
     name: 'Health',
     title: 'Habits & Training',
     description: 'Build habits, track training plans, and optimize your wellness journey.',
@@ -71,7 +77,7 @@ export function FeatureOverview() {
               <div className={cn('h-1 bg-gradient-to-r', module.gradient)} />
               <CardContent className="p-6">
                 <div className={cn('mb-4 h-12 w-12 rounded-xl bg-card flex items-center justify-center', module.iconColor)}>
-                  <module.icon className="h-6 w-6" />
+                  <module.Icon size="lg" />
                 </div>
                 <h3 className="text-lg font-semibold mb-1">{module.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{module.description}</p>

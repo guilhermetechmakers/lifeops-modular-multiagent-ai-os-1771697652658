@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Play, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { HeroIllustration } from '@/components/design-system'
 
 interface HeroSectionProps {
   id?: string
@@ -91,31 +91,11 @@ export function HeroSection({ id, onTakeTour, videoSrc, videoPoster }: HeroSecti
             </div>
           </div>
 
-          {/* Hero visual - abstract geometric illustration */}
+          {/* Hero visual - custom LifeOps illustration */}
           <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="relative aspect-square max-w-lg mx-auto lg:max-w-none">
-              {/* Bento-style hero visual */}
-              <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-3 p-4">
-                <div className={cn(
-                  'rounded-2xl border border-border/50 bg-card/80 backdrop-blur-sm',
-                  'transition-all duration-300 hover:scale-105 hover:border-primary/30 hover:shadow-glow'
-                )} />
-                <div className={cn(
-                  'col-span-2 rounded-2xl border border-border/50 bg-card/80 backdrop-blur-sm',
-                  'transition-all duration-300 hover:scale-105 hover:border-primary/30 hover:shadow-glow'
-                )} />
-                <div className={cn(
-                  'col-span-2 rounded-2xl border border-border/50 bg-card/80 backdrop-blur-sm',
-                  'transition-all duration-300 hover:scale-105 hover:border-accent/30 hover:shadow-glow'
-                )} />
-                <div className={cn(
-                  'rounded-2xl border border-border/50 bg-card/80 backdrop-blur-sm',
-                  'transition-all duration-300 hover:scale-105 hover:border-accent/30 hover:shadow-glow'
-                )} />
-                <div className={cn(
-                  'col-span-3 rounded-2xl border border-border/50 bg-gradient-to-br from-primary/20 to-accent/20 backdrop-blur-sm',
-                  'transition-all duration-300 hover:scale-[1.02] hover:border-primary/40'
-                )} />
+            <div className="relative max-w-lg mx-auto lg:max-w-none flex justify-center">
+              <div className="transition-transform duration-300 hover:scale-[1.02]">
+                <HeroIllustration size="lg" className="drop-shadow-2xl" />
               </div>
               {/* Glow ring */}
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/10 to-accent/10 blur-2xl -z-10" />
