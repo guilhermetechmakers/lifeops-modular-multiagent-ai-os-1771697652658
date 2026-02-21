@@ -45,18 +45,21 @@ export function AuditSnapshot({ items = [], isLoading }: AuditSnapshotProps) {
 
   if (items.length === 0) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <CardTitle>Audit Snapshot</CardTitle>
           <CardDescription>Recent significant actions</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Activity className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+            <Activity className="h-12 w-12 text-muted-foreground mb-4 opacity-50" aria-hidden />
             <h3 className="font-semibold text-lg">No recent activity</h3>
             <p className="text-sm text-muted-foreground mt-1 max-w-sm">
               Significant actions will appear here for quick reference.
             </p>
+            <Button variant="outline" className="mt-4" onClick={() => navigate('/dashboard/audit')}>
+              View full audit logs
+            </Button>
           </div>
         </CardContent>
       </Card>

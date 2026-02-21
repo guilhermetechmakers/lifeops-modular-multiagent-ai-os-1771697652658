@@ -105,18 +105,26 @@ export function ActiveRunsFeed({ runs = [], isLoading }: ActiveRunsFeedProps) {
 
   if (runs.length === 0) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <CardTitle>Active Runs Feed</CardTitle>
           <CardDescription>Real-time stream of executing runs</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <Play className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+            <Play className="h-12 w-12 text-muted-foreground mb-4 opacity-50" aria-hidden />
             <h3 className="font-semibold text-lg">No active runs</h3>
             <p className="text-sm text-muted-foreground mt-1 max-w-sm">
               Runs will appear here when Cronjobs or workflows are executing.
             </p>
+            <div className="flex gap-2 mt-4">
+              <Button variant="outline" size="sm" asChild>
+                <a href="/dashboard/cronjobs">View Cronjobs</a>
+              </Button>
+              <Button size="sm" asChild>
+                <a href="/dashboard/templates">View Workflows</a>
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -20,7 +20,7 @@ import { HealthDashboard } from '@/pages/dashboard/health'
 import { CronjobsManager } from '@/pages/dashboard/cronjobs'
 import { TemplatesLibrary } from '@/pages/dashboard/templates'
 import { ApprovalsQueue } from '@/pages/dashboard/approvals'
-import { Settings } from '@/pages/dashboard/settings'
+import SettingsPreferences from '@/pages/SettingsPreferences'
 import { Profile } from '@/pages/dashboard/profile'
 import { Connectors } from '@/pages/dashboard/connectors'
 import { AuditLogs } from '@/pages/dashboard/audit'
@@ -92,6 +92,10 @@ export const router = createBrowserRouter([
     element: <Pricing />,
   },
   {
+    path: '/settings-preferences',
+    element: <Navigate to="/dashboard/settings" replace />,
+  },
+  {
     path: '/about',
     element: <Legal title="About" content={aboutContent} />,
   },
@@ -119,7 +123,8 @@ export const router = createBrowserRouter([
       { path: 'cronjobs', element: <CronjobsManager /> },
       { path: 'templates', element: <TemplatesLibrary /> },
       { path: 'approvals', element: <ApprovalsQueue /> },
-      { path: 'settings', element: <Settings /> },
+      { path: 'settings', element: <SettingsPreferences /> },
+      { path: 'settings-preferences', element: <SettingsPreferences /> },
       { path: 'profile', element: <Profile /> },
       { path: 'connectors', element: <Connectors /> },
       { path: 'audit', element: <AuditLogs /> },

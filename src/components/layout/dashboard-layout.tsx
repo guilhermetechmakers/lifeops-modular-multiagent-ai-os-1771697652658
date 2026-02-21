@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { Sidebar } from '@/components/layout/sidebar'
-import { TopNav } from '@/components/layout/top-nav'
+import { TopNav } from '@/components/master-dashboard/TopNav'
 import { useSidebar } from '@/contexts/sidebar-context'
 import { cn } from '@/lib/utils'
 

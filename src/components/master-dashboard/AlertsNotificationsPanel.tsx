@@ -45,14 +45,14 @@ export function AlertsNotificationsPanel({ alerts = [], isLoading }: AlertsNotif
 
   if (alerts.length === 0) {
     return (
-      <Card>
+      <Card className="animate-fade-in">
         <CardHeader>
           <CardTitle>Alerts & Notifications</CardTitle>
           <CardDescription>Critical alerts, agent conflicts, and failed runs</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <AlertCircle className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+            <AlertCircle className="h-12 w-12 text-success mb-4 opacity-70" aria-hidden />
             <h3 className="font-semibold text-lg">All clear</h3>
             <p className="text-sm text-muted-foreground mt-1 max-w-sm">
               No critical alerts. Your system is running smoothly.
