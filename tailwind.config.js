@@ -25,6 +25,7 @@ export default {
         },
         border: 'rgb(var(--border))',
         input: 'rgb(var(--input))',
+        'input-background': 'rgb(var(--input-background))',
         ring: 'rgb(var(--ring))',
         muted: {
           DEFAULT: 'rgb(var(--muted))',
