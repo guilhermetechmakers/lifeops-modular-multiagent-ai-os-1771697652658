@@ -153,6 +153,7 @@ export function Landing() {
         <div className="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-muted-foreground text-sm">© LifeOps. All rights reserved.</span>
           <div className="flex gap-8">
+            <Link to="/landing-page" className="text-sm text-muted-foreground hover:text-foreground">Full Landing</Link>
             <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground">Privacy</Link>
             <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground">Terms</Link>
             <Link to="/docs" className="text-sm text-muted-foreground hover:text-foreground">Docs</Link>

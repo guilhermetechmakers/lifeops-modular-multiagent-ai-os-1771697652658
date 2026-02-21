@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { SidebarProvider } from '@/contexts/sidebar-context'
 import { DashboardLayout } from '@/components/layout/dashboard-layout'
 import { Landing } from '@/pages/landing'
+import LandingPage from '@/pages/LandingPage'
 import { Login } from '@/pages/auth/login'
 import { Signup } from '@/pages/auth/signup'
 import { VerifyEmail } from '@/pages/auth/verify-email'
@@ -20,15 +21,22 @@ import { Profile } from '@/pages/dashboard/profile'
 import { Connectors } from '@/pages/dashboard/connectors'
 import { Docs } from '@/pages/docs'
 import { Legal } from '@/pages/legal'
+import { Pricing } from '@/pages/Pricing'
 import { NotFound } from '@/pages/not-found'
 import { ErrorPage } from '@/pages/error'
 
 const legalContent = 'This is placeholder legal content. Replace with actual terms, privacy policy, or cookie policy text.'
+const aboutContent = 'LifeOps is your AI-Native Operating System for projects, content, finance, and health. We help teams automate workflows with traceable, permissioned, and reversible AI agents.'
+const supportContent = 'For support, email support@lifeops.io or visit our documentation at /docs.'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Landing />,
+  },
+  {
+    path: '/landing-page',
+    element: <LandingPage />,
   },
   {
     path: '/login',
@@ -61,6 +69,18 @@ export const router = createBrowserRouter([
   {
     path: '/cookies',
     element: <Legal title="Cookie Policy" content={legalContent} />,
+  },
+  {
+    path: '/pricing',
+    element: <Pricing />,
+  },
+  {
+    path: '/about',
+    element: <Legal title="About" content={aboutContent} />,
+  },
+  {
+    path: '/support',
+    element: <Legal title="Support" content={supportContent} />,
   },
   {
     path: '/dashboard',
