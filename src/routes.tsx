@@ -30,6 +30,8 @@ import { Connectors } from '@/pages/dashboard/connectors'
 import { AuditLogs } from '@/pages/dashboard/audit'
 import DocsHelp from '@/pages/DocsHelp'
 import { Legal } from '@/pages/legal'
+import CookiePolicy from '@/pages/CookiePolicy'
+import PrivacyPolicy from '@/pages/PrivacyPolicy'
 import { Pricing } from '@/pages/Pricing'
 import { NotFound } from '@/pages/not-found'
 import { ErrorPage } from '@/pages/error'
@@ -89,7 +91,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/privacy',
-    element: <Legal title="Privacy Policy" content={legalContent} />,
+    element: <Navigate to="/privacy-policy" replace />,
+  },
+  {
+    path: '/privacy-policy',
+    element: <PrivacyPolicy />,
   },
   {
     path: '/terms',
@@ -97,7 +103,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/cookies',
-    element: <Legal title="Cookie Policy" content={legalContent} />,
+    element: <CookiePolicy />,
   },
   {
     path: '/master-dashboard',

@@ -8,6 +8,7 @@ import { CronjobsApprovalsSnapshot } from '@/components/landing-page/CronjobsApp
 import { UseCasesTestimonials } from '@/components/landing-page/UseCasesTestimonials'
 import { PricingTeaser } from '@/components/landing-page/PricingTeaser'
 import { Footer } from '@/components/landing-page/Footer'
+import { CookieConsentBanner } from '@/components/landing-page/CookieConsentBanner'
 import { OnboardingTour, OnboardingTourTrigger } from '@/components/landing-page/OnboardingTour'
 import { ONBOARDING_STORAGE_KEY } from '@/lib/onboarding-copy'
 
@@ -83,6 +84,7 @@ export default function LandingPage() {
       </main>
 
       <OnboardingTour isOpen={tourOpen} onClose={closeTour} />
+      <CookieConsentBanner />
     </div>
   )
 }
