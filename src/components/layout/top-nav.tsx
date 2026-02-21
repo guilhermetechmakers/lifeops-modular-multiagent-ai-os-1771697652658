@@ -91,7 +91,7 @@ export function TopNav() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-9 gap-2 pl-2 pr-2 rounded-full">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="" alt="User" />
+                <AvatarImage src="" alt="User avatar" />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
               <ChevronDown className="h-4 w-4 opacity-50" />
