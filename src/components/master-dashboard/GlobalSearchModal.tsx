@@ -124,14 +124,16 @@ export function GlobalSearchModal({ open, onOpenChange }: GlobalSearchModalProps
 
   useEffect(() => {
     if (open) {
-      setQuery('')
-      setSelectedIndex(0)
+      queueMicrotask(() => {
+        setQuery('')
+        setSelectedIndex(0)
+      })
       setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [open])
 
   useEffect(() => {
-    setSelectedIndex(0)
+    queueMicrotask(() => setSelectedIndex(0))
   }, [results])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

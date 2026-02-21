@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Search, Bell, ChevronDown, Plus, Clock, GitBranch, Bot, Menu } from 'lucide-react'
-import { useSidebar } from '@/contexts/sidebar-context'
+import { useSidebar } from '@/contexts/use-sidebar'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {

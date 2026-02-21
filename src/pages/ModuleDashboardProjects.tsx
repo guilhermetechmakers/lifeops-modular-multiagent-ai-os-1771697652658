@@ -19,7 +19,7 @@ function ModuleDashboardProjects() {
 
   useEffect(() => {
     if (data?.projects?.[0] && !selectedProjectId) {
-      setSelectedProjectId(data.projects[0].id)
+      queueMicrotask(() => setSelectedProjectId(data.projects[0].id))
     }
   }, [data?.projects, selectedProjectId])
 

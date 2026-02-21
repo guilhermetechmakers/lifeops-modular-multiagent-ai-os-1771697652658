@@ -20,7 +20,13 @@ const INITIAL_LOAD_MS = 150
 
 export default function LandingPage() {
   const [tourOpen, setTourOpen] = useState(false)
-  const [showTourTrigger, setShowTourTrigger] = useState(false)
+  const [showTourTrigger] = useState(() => {
+    try {
+      return !localStorage.getItem(ONBOARDING_STORAGE_KEY)
+    } catch {
+      return true
+    }
+  })
   const [isLoading, setIsLoading] = useState(true)
 
   const openTour = useCallback(() => setTourOpen(true), [])
@@ -32,15 +38,6 @@ export default function LandingPage() {
     if (metaDesc) metaDesc.setAttribute('content', PAGE_DESCRIPTION)
     return () => {
       document.title = 'LifeOps — Modular Multi-Agent AI OS'
-    }
-  }, [])
-
-  useEffect(() => {
-    try {
-      const completed = localStorage.getItem(ONBOARDING_STORAGE_KEY)
-      setShowTourTrigger(!completed)
-    } catch {
-      setShowTourTrigger(true)
     }
   }, [])
 

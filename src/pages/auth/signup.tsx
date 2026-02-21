@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { LifeOpsLogo } from '@/components/design-system'
 import { AuthLayout } from '@/components/layout/auth-layout'
 import { useForm } from 'react-hook-form'
@@ -28,6 +28,7 @@ const schema = z
 type FormData = z.infer<typeof schema>
 
 export function Signup() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -42,11 +43,12 @@ export function Signup() {
   const acceptTos = watch('acceptTos')
   const hasErrors = Object.keys(errors).length > 0
 
-  const onSubmit = async (_data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    void data
     try {
       await new Promise((r) => setTimeout(r, 500))
       toast.success('Account created. Check your email to verify.')
-      window.location.href = '/email-verification'
+      navigate('/email-verification')
     } catch {
       toast.error('Signup failed')
     }

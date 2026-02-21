@@ -18,7 +18,8 @@ export default function LoginSignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
 
-  const handleLogin = async (_data: LoginFormData) => {
+  const handleLogin = async (data: LoginFormData) => {
+    void data
     setIsSubmitting(true)
     try {
       await new Promise((r) => setTimeout(r, 500))
@@ -31,7 +32,8 @@ export default function LoginSignupPage() {
     }
   }
 
-  const handleSignup = async (_data: SignupFormData) => {
+  const handleSignup = async (data: SignupFormData) => {
+    void data
     setIsSubmitting(true)
     try {
       await new Promise((r) => setTimeout(r, 500))

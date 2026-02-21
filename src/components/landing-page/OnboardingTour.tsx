@@ -55,10 +55,12 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
 
   useEffect(() => {
     if (isOpen) {
-      setStepIndex(0)
-      setIsVisible(true)
+      queueMicrotask(() => {
+        setStepIndex(0)
+        setIsVisible(true)
+      })
     } else {
-      setIsVisible(false)
+      queueMicrotask(() => setIsVisible(false))
     }
   }, [isOpen])
 

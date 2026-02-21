@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
@@ -46,17 +46,13 @@ const CATEGORY_LABELS: Record<keyof Pick<CookieConsentState, 'essential' | 'anal
 }
 
 export function CookieConsentBanner() {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(() => !hasUserConsented())
   const [customizeOpen, setCustomizeOpen] = useState(false)
   const [preferences, setPreferences] = useState<Pick<CookieConsentState, 'analytics' | 'marketing' | 'preferences'>>({
     analytics: false,
     marketing: false,
     preferences: false,
   })
-
-  useEffect(() => {
-    setVisible(!hasUserConsented())
-  }, [])
 
   const handleAcceptAll = () => {
     acceptAll()

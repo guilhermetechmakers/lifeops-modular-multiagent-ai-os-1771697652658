@@ -111,7 +111,7 @@ export function CronjobsManager() {
 
   useEffect(() => {
     if (searchParams.get('create') === 'true') {
-      setCreateOpen(true)
+      queueMicrotask(() => setCreateOpen(true))
       const next = new URLSearchParams(searchParams)
       next.delete('create')
       setSearchParams(next, { replace: true })

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { LifeOpsLogo } from '@/components/design-system'
 import { AuthLayout } from '@/components/layout/auth-layout'
 import { useForm } from 'react-hook-form'
@@ -20,6 +20,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function Login() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -30,12 +31,13 @@ export function Login() {
 
   const hasErrors = Object.keys(errors).length > 0
 
-  const onSubmit = async (_data: FormData) => {
+  const onSubmit = async (data: FormData) => {
+    void data
     try {
       // TODO: API call
       await new Promise((r) => setTimeout(r, 500))
       toast.success('Signed in successfully')
-      window.location.href = '/dashboard'
+      navigate('/dashboard')
     } catch {
       toast.error('Invalid credentials')
     }

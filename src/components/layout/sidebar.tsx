@@ -1,4 +1,4 @@
-import { useSidebar } from '@/contexts/sidebar-context'
+import { useSidebar } from '@/contexts/use-sidebar'
 import { NavLink } from 'react-router-dom'
 import { LifeOpsLogo } from '@/components/design-system'
 import {

@@ -29,14 +29,14 @@ export function ResendButton({
 
   useEffect(() => {
     if (!canResendAt) {
-      setSecondsLeft(0)
+      queueMicrotask(() => setSecondsLeft(0))
       return
     }
     const update = () => {
       const s = getSecondsUntil(canResendAt)
       setSecondsLeft(s)
     }
-    update()
+    queueMicrotask(update)
     const interval = setInterval(update, 1000)
     return () => clearInterval(interval)
   }, [canResendAt])

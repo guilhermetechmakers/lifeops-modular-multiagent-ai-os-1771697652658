@@ -44,7 +44,7 @@ export function AgentPresets({ agentPresets, isLoading }: AgentPresetsProps) {
 
   useEffect(() => {
     if (agentPresets) {
-      setLocalPresets(agentPresets)
+      queueMicrotask(() => setLocalPresets(agentPresets))
     }
   }, [agentPresets])
 

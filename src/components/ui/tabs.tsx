@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button'
 
 const Tabs = TabsPrimitive.Root
 
-export interface TabsListProps
-  extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> {}
+export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
