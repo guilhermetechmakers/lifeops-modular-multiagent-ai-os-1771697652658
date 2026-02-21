@@ -22,6 +22,7 @@ import { CronjobsManager } from '@/pages/dashboard/cronjobs'
 import { TemplatesLibrary } from '@/pages/dashboard/templates'
 import { ApprovalsQueue } from '@/pages/dashboard/approvals'
 import SettingsPreferences from '@/pages/SettingsPreferences'
+import TeamSettings from '@/pages/Organization/TeamSettings'
 import { Profile } from '@/pages/dashboard/profile'
 import { Connectors } from '@/pages/dashboard/connectors'
 import { AuditLogs } from '@/pages/dashboard/audit'
@@ -103,6 +104,10 @@ export const router = createBrowserRouter([
     element: <Navigate to="/dashboard/settings" replace />,
   },
   {
+    path: '/organization-/-team-settings',
+    element: <Navigate to="/dashboard/organization-team-settings" replace />,
+  },
+  {
     path: '/about',
     element: <Legal title="About" content={aboutContent} />,
   },
@@ -143,6 +148,7 @@ export const router = createBrowserRouter([
       { path: 'approvals', element: <ApprovalsQueue /> },
       { path: 'settings', element: <SettingsPreferences /> },
       { path: 'settings-preferences', element: <SettingsPreferences /> },
+      { path: 'organization-team-settings', element: <TeamSettings /> },
       { path: 'profile', element: <Profile /> },
       { path: 'connectors', element: <Connectors /> },
       { path: 'audit', element: <AuditLogs /> },

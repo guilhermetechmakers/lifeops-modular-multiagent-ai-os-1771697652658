@@ -18,6 +18,7 @@ import {
   ChevronRight,
   Home,
   Activity,
+  Users,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -44,6 +45,7 @@ const systemNav = [
 const configNav = [
   { to: '/dashboard/connectors', label: 'Connectors', icon: Plug },
   { to: '/dashboard/settings', label: 'Settings', icon: Settings },
+  { to: '/dashboard/organization-team-settings', label: 'Team Settings', icon: Users },
   { to: '/docs', label: 'Docs & Help', icon: BookOpen },
 ]
 
