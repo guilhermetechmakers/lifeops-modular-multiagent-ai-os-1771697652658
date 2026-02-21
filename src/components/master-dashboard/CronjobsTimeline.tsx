@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Clock, CheckCircle, XCircle, Calendar, List } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -24,7 +25,7 @@ function CronjobsList({ cronjobs }: { cronjobs: CronjobItem[] }) {
           Create your first Cronjob to automate recurring tasks.
         </p>
         <Button className="mt-4" asChild>
-          <a href="/dashboard/cronjobs">Create Cronjob</a>
+          <Link to="/dashboard/cronjobs?create=true">Create Cronjob</Link>
         </Button>
       </div>
     )

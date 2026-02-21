@@ -85,7 +85,13 @@ export const router = createBrowserRouter([
   },
   {
     path: '/master-dashboard',
-    element: <Navigate to="/dashboard/overview" replace />,
+    element: (
+      <SidebarProvider>
+        <DashboardLayout />
+      </SidebarProvider>
+    ),
+    errorElement: <ErrorPage />,
+    children: [{ index: true, element: <MasterDashboard /> }],
   },
   {
     path: '/pricing',

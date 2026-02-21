@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Search, Bell, ChevronDown, Plus, Clock, GitBranch, Bot } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -19,9 +19,27 @@ const ORGS = [
   { id: '2', name: 'Personal' },
 ]
 
+function getSearchTarget(query: string): string {
+  const q = query.toLowerCase().trim()
+  if (q.includes('agent') || q.includes('bot')) return '/dashboard/agent-directory'
+  if (q.includes('cronjob') || q.includes('schedule') || q.includes('job')) return '/dashboard/cronjobs'
+  if (q.includes('workflow') || q.includes('template')) return '/dashboard/templates'
+  if (q.includes('run') || q.includes('execution')) return '/dashboard/cronjobs'
+  if (q.includes('approval')) return '/dashboard/approvals'
+  if (q.includes('audit')) return '/dashboard/audit'
+  return '/dashboard/overview'
+}
+
 export function TopNav() {
   const navigate = useNavigate()
   const [selectedOrg, setSelectedOrg] = useState(ORGS[0])
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    const target = getSearchTarget(searchQuery)
+    navigate(searchQuery ? `${target}?q=${encodeURIComponent(searchQuery)}` : target)
+  }
 
   return (
     <header
@@ -30,7 +48,7 @@ export function TopNav() {
         'backdrop-blur supports-[backdrop-filter]:bg-background/60'
       )}
     >
-      <div className="flex flex-1 items-center gap-4">
+      <form onSubmit={handleSearch} className="flex flex-1 items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search
             className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
@@ -40,6 +58,8 @@ export function TopNav() {
             placeholder="Search agents, cronjobs, runs..."
             className="pl-9 bg-muted/50 border-border transition-all duration-200 focus:border-primary/50"
             aria-label="Global search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <DropdownMenu>
@@ -79,7 +99,7 @@ export function TopNav() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuItem
-              onClick={() => navigate('/dashboard/cronjobs')}
+              onClick={() => navigate('/dashboard/cronjobs?create=true')}
               className="gap-2 cursor-pointer"
             >
               <Clock className="h-4 w-4" />
@@ -101,7 +121,7 @@ export function TopNav() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </form>
       <div className="flex items-center gap-2">
         <Button
           variant="ghost"
@@ -133,10 +153,10 @@ export function TopNav() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <a href="/dashboard/profile">Profile</a>
+              <Link to="/dashboard/profile">Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <a href="/dashboard/settings">Settings</a>
+              <Link to="/dashboard/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-destructive">Sign out</DropdownMenuItem>

@@ -1,8 +1,19 @@
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Plus, Clock, CheckCircle, XCircle } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Search } from 'lucide-react'
 
 const cronjobs = [
@@ -12,6 +23,18 @@ const cronjobs = [
 ]
 
 export function CronjobsManager() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [createOpen, setCreateOpen] = useState(false)
+
+  useEffect(() => {
+    if (searchParams.get('create') === 'true') {
+      setCreateOpen(true)
+      const next = new URLSearchParams(searchParams)
+      next.delete('create')
+      setSearchParams(next, { replace: true })
+    }
+  }, [searchParams, setSearchParams])
+
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -21,11 +44,38 @@ export function CronjobsManager() {
             CRUD and visualize Cronjobs as first-class objects
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setCreateOpen(true)} className="transition-all duration-200 hover:scale-[1.02] hover:shadow-lg">
           <Plus className="h-4 w-4 mr-2" />
           Create Cronjob
         </Button>
       </div>
+
+      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create Cronjob</DialogTitle>
+            <DialogDescription>
+              Create a scheduled or event-driven multi-agent workflow.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="cronjob-name">Name</Label>
+              <Input id="cronjob-name" placeholder="e.g. PR Triage" />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="cronjob-schedule">Schedule (cron expression)</Label>
+              <Input id="cronjob-schedule" placeholder="e.g. 0 2 * * *" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setCreateOpen(false)}>
+              Cancel
+            </Button>
+            <Button>Create</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Card>
         <CardHeader>

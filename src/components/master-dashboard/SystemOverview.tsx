@@ -18,7 +18,7 @@ const cards: Array<{
   gradient: string
   href: string
 }> = [
-  { key: 'activeAgents', title: 'Active Agents', description: 'Running now', icon: Bot, gradient: 'from-primary/20 to-primary/5', href: '/dashboard/agents' },
+  { key: 'activeAgents', title: 'Active Agents', description: 'Running now', icon: Bot, gradient: 'from-primary/20 to-primary/5', href: '/dashboard/agent-directory' },
   { key: 'runningWorkflows', title: 'Running Workflows', description: 'In progress', icon: GitBranch, gradient: 'from-accent/20 to-accent/5', href: '/dashboard/templates' },
   { key: 'pendingApprovals', title: 'Pending Approvals', description: 'Awaiting review', icon: FileCheck, gradient: 'from-amber-500/20 to-amber-500/5', href: '/dashboard/approvals' },
   { key: 'nextScheduledRuns', title: 'Next Scheduled', description: 'Upcoming runs', icon: Clock, gradient: 'from-success/20 to-success/5', href: '/dashboard/cronjobs' },
